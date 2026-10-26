@@ -1,0 +1,1022 @@
+/* ============================================================================
+   Libby — folha de estilo única.
+   Revisão de UX de 21/08/2026. O que mudou e por quê está anotado por bloco;
+   a regra geral foi: uma definição central para cada componente, para as telas
+   pararem de resolver aparência com style="" inline (que era onde as diferenças
+   entre telas nasciam).
+   ========================================================================= */
+
+/* --- 1. Tokens -----------------------------------------------------------
+   Os nomes antigos foram TODOS mantidos: os templates referenciam --navy,
+   --blue, --line, --ink2, --muted, --linha etc. em dezenas de lugares.
+   O que entrou de novo é a escala de espaço, de raio e o anel de foco. */
+:root{
+  --navy:#1B3552; --navy-800:#16293F; --navy-600:#2A4E76;
+  --blue:#2E6DB4; --blue-600:#255C9A; --blue-soft:#EAF1F8; --blue-line:#CFE0F2;
+  --green:#0E9F6E; --green-ink:#0A7A52; --green-soft:#E4F5EE;
+  --amber:#E0A800; --amber-ink:#8A6A00; --amber-soft:#FBF3DA;
+  --red:#D64545;   --red-ink:#B02A2A;   --red-soft:#FBE7E7;
+
+  --grey:#5A6B7B;
+  --line:#E3E9F1; --line-strong:#CFD9E6;
+  --bg:#F5F7FA; --card:#fff;
+  --ink:#1B2431; --ink2:#5A6879; --ink3:#7C8899;
+
+  /* aliases herdados — telas antigas usam estes nomes */
+  --muted:var(--ink2); --linha:var(--line);
+
+  /* --- Superfícies -------------------------------------------------------
+     Antes cada regra escrevia o seu branco na mão: #fff, #FAFCFE, #FCFDFE,
+     #F5F8FC, #F7FAFD… Quase todos queriam dizer a MESMA coisa — "um degrau
+     acima ou abaixo do cartão". Nomear esses degraus é o que permite o tema
+     escuro existir: no escuro eles invertem (a superfície elevada fica mais
+     CLARA que o fundo, não mais branca). */
+  --surface-1:#fff;      /* o próprio cartão */
+  --surface-2:#FAFCFE;   /* faixa sutil: hover de linha, rodapé de bloco */
+  --surface-3:#F5F8FC;   /* um degrau mais marcado: hover de botão, aba */
+  --surface-sunken:#F2F6FA; /* recuado: o fluxo, áreas "para dentro" */
+  --th-bg:#F7FAFD;       /* cabeçalho de tabela */
+
+  --ink-inv:#fff;        /* texto sobre azul/verde/navy — não vira escuro */
+  --hover-line:#B9C7D8;  /* borda ao passar o mouse em campo/botão */
+  --placeholder:#9AA6B4;
+
+  /* Barra lateral. Já era escura no tema claro; os nomes existem para o tema
+     escuro poder afastá-la do fundo da página, senão ela some no preto. */
+  --side-bg:var(--navy-800);
+  --side-ink:#C6D3E3; --side-ink2:#8FA5C0; --side-grp:#7A8FA9;
+  --side-line:rgba(255,255,255,.08);
+  --side-hover:rgba(255,255,255,.07);
+
+  /* Bordas dos avisos: eram 5 tons fixos espalhados pelo arquivo. */
+  --ok-line:#BFE6D3; --erro-line:#F2C6C6;
+  --aviso-line:#EFDCA6; --info-ink:#1F4B7A;
+
+  /* O log é escuro nos DOIS temas (é um terminal). Só os nomes mudam. */
+  --log-bg:#0E1B2B; --log-line:#16283C; --log-ink:#CFE0F2;
+  --log-ok:#5CD6A0; --log-aviso:#F2C14E; --log-erro:#F28B82;
+
+  --green-600:#0B8A5F;
+  --roxo-soft:#F1EFFB; --roxo-ink:#5B4FA0; --roxo-line:#E0D5F2;
+  --code-bg:#EEF2F7; --code-ink:#2C3E52;
+  --chip-bg:#EEF2F7; --chip-hover:#DBE8F7;
+  --overlay:rgba(16,32,55,.45);
+  --sombra-cor:rgba(16,40,70,.05);
+
+  --r-sm:7px; --r-md:10px; --r-lg:14px; --r-pill:999px;
+  --shadow-sm:0 1px 2px rgba(16,40,70,.05);
+  --shadow:0 1px 2px rgba(16,40,70,.05), 0 4px 14px rgba(16,40,70,.05);
+  --shadow-pop:0 12px 40px rgba(16,40,70,.18);
+  --focus:0 0 0 3px rgba(46,109,180,.28);
+  --focus-danger:0 0 0 3px rgba(214,69,69,.25);
+  --sidebar:236px;
+}
+
+/* --- Tema escuro ---------------------------------------------------------
+   Só os tokens mudam aqui: nenhuma regra de componente é reescrita. Por isso
+   a lista abaixo é curta perto do tamanho da folha.
+
+   A escolha é SEMPRE explícita — o atributo data-theme="dark" no <html>. Não
+   seguimos prefers-color-scheme de propósito: quem abre a Libby no meio do
+   expediente não deve ser surpreendido por uma tela escura que não pediu.
+
+   No escuro os papéis se invertem: a superfície elevada fica mais clara que o
+   fundo (no claro ela ficava mais branca). Os azuis são clareados, senão não
+   passam contraste sobre fundo escuro. */
+:root[data-theme="dark"]{
+  --navy:#9FC2E8; --navy-800:#141C26; --navy-600:#7FA9D8;
+  --blue:#4A8FD4; --blue-600:#5C9DDE; --blue-soft:#16273A; --blue-line:#26425F;
+  --green:#25A97A; --green-ink:#5FD6A6; --green-soft:#12291F;
+  --amber:#D9A520; --amber-ink:#E8C061; --amber-soft:#2A2313;
+  --red:#DE5A5A;   --red-ink:#F08A8A;   --red-soft:#2E1818;
+
+  --grey:#8B99A8;
+  --line:#243040; --line-strong:#2E3B4C;
+  --bg:#0D131B; --card:#161E28;
+  --ink:#E4EAF2; --ink2:#A3B0C0; --ink3:#7B8899;
+
+  --surface-1:#161E28;
+  --surface-2:#1B2530;
+  --surface-3:#212C39;
+  --surface-sunken:#111922;
+  --th-bg:#1B2530;
+
+  --ink-inv:#fff;
+  --hover-line:#3A4A5E;
+  --placeholder:#6B7889;
+
+  --side-bg:#111822;
+  --side-ink:#B7C5D6; --side-ink2:#7E8FA3; --side-grp:#6E7F93;
+  --side-line:rgba(255,255,255,.07);
+  --side-hover:rgba(255,255,255,.06);
+
+  --ok-line:#1E4A38; --erro-line:#5A2A2A;
+  --aviso-line:#4A3D17; --info-ink:#9FC2E8;
+
+  --green-600:#1E8F63;
+  --roxo-soft:#221E33; --roxo-ink:#B3A6E0; --roxo-line:#39306B;
+  --code-bg:#1E2833; --code-ink:#B7C5D6;
+  --chip-bg:#1E2833; --chip-hover:#26374A;
+  --overlay:rgba(0,0,0,.6);
+  --sombra-cor:rgba(0,0,0,.4);
+
+  /* No escuro a sombra some (preto sobre preto). O que separa um cartão do
+     fundo passa a ser a borda, então as sombras viram quase nada e o anel de
+     foco precisa do azul mais claro para continuar visível. */
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3);
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);
+  --shadow-pop:0 12px 40px rgba(0,0,0,.55);
+  --focus:0 0 0 3px rgba(74,143,212,.45);
+  --focus-danger:0 0 0 3px rgba(222,90,90,.4);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);
+     color:var(--ink);font-size:14px;line-height:1.55;
+     -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:none}
+code{font-family:ui-monospace,Consolas,monospace;font-size:.92em;
+     background:var(--code-bg);border-radius:5px;padding:1px 5px;color:var(--code-ink)}
+
+/* Foco visível. Antes NÃO existia nenhum: quem navega por Tab (e o pessoal do
+   DP navega, são formulários longos) não enxergava onde estava. */
+:focus-visible{outline:0;box-shadow:var(--focus);border-radius:var(--r-sm)}
+
+/* --- 2. Estrutura --------------------------------------------------------- */
+.app{display:grid;grid-template-columns:var(--sidebar) 1fr;min-height:100vh}
+
+.side{background:var(--side-bg);color:var(--side-ink);position:sticky;top:0;height:100vh;
+      display:flex;flex-direction:column;border-right:1px solid var(--side-line)}
+.brand{padding:12px 16px;display:flex;align-items:center;gap:10px;
+       border-bottom:1px solid var(--side-line);flex-shrink:0}
+/* A logo é a mesma imagem usada no processo em Python. O PNG tem fundo
+   transparente, então assenta direto no navy da barra — sem caixa nem
+   gradiente por trás, que só sujariam o desenho do livro. */
+.logo{width:34px;height:34px;flex-shrink:0;object-fit:contain;display:block}
+.brand b{color:var(--ink-inv);display:block;line-height:1.15;font-size:15px}
+.brand small{color:var(--side-ink2);font-size:11px}
+
+.nav{padding:8px 10px 14px;flex:1;overflow-y:auto}
+/* Rótulo de grupo. O menu tinha 12 itens chapados numa lista só; agrupar
+   separa "o que eu uso todo dia" de "o que a administração configura".
+
+   O rótulo divide a linha com um filete em vez de ocupar uma faixa só dele:
+   no perfil admin são 6 grupos, e a versão anterior (16px de respiro em cima +
+   6 embaixo) gastava ~230px — quase o mesmo que 6 links — fazendo o menu passar
+   da tela num notebook de 768px. Aqui o mesmo grupo custa ~22px e continua
+   legível, porque quem separa passou a ser a linha, não o espaço vazio. */
+.nav .grp{display:flex;align-items:center;gap:8px;
+          font-size:9.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;
+          color:var(--side-grp);padding:11px 13px 5px;white-space:nowrap}
+.nav .grp::after{content:"";flex:1;height:1px;background:var(--side-line)}
+.nav .grp:first-child{padding-top:4px}
+.nav a{display:flex;align-items:center;gap:10px;padding:6px 12px;border-radius:8px;
+       color:var(--side-ink);font-weight:500;margin:1px 0;font-size:13.5px;line-height:1.25}
+.nav a svg{width:17px;height:17px;flex-shrink:0;opacity:.75}
+.nav a:hover{background:var(--side-hover);color:var(--ink-inv)}
+.nav a:hover svg{opacity:1}
+.nav a.active{background:var(--blue);color:var(--ink-inv);font-weight:600;
+              box-shadow:0 2px 8px rgba(46,109,180,.35)}
+.nav a.active svg{opacity:1}
+.nav a:focus-visible{box-shadow:0 0 0 2px var(--ink-inv)}
+
+/* --- 3. Barra superior ----------------------------------------------------
+   Antes repetia "Libby — Central de Automações" em TODA página, ao lado de
+   uma barra lateral que já diz "Libby". Ou seja: 56px de altura sem informação.
+   Agora carrega o nome da tela atual e a identificação de quem está logado. */
+.top{height:56px;background:var(--card);border-bottom:1px solid var(--line);
+     display:flex;align-items:center;gap:14px;padding:0 30px;position:sticky;top:0;z-index:20}
+.top .tt{font-weight:700;color:var(--navy);font-size:14.5px}
+.top .sp{flex:1}
+.who{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink2)}
+.who .av{width:28px;height:28px;border-radius:50%;background:var(--blue-soft);color:var(--blue);
+         display:grid;place-items:center;font-weight:800;font-size:12px;flex-shrink:0}
+.who b{color:var(--ink);font-weight:600;display:block;line-height:1.2}
+.who span{font-size:11px;color:var(--ink3)}
+.who a{color:var(--ink2);border-left:1px solid var(--line);padding-left:12px;margin-left:3px}
+.who a:hover{color:var(--red-ink)}
+
+/* Botão de tema. Discreto de propósito: é preferência pessoal, não uma ação da
+   rotina — não deve competir com o título da tela nem com "Sair". */
+.tema-bt{display:inline-flex;align-items:center;gap:7px;cursor:pointer;
+         background:transparent;border:1px solid var(--line);border-radius:var(--r-pill);
+         padding:5px 12px 5px 10px;font-family:inherit;font-size:12px;font-weight:600;
+         color:var(--ink2);white-space:nowrap}
+.tema-bt svg{width:15px;height:15px;flex-shrink:0}
+.tema-bt:hover{background:var(--surface-3);border-color:var(--hover-line);color:var(--ink)}
+
+.content{padding:26px 30px 72px;max-width:1240px}
+
+/* --- 4. Cabeçalho de página ----------------------------------------------
+   Cobrança e Mensagens usavam .hd (que é o cabeçalho DE PAINEL) para o título
+   da página — daí o botão saía embaixo do h1 em vez de alinhado à direita.
+   .pagehd é o componente certo para isso. */
+h1{font-size:22px;color:var(--navy);margin-bottom:3px;line-height:1.25;letter-spacing:-.2px}
+.sub{color:var(--ink2);margin-bottom:20px;font-size:13.5px;max-width:78ch;line-height:1.6}
+.pagehd{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+.pagehd h1{margin-bottom:0}
+.pagehd .sp{flex:1;min-width:0}
+.pagehd .acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-top:2px}
+.crumb{font-size:12px;color:var(--ink2);margin-bottom:8px}
+.crumb a{color:var(--blue)}
+.crumb a:hover{text-decoration:underline}
+
+
+/* Os textos das automações agora vêm em parágrafos (o filtro 'rico' converte
+   linha em branco em <p>). O reset lá no topo zera a margem de tudo, então sem
+   esta regra os três parágrafos de uma descrição colavam num bloco só. */
+.sub p + p,
+.detalhes > div p + p,
+.aviso p + p{margin-top:11px}
+.sub p:only-child{margin:0}
+
+/* --- 5. Cartões de número ------------------------------------------------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:20px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+      padding:16px 18px;box-shadow:var(--shadow-sm)}
+.stat .n{font-size:27px;font-weight:800;color:var(--navy);line-height:1.1;
+         font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.stat .l{color:var(--ink2);font-size:12.5px;font-weight:600;margin-top:5px}
+
+/* --- 6. Painéis ----------------------------------------------------------- */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+       box-shadow:var(--shadow-sm);margin-bottom:16px;overflow:hidden}
+.panel .hd{padding:13px 18px;border-bottom:1px solid var(--line);display:flex;
+           justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+           background:var(--surface-2)}
+.panel .hd h3{font-size:14px;color:var(--navy);font-weight:700}
+.panel .bd{padding:16px 18px}
+.panel .bd>table:only-child{margin:-16px -18px;width:calc(100% + 36px)}
+
+/* Faixas de aviso. Cada tela inventava a sua com style inline; agora há uma. */
+.aviso{border-radius:var(--r-md);padding:11px 14px;font-size:13px;margin-bottom:14px;
+       border:1px solid;line-height:1.55}
+.aviso.ok{background:var(--green-soft);border-color:var(--ok-line);color:var(--green-ink)}
+.aviso.erro{background:var(--red-soft);border-color:var(--erro-line);color:var(--red-ink)}
+.aviso.atencao{background:var(--amber-soft);border-color:var(--aviso-line);color:var(--amber-ink)}
+.aviso.info{background:var(--blue-soft);border-color:var(--blue-line);color:var(--info-ink)}
+
+/* --- 7. Catálogo de automações -------------------------------------------
+   Problema visível na tela: uma descrição de 12 linhas esticava a LINHA
+   INTEIRA de cartões, deixando dois deles com metade de espaço vazio.
+   Descrição limitada a 4 linhas + botão ancorado embaixo resolve os dois. */
+.catrow{margin-bottom:26px}
+.cathd{display:flex;align-items:center;gap:9px;margin:0 2px 12px}
+.cathd h3{font-size:14.5px;color:var(--navy);font-weight:700}
+
+/* --- 7a. Cards de ÁREA: a porta de entrada do catálogo (02/09/2026) -------
+   A tela abria com os 27 cards de automação de uma vez e "parecia automação
+   demais" — a queixa que originou esta mudança. Agora abre com quatro cards
+   de área; as automações aparecem ao clicar num deles.
+
+   O card de área carrega a AMOSTRA do que tem dentro, não só a contagem: com
+   "16 automações" e mais nada, a pessoa abriria os quatro para achar o que
+   procura, que é o mesmo problema um nível acima. */
+/* 3 colunas na largura cheia (eram 4 quando a categoria era assunto; desde
+   03/09/2026 são três áreas: DomBots e VM / Web / Ferramentas), caindo para 2 e
+   depois 1. Colunas fixas e não auto-fit: com mínimo alto, o auto-fit largava a
+   última área sozinha numa segunda linha. */
+.areagrid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:24px}
+@media (max-width:1100px){.areagrid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px) {.areagrid{grid-template-columns:1fr}}
+.areacard{display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+          background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+          padding:20px 20px 18px;box-shadow:var(--shadow-sm);cursor:pointer;font:inherit;
+          text-align:left;position:relative;min-height:132px;
+          transition:box-shadow .15s,border-color .15s,transform .15s}
+.areacard:hover{box-shadow:var(--shadow);border-color:var(--line-strong);transform:translateY(-1px)}
+.areanome{font-size:15.5px;font-weight:700;color:var(--navy);line-height:1.3}
+.areanum{font-size:11.5px;font-weight:600;color:var(--ink2);
+         letter-spacing:.2px;font-variant-numeric:tabular-nums}
+.areaitens{font-size:12px;color:var(--ink2);line-height:1.5;margin-top:auto;
+           display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.areaseta{position:absolute;top:15px;right:16px;color:var(--ink2);font-size:12px;
+          transition:transform .15s}
+/* A área aberta se destaca e a seta aponta para a lista que apareceu abaixo. */
+.areacard.aberta{border-color:var(--navy);box-shadow:var(--shadow)}
+.areacard.aberta .areaseta{transform:rotate(180deg);color:var(--navy)}
+
+/* Ícone da área, na cor dela. Substituiu a barrinha de cor, que marcava a área
+   mas não dizia nada sobre ela; o ícone dá o assunto de relance.
+
+   O fundo é a MESMA cor com 12% de opacidade (color-mix), então cada área tem
+   sua caixa sem precisar de um token por área — e no tema escuro ela acompanha,
+   porque sai da cor viva, não de um cinza fixo. */
+.areaic{width:38px;height:38px;border-radius:var(--r-md);display:flex;
+        align-items:center;justify-content:center;flex-shrink:0;
+        background:color-mix(in srgb, currentColor 12%, transparent)}
+.areaic svg{width:21px;height:21px}
+/* Navegador sem color-mix cai num cinza do tema — a caixa continua existindo. */
+@supports not (background:color-mix(in srgb, red 10%, transparent)){
+  .areaic{background:var(--surface-3)}
+}
+
+/* --- Recentemente executadas (03/09/2026) ---------------------------------
+   Faixa de atalho acima das áreas: quem repete o mesmo trabalho não precisa
+   navegar o catálogo de novo. Cards baixos e de leitura rápida — o alvo é o
+   NOME; status e data são confirmação, por isso vêm menores e em cinza. */
+.recentes-hd{display:flex;align-items:baseline;gap:10px;margin:0 2px 10px}
+.recentes-hd h3{font-size:13px;color:var(--ink2);font-weight:700;
+                text-transform:uppercase;letter-spacing:.4px}
+.recentes-hd a{margin-left:auto;font-size:12px;font-weight:600;color:var(--blue)}
+.recentes-hd a:hover{text-decoration:underline}
+.recgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:26px}
+@media (max-width:1100px){.recgrid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px) {.recgrid{grid-template-columns:1fr}}
+.reccard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+         padding:12px 14px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;
+         gap:5px;transition:box-shadow .15s,border-color .15s,transform .15s}
+.reccard:hover{box-shadow:var(--shadow);border-color:var(--line-strong);transform:translateY(-1px)}
+.recnome{font-size:13.5px;font-weight:700;color:var(--navy);line-height:1.3}
+.recmeta{font-size:11px;color:var(--ink3);font-weight:600}
+.recpe{display:flex;align-items:center;gap:8px;margin-top:3px;flex-wrap:wrap}
+.recquando{font-size:11px;color:var(--ink3);font-variant-numeric:tabular-nums}
+/* Durante busca/filtro a faixa sai junto com os cards de área: o que importa
+   ali é o resultado do filtro, e a faixa não é filtrada. */
+body.filtrando .recentes-hd,body.filtrando .recgrid{display:none}
+
+/* Cabeçalho da área ABERTA — volta ao topo da lista. Com a lista longa o card
+   de entrada sai da vista, e fechar exigiria rolar até achá-lo de novo. */
+button.cathd{width:100%;background:var(--surface-2);border:0;padding:8px 10px;
+             font:inherit;text-align:left;cursor:pointer;border-radius:var(--r-md)}
+button.cathd:hover{background:var(--surface-sunken)}
+.cathd .seta{margin-left:auto;color:var(--ink2);font-size:11px;font-weight:600}
+.cathd:hover .seta{color:var(--navy)}
+/* Fechada é o PADRÃO: a página abre só com os cards de área. Sem a classe
+   'aberta' no <body>, nenhuma catrow aparece. */
+.catrow{display:none}
+.catrow.aberta{display:block}
+/* Enquanto há busca ou filtro, todas as áreas abrem e os cards de entrada
+   somem: com um termo digitado o que importa é o resultado, e uma área
+   fechada escondendo esse resultado é como se a busca não achasse nada. */
+body.filtrando .catrow{display:block}
+body.filtrando .areagrid{display:none}
+/* O JS marca com [hidden] a área/card que o filtro esvaziou. Precisa vencer as
+   regras acima, que são mais específicas que o [hidden] do navegador — sem
+   isto, '.catrow.aberta{display:block}' reabriria uma área sem nenhum card. */
+.catrow[hidden],.areacard[hidden]{display:none!important}
+
+/* Chips de filtro (onde roda / favoritas).
+   Classe própria e não '.filtros': esse nome já era usado pela barra de filtros
+   EM FORMULÁRIO (execuções, relatórios, empresas), definida mais abaixo neste
+   arquivo — mesma especificidade, então quem vinha depois ganhava. Os chips do
+   catálogo herdavam caixa branca, sombra e align-items:flex-end de uma barra
+   que não é a deles. */
+.chipbar{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+/* Última fileira do bloco: respira mais antes do que vem embaixo. Marcada à
+   mão e não por :last-of-type — o <form> do acesso por setor abre entre as
+   duas fileiras, então elas não são irmãs no DOM. */
+.chipbar.fim{margin-bottom:16px}
+/* Rótulo do eixo ("Setor", "Onde roda"). Duas fileiras de chips iguais, sem
+   dizer o que cada uma filtra, viram uma parede de pílulas onde não se sabe o
+   que "Todas" quer dizer — havia um "Todos" e um "Todas" em linhas seguidas.
+   Largura fixa para as duas fileiras alinharem os primeiros chips. */
+.chipbar-t{font-size:11px;font-weight:700;color:var(--ink3);text-transform:uppercase;
+           letter-spacing:.5px;width:66px;flex-shrink:0}
+@media(max-width:620px){.chipbar-t{width:auto}}
+/* Divisor entre "onde roda" e os chips que não são desse eixo. Era um <span>
+   com style inline repetindo cor e medida na mão. */
+.chipbar-div{width:1px;height:20px;background:var(--line);margin:0 3px;flex-shrink:0}
+/* Empurra o chip para a direita da fileira ("Abrir todas as áreas"). */
+.chip-dir{margin-left:auto}
+.fchip{font-size:12px;font-weight:600;padding:5px 12px;border-radius:var(--r-pill);
+       border:1px solid var(--line-strong);background:var(--surface-1);color:var(--ink2);
+       cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.fchip:hover{border-color:var(--navy);color:var(--navy)}
+.fchip.ativo{background:var(--navy);border-color:var(--navy);color:var(--ink-inv)}
+/* Estrela de favorito no canto do card. Fica discreta até virar favorita —
+   é atalho de quem já sabe o que usa, não um botão que disputa com Executar. */
+.fav{background:none;border:0;cursor:pointer;font-size:15px;line-height:1;padding:0 2px;
+     color:var(--line-strong);transition:color .15s,transform .15s}
+.fav:hover{transform:scale(1.15);color:var(--amber-ink)}
+.fav.on{color:var(--amber-ink)}
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.acard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+       padding:16px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:9px;
+       height:100%;transition:box-shadow .15s,border-color .15s,transform .15s}
+.acard:hover{box-shadow:var(--shadow);border-color:var(--line-strong);transform:translateY(-1px)}
+.acard h4{font-size:14.5px;color:var(--navy);line-height:1.35}
+.acard h4 a:hover{color:var(--blue);text-decoration:underline}
+.acard p{font-size:12.5px;color:var(--ink2);line-height:1.55;
+         display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.acard .meta{display:flex;justify-content:space-between;align-items:center;gap:10px;
+             border-top:1px solid var(--line);padding-top:11px;margin-top:auto}
+
+
+/* --- 7b. Fluxos: etapas de um mesmo serviço -------------------------------
+   As três etapas da Taxa Assistencial (sincronizar, emitir, publicar) caíam em
+   posições aleatórias da grade, misturadas com as da Taxa GMS e da Folha de
+   Ponto. O contêiner do fluxo diz "isto aqui é um serviço só" antes de o
+   usuário precisar ler os três títulos para descobrir. */
+.fluxo{background:var(--surface-sunken);border:1px solid var(--line);border-radius:var(--r-lg);
+       padding:14px 15px 16px;margin-bottom:16px}
+.fluxo-hd{display:flex;align-items:flex-start;gap:14px;margin:0 3px 12px}
+.fluxo-hd>div{flex:1;min-width:0}
+.fluxo-hd h4{font-size:13.5px;color:var(--navy);font-weight:700;line-height:1.35}
+.fluxo-hd span{display:block;font-size:12px;color:var(--ink2);margin-top:2px;line-height:1.5}
+.fluxo-n{font-size:10.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;
+         color:var(--ink2);background:var(--surface-1);border:1px solid var(--line-strong);
+         border-radius:var(--r-pill);padding:3px 10px;white-space:nowrap;flex-shrink:0}
+/* Número da etapa junto do título — encoda a ORDEM, que é a informação que
+   faltava (o catálogo listava "Emitir" antes de "Sincronizar"). */
+.passo{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;
+       background:var(--navy);color:var(--ink-inv);font-size:11px;font-weight:700;
+       margin-right:7px;vertical-align:1px;font-variant-numeric:tabular-nums}
+
+/* --- 11b. Lista de opções do formulário ----------------------------------
+   Caixa de marcar é decisão de "faz ou não faz"; campo preenchido é dado da
+   rodada. Empilhadas soltas, as duas coisas tinham o mesmo peso visual. */
+.opcoes{border:1px solid var(--line-strong);border-radius:var(--r-md);
+        overflow:hidden;background:var(--surface-1)}
+.opcoes .fld{margin:0;padding:11px 14px;border-bottom:1px solid var(--line)}
+.opcoes .fld:last-child{border-bottom:0}
+.opcoes .fld:hover{background:var(--surface-2)}
+.opcoes .fld>label.check{padding:0;font-weight:600}
+.opcoes .hint{margin-top:5px;margin-left:25px}
+/* A simulação continua com moldura própria mesmo dentro da lista. */
+.opcoes .fld[data-campo="dry_run"]{background:var(--blue-soft);border-radius:0;
+        border-bottom:1px solid var(--blue-line);padding:12px 14px}
+
+/* --- 8. Botões -----------------------------------------------------------
+   .btn sem variante NÃO tinha fundo nem borda (border:0 e nada mais), então
+   "Gerar token do agente", "Pausar", "Processar" saíam com a cara crua do
+   navegador. Agora .btn sozinho já é um botão secundário legítimo. */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+     height:36px;padding:0 15px;border:1px solid var(--line-strong);border-radius:9px;
+     background:var(--surface-1);color:var(--ink);font-family:inherit;font-weight:600;font-size:13px;
+     line-height:1;cursor:pointer;white-space:nowrap;text-decoration:none;
+     transition:background .13s,border-color .13s,box-shadow .13s}
+.btn:hover{background:var(--surface-3);border-color:var(--hover-line)}
+.btn:active{transform:translateY(1px)}
+.btn:disabled,.btn[aria-disabled=true]{opacity:.5;cursor:not-allowed;transform:none}
+.btn.pri{background:var(--blue);border-color:var(--blue);color:var(--ink-inv);
+         box-shadow:0 1px 2px rgba(46,109,180,.28)}
+.btn.pri:hover{background:var(--blue-600);border-color:var(--blue-600)}
+.btn.gho{background:var(--blue-soft);border-color:transparent;color:var(--blue)}
+.btn.gho:hover{background:var(--chip-hover);border-color:transparent}
+.btn.gr{background:var(--green);border-color:var(--green);color:var(--ink-inv)}
+.btn.gr:hover{background:var(--green-600);border-color:var(--green-600)}
+/* Ações destrutivas tinham cor colada com style="" em cada template. */
+.btn.perigo{color:var(--red-ink);border-color:var(--erro-line);background:var(--surface-1)}
+.btn.perigo:hover{background:var(--red-soft);border-color:var(--red)}
+.btn.perigo:focus-visible{box-shadow:var(--focus-danger)}
+.btn.sm{height:30px;padding:0 11px;font-size:12.5px;border-radius:7px}
+.btn.lg{height:42px;padding:0 20px;font-size:14px}
+.btn.bloco{width:100%}
+.btn-linha{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+/* --- 9. Etiquetas de status ----------------------------------------------- */
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;
+      border-radius:var(--r-pill);padding:3px 10px;white-space:nowrap;
+      background:var(--chip-bg);color:var(--ink2)}
+.chip.ok{background:var(--green-soft);color:var(--green-ink)}
+.chip.pend{background:var(--amber-soft);color:var(--amber-ink)}
+.chip.run{background:var(--blue-soft);color:var(--blue)}
+.chip.err{background:var(--red-soft);color:var(--red-ink)}
+/* 'concluída com falhas': entregou parte. Âmbar como 'na fila', com contorno
+   para separar um desfecho de uma espera. */
+/* Dropdown de MARCAR VARIOS (Configuracoes > Usuarios: setores da pessoa).
+   <details> e nao um <select multiple>: o multiple nativo exige Ctrl+clique
+   para somar e mostra uma caixa de varias linhas em cada celula da tabela.
+   Aqui fechado ele ocupa o espaco de um campo e diz o que esta marcado.
+   O pop e absoluto, entao o .panel desta tela precisa de overflow:visible. */
+.setdd{position:relative;display:block}
+.setdd > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;
+       justify-content:space-between;height:38px;padding:0 11px;font-size:13px;
+       border:1px solid var(--line);border-radius:var(--r-md);background:var(--card);
+       color:var(--ink);white-space:nowrap;overflow:hidden}
+.setdd > summary::-webkit-details-marker{display:none}
+.setdd > summary::after{content:"\25be";font-size:11px;color:var(--ink3);flex:none}
+.setdd > summary:hover{border-color:var(--hover-line)}
+.setdd[open] > summary{border-color:var(--blue)}
+.setdd-txt{overflow:hidden;text-overflow:ellipsis}
+.setdd-txt.vazio{color:var(--red-ink)}
+.setdd-pop{position:absolute;z-index:40;top:calc(100% + 4px);left:0;min-width:100%;
+       background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+       box-shadow:var(--shadow-pop);padding:6px}
+.setdd-pop label{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;
+       font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer}
+.setdd-pop label:hover{background:var(--surface-2)}
+.setdd-pop input{width:auto;margin:0}
+
+.chip.aten{background:var(--amber-soft);color:var(--amber-ink);
+           box-shadow:inset 0 0 0 1px var(--aviso-line)}
+.cdot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
+/* "executando" é o único status que muda sozinho — piscar devagar avisa que a
+   tela está viva sem que ninguém precise ficar recarregando. */
+.chip.run .cdot{animation:pulsa 1.6s ease-in-out infinite}
+@keyframes pulsa{0%,100%{opacity:1}50%{opacity:.35}}
+.badge{font-size:10px;font-weight:800;border-radius:var(--r-pill);padding:3px 8px;
+       letter-spacing:.3px;white-space:nowrap}
+.badge.web{background:var(--green-soft);color:var(--green-ink)}
+.badge.build{background:var(--amber-soft);color:var(--amber-ink)}
+.badge.vm{background:var(--roxo-soft);color:var(--roxo-ink)}
+/* Lado esquerdo do topo do card: o badge de recurso e, quando houver, a marca
+   COMPLETO. */
+.acard-tags{display:flex;align-items:center;gap:6px}
+/* "COMPLETO": a variante que faz o trabalho inteiro, num bloco de "escolha uma".
+   Contornada e não sólida — ela informa, não é status nem destino, e ao lado do
+   badge de recurso (que é sólido) duas manchas de cor disputariam o mesmo canto
+   do card. Azul porque é a cor de interação da Libby; verde e âmbar já querem
+   dizer "deu certo" e "atenção" no chip de status logo ao lado. */
+.badge.completo{background:transparent;color:var(--blue);
+                box-shadow:inset 0 0 0 1px var(--blue-line)}
+
+/* --- 10. Tabelas ---------------------------------------------------------
+   Metade das telas (Cobrança, Folha de Ponto, Taxa) monta tabela na mão, sem
+   a classe .tbl, e ficava com cara diferente da outra metade. As regras abaixo
+   valem para QUALQUER tabela dentro de um painel. */
+table{width:100%;border-collapse:collapse}
+.tbl,.panel table{background:var(--card)}
+.tbl{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
+.tbl th,.panel table th{background:var(--th-bg);text-align:left;font-size:11px;font-weight:800;
+     text-transform:uppercase;letter-spacing:.5px;color:var(--grey);padding:10px 16px;
+     border-bottom:1px solid var(--line);position:sticky;top:0;z-index:1}
+.tbl td,.panel table td{padding:11px 16px;border-bottom:1px solid var(--line);font-size:13.5px;
+     vertical-align:middle}
+.tbl tbody tr:last-child td,.panel table tbody tr:last-child td{border-bottom:0}
+.tbl tbody tr:hover,.panel table tbody tr:hover{background:var(--surface-2)}
+.tbl.plana{border:0;border-radius:0;box-shadow:none}
+/* Números e datas alinham melhor com largura fixa de dígito. */
+.num,td .num{font-variant-numeric:tabular-nums}
+.co{font-weight:700;color:var(--navy)}
+.muted{color:var(--ink2)}
+.rolar{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+/* Consulta de guias da Conferência DF (painel_conf_df.html).
+   A tabela fica num .rolar direto no .panel, e não num .bd: a regra
+   '.panel .bd>table:only-child' dá margem negativa à tabela, e com o .bd sem
+   padding ela saía cortada dos dois lados (Cód. e a coluna FGTS). */
+.cdf-comp{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ink2)}
+.cdf-busca{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.cdf-busca .in{width:360px}
+.cdf-busca .btn[hidden]{display:none}   /* .btn é inline-flex e venceria o [hidden] */
+.cdf-conta{font-size:12.5px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.stat .n .de{font-size:16px;font-weight:700;color:var(--ink3)}
+.stat .n.err{color:var(--red-ink)}
+.stat .n.ok{color:var(--green-ink)}
+.fchip .qt{font-weight:700;opacity:.65;margin-left:3px;font-variant-numeric:tabular-nums}
+.cdf-tab{min-width:640px}
+.cdf-tab th.cod,.cdf-tab td.cod{width:78px}
+.cdf-tab th:nth-child(3),.cdf-tab th:nth-child(4){width:210px}
+.cdf-tab tr.pend td:first-child{box-shadow:inset 3px 0 0 var(--red)}
+.cdf-tab tr[hidden]{display:none}
+.cdf-guia{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+.cdf-det{font-size:11.5px;color:var(--ink3);max-width:190px;overflow:hidden;
+         text-overflow:ellipsis;white-space:nowrap}
+/* "Sem guia" não é erro nem sucesso: contorno, sem mancha de cor. */
+.chip.sem{background:transparent;color:var(--ink3);box-shadow:inset 0 0 0 1px var(--line-strong)}
+.cdf-vazio td{text-align:center;color:var(--ink2);padding:28px 16px}
+
+/* --- 11. Formulários -----------------------------------------------------
+   A regra vale para input/select/textarea SEM classe também. Era a maior fonte
+   de inconsistência: a mesma tela misturava campo estilizado (.in) com campo
+   cru do navegador (filtro da Cobrança, cadastro da Taxa, Mensagens). */
+.fld{margin-bottom:15px}
+.fld:has(>label.check){margin-bottom:10px}
+.fld>label,label.rot{display:block;font-size:12.5px;font-weight:700;color:var(--navy);
+                     margin-bottom:6px;line-height:1.45}
+.fld small,.hint{display:block;font-size:12px;color:var(--ink2);margin-top:5px;line-height:1.55}
+
+/* Aparência é global; LARGURA não é. Definir width:100% em todo input quebraria
+   os campos estreitos que já vivem dentro de tabelas e linhas flex (rubrica da
+   Taxa, hora do agendamento). Só quem está num contexto de formulário conhecido
+   — .in, .fld, .grade, textarea — recebe a largura cheia. */
+input,select,textarea,.in{
+  max-width:100%;font-family:inherit;font-size:13.5px;color:var(--ink);
+  background:var(--surface-1);border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  padding:8px 11px;min-height:36px;transition:border-color .13s,box-shadow .13s}
+.in,textarea,.fld>input,.fld>select,.grade input,.grade select,
+.grade-2 input,.grade-2 select{width:100%}
+textarea,textarea.in{resize:vertical;min-height:78px;line-height:1.6}
+input:hover,select:hover,textarea:hover,.in:hover{border-color:var(--hover-line)}
+input:focus,select:focus,textarea:focus,.in:focus{
+  outline:0;border-color:var(--blue);box-shadow:var(--focus)}
+input:disabled,select:disabled,textarea:disabled,.in:disabled{
+  background:var(--surface-3);color:var(--ink3);cursor:not-allowed}
+input::placeholder,textarea::placeholder{color:var(--placeholder)}
+select{appearance:none;-webkit-appearance:none;padding-right:32px;cursor:pointer;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235A6879' d='M1.4 0 6 4.6 10.6 0 12 1.4 6 7.4 0 1.4z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 11px center}
+.fld input,.fld select{max-width:360px}
+.fld.largo input,.fld.largo select,.fld textarea{max-width:100%}
+
+/* Caixas de marcar: 13px do navegador é pequeno demais para clicar rápido numa
+   lista de 300 empresas. */
+input[type=checkbox],input[type=radio]{width:16px;height:16px;min-height:0;padding:0;
+  accent-color:var(--blue);cursor:pointer;vertical-align:middle}
+input[type=checkbox]:focus-visible,input[type=radio]:focus-visible{box-shadow:var(--focus)}
+/* Rótulo de caixa: clicável inteiro e com alvo confortável. */
+.check,.fld>label.check,label.check{display:inline-flex;align-items:flex-start;gap:9px;
+  font-size:13.5px;font-weight:500;color:var(--ink);cursor:pointer;padding:4px 0;
+  line-height:1.5;margin-bottom:0}
+.check>span{display:block}
+.check input{margin-top:2px}
+.check input{flex-shrink:0}
+
+/* Seleção de arquivo. O controle nativo ("Escolher arquivo / Nenhum arquivo
+   escolhido") aparecia em 5 telas e destoava de tudo em volta. */
+input[type=file]{padding:6px;border-style:dashed;background:var(--surface-2);cursor:pointer;
+  font-size:12.5px;color:var(--ink2)}
+input[type=file]::file-selector-button{border:1px solid var(--line-strong);background:var(--surface-1);
+  border-radius:6px;padding:5px 12px;margin-right:11px;font-family:inherit;font-weight:600;
+  font-size:12.5px;color:var(--ink);cursor:pointer}
+input[type=file]::file-selector-button:hover{background:var(--surface-3)}
+input[type=file]:hover{border-color:var(--blue);background:var(--blue-soft)}
+input[type=date],input[type=month],input[type=number]{max-width:200px}
+
+/* Grade de campos: substitui os grid-template-columns inline repetidos. */
+.grade{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.grade-2{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+@media(max-width:760px){.grade-2{grid-template-columns:1fr}}
+
+/* --- 12. Abas ------------------------------------------------------------- */
+/* Abas de PAINEL (Editor de PDF: Ler / Editar / Lote) — trocam o que está na
+   tela. O catálogo de Automações usava esta mesma classe para FILTRAR a grade,
+   o que dizia "você vai para outro lugar" quando nada saía de lugar; virou
+   chip lá (.chipbar). Aqui a aba está no seu sentido próprio. */
+.abas{display:flex;gap:2px;border-bottom:1px solid var(--line);margin:18px 0 20px;flex-wrap:wrap}
+.aba{background:none;border:0;border-bottom:2.5px solid transparent;margin-bottom:-1px;
+     padding:9px 15px;font-size:13.5px;font-weight:600;color:var(--ink2);cursor:pointer;
+     width:auto;min-height:0;border-radius:0}
+.aba:hover{color:var(--navy);background:var(--surface-3)}
+.aba:focus-visible{box-shadow:var(--focus)}
+.aba.ativa{color:var(--blue);border-bottom-color:var(--blue)}
+/* Aba que é link (tela com uma rota por aba, ex.: Guias DARF/FGTS). */
+a.aba{display:inline-block;text-decoration:none}
+
+/* --- 13. Log ao vivo ------------------------------------------------------ */
+.log{background:var(--log-bg);border-radius:var(--r-md);padding:14px 16px;
+     font-family:ui-monospace,Consolas,monospace;font-size:12.5px;color:var(--log-ink);
+     height:58vh;min-height:380px;overflow:auto;line-height:1.75;white-space:pre-wrap;
+     border:1px solid var(--log-line)}
+.log .ok{color:var(--log-ok)}.log .aviso{color:var(--log-aviso)}.log .erro{color:var(--log-erro)}.log .info{color:var(--log-ink)}
+
+/* --- 14. Estado vazio ----------------------------------------------------
+   O Editor de PDF abria numa tela em branco de 600px de altura, sem dizer o
+   que fazer. Vale para qualquer tela que começa sem dados. */
+.vazio{text-align:center;padding:56px 24px;color:var(--ink2);
+       border:1px dashed var(--line-strong);border-radius:var(--r-lg);background:var(--surface-2)}
+.vazio .ic{font-size:30px;line-height:1;margin-bottom:12px;opacity:.55}
+.vazio b{display:block;color:var(--navy);font-size:15px;margin-bottom:6px}
+.vazio p{font-size:13px;max-width:46ch;margin:0 auto 16px;line-height:1.6}
+
+/* --- 14b. Tela de execução de automação ----------------------------------
+   Era o ponto mais confuso do sistema: 12 campos numa coluna só, com rótulos
+   de três linhas em caixa alta, e a caixa "simulação" (que decide se manda
+   mensagem de verdade para 300 clientes) perdida no meio deles. */
+.col-exec{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(250px,.85fr);gap:18px;align-items:start}
+@media(max-width:1020px){.col-exec{grid-template-columns:1fr}}
+
+/* Seção de formulário: dá um "assunto" a cada bloco de campos. */
+.secao{padding:0 0 18px;margin-bottom:18px;border-bottom:1px dashed var(--line)}
+.secao:last-of-type{border-bottom:0;margin-bottom:8px;padding-bottom:6px}
+.secao-hd{margin-bottom:14px}
+.secao-hd h4{font-size:12px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;
+             color:var(--navy)}
+.secao-hd span{display:block;font-size:12.5px;color:var(--ink2);margin-top:2px}
+
+/* A simulação decide se a automação só mostra o que faria ou manda mensagem
+   para 300 clientes de verdade. Era uma caixa igual às outras no meio da lista;
+   aqui ela ganha moldura própria para não passar despercebida. */
+.fld[data-campo="dry_run"]{background:var(--blue-soft);border:1px solid var(--blue-line);
+  border-radius:var(--r-md);padding:11px 14px;margin-bottom:16px}
+.fld[data-campo="dry_run"] .check{font-weight:700;color:var(--navy);font-size:14px}
+.fld[data-campo="dry_run"] .hint{color:var(--info-ink)}
+
+/* Texto longo de apoio que não precisa estar aberto o tempo todo. */
+.detalhes{font-size:13px;color:var(--ink2);max-width:78ch}
+.detalhes summary{cursor:pointer;color:var(--blue);font-weight:600;font-size:12.5px;
+                  list-style:none;display:inline-flex;align-items:center;gap:5px;padding:2px 0}
+.detalhes summary::-webkit-details-marker{display:none}
+.detalhes summary::before{content:"▸";font-size:10px;transition:transform .15s}
+.detalhes[open] summary::before{transform:rotate(90deg)}
+.detalhes>div{margin-top:8px;padding:12px 14px;background:var(--surface-2);border:1px solid var(--line);
+              border-radius:var(--r-md);line-height:1.65}
+
+/* Barra de ação. Fica colada no fim do painel e mostra, AO LADO do botão, se a
+   simulação está ligada — antes era preciso rolar de volta para conferir. */
+.acao-barra{display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+            margin:4px -18px -16px;padding:14px 18px;background:var(--surface-2);
+            border-top:1px solid var(--line);position:sticky;bottom:0;z-index:5}
+.acao-barra .chip{font-size:12px}
+/* Envio real: a moldura inteira muda de cor. Não dá para clicar sem ver. */
+form.modo-real .acao-barra{background:var(--red-soft);border-top-color:var(--erro-line)}
+
+
+/* --- 14c. Pré-voo, motivo da falha e filtros -----------------------------
+   Três telas que antes só diziam o resultado passaram a dizer a causa. */
+
+/* Pré-voo: o que falta configurar ANTES de gastar a vez da VM. */
+.prevoo{border-radius:var(--r-md);padding:12px 15px;margin-bottom:14px;
+        font-size:13px;border:1px solid;line-height:1.55}
+.prevoo.falta{background:var(--amber-soft);border-color:var(--aviso-line);color:var(--amber-ink)}
+.prevoo.ok{background:var(--green-soft);border-color:var(--ok-line);color:var(--green-ink);
+           display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:12.5px}
+.prevoo-t{font-weight:700;margin-bottom:7px}
+.prevoo ul{list-style:none;padding:0;margin:0}
+.prevoo li{padding:4px 0 4px 15px;position:relative}
+.prevoo li::before{content:"•";position:absolute;left:2px;opacity:.6}
+.prevoo li a{color:inherit;text-decoration:underline;font-weight:600;white-space:nowrap}
+.prevoo-p{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-size:12.5px}
+.req-ok{background:var(--surface-1);border:1px solid var(--ok-line);border-radius:var(--r-pill);
+        padding:2px 9px;font-size:11.5px;font-weight:600}
+
+/* Motivo da falha: sobe do log para o topo da execução. */
+.falha{border-left:3px solid var(--red);background:var(--red-soft);
+       border-radius:0 var(--r-md) var(--r-md) 0;padding:12px 16px;margin-bottom:16px}
+.falha-t{font-size:10.5px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;
+         color:var(--red-ink);margin-bottom:5px}
+.falha-m{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;color:var(--red-ink);
+         line-height:1.6;word-break:break-word}
+.falha-d{font-size:11.5px;color:var(--red-ink);opacity:.75;margin-top:6px}
+/* Na lista, o motivo entra como segunda linha da automação. */
+.motivo{font-size:11.5px;color:var(--red-ink);margin-top:3px;line-height:1.45;
+        display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Barra de filtros — alinhada pela base, para o botão bater com os campos. */
+.filtros{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;
+         background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+         padding:14px 16px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+.filtros .fld>label{margin-bottom:5px}
+.filtros select{min-width:150px}
+
+
+/* Bloco de campos avançados dentro de uma seção do formulário. */
+.detalhes.avancado{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+
+/* Lista longa dentro de um painel: dobra a tabela e deixa só o resumo à vista.
+   Separada da .detalhes porque aquela é para texto (max-width 78ch, fundo
+   próprio) e aqui o conteúdo é tabela, que precisa da largura toda. */
+.lista-dobra > summary{cursor:pointer;list-style:none;padding:10px 14px;
+      font-size:12.5px;font-weight:600;color:var(--blue);
+      border-top:1px solid var(--line);display:flex;gap:8px;align-items:baseline}
+.lista-dobra > summary::-webkit-details-marker{display:none}
+.lista-dobra > summary::before{content:"\25b8";font-size:10px;transition:transform .15s}
+.lista-dobra[open] > summary::before{transform:rotate(90deg)}
+.lista-dobra > summary:hover{background:var(--surface-2)}
+.lista-dobra > summary .muted{font-weight:400}
+/* O motivo mais longo ("Bloqueada pelo módulo Honorários") estourava a coluna
+   e escrevia por cima do texto vizinho: a .chip nasce com white-space:nowrap. */
+.tbl td.motivo .chip{white-space:normal;text-align:left}
+.detalhes.avancado>div{background:none;border:0;padding:0;margin-top:12px}
+/* Botão que se comporta como link — usado no aviso da rodada da Cobrança. */
+.lnk{background:none;border:0;padding:0;font:inherit;font-size:12.5px;font-weight:600;
+     color:inherit;text-decoration:underline;cursor:pointer;opacity:.85}
+.lnk:hover{opacity:1}
+.prevoo.ok span{font-weight:400}
+
+
+/* --- 14d. Amostra de colunas na tela de Mensagens ------------------------
+   As variáveis do modelo ALL_info dependem da planilha que vai ser usada. Este
+   bloco é onde a planilha de amostra entra e as variáveis dela aparecem. */
+.amostra{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.amostra-hd b{font-size:12.5px;color:var(--navy);display:block}
+.amostra-hd span{display:block;font-size:12px;color:var(--ink2);margin:4px 0 10px;line-height:1.55}
+.amostra-ok{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  background:var(--green-soft);border:1px solid var(--ok-line);color:var(--green-ink);
+  border-radius:var(--r-md);padding:9px 12px;font-size:12.5px;line-height:1.5}
+.amostra-ok>span{flex:1;min-width:200px}
+.amostra-vazio{font-size:12px;color:var(--ink2);margin-top:9px}
+.amostra-envio{margin-top:4px}
+.amostra-envio input[type=file]{max-width:100%}
+
+/* Variável clicável. Chip em vez de linha de tabela porque aqui são muitas e
+   curtas — em lista vertical, dez colunas viravam dez linhas quase vazias. */
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.chip-var{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;font-weight:600;
+  background:var(--blue-soft);color:var(--blue);border:1px solid var(--blue-line);
+  border-radius:var(--r-pill);padding:4px 11px;cursor:pointer;white-space:nowrap;
+  min-height:0;width:auto;transition:background .13s}
+.chip-var:hover{background:var(--chip-hover)}
+
+
+/* Variáveis de lista (empresas_*) — abertas por padrão quando se edita uma
+   variante _multi, que é onde elas importam. */
+.lista-vars{margin-top:12px}
+.lista-vars>.detalhes>div{background:var(--surface-2);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:12px 14px;margin-top:9px}
+
+
+/* Explicacao do bloco {#empresas} — fica entre os chips e as versoes de lista,
+   que e onde a duvida "e se forem varios campos?" aparece. */
+.bloco-rep{margin-top:12px;padding:11px 13px;border:1px dashed var(--line);
+  border-radius:var(--r-md);font-size:12.5px;color:var(--ink2);
+  display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.bloco-rep>div{flex:1 1 340px;line-height:1.5}
+.bloco-rep .btn{flex:0 0 auto;white-space:nowrap}
+
+/* --- 15. Modal do seletor de arquivos ------------------------------------- */
+#fsmodal{display:none;position:fixed;inset:0;background:var(--overlay);z-index:60;
+         align-items:center;justify-content:center;padding:20px}
+.fsbox{background:var(--surface-1);border-radius:var(--r-lg);width:min(560px,100%);max-height:86vh;
+       overflow:auto;box-shadow:var(--shadow-pop)}
+.fshd{padding:13px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;
+      position:sticky;top:0;background:var(--surface-1);z-index:1}
+.fsrow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;
+       border-bottom:1px solid var(--line);font-size:13px;cursor:pointer;color:var(--ink)}
+.fsrow:hover{background:var(--blue-soft)}
+.fsfav{background:var(--blue-soft);color:var(--blue);border:1px solid var(--blue-line);
+       border-radius:var(--r-pill);padding:4px 11px;font-size:12px;font-weight:600;
+       cursor:pointer;width:auto;min-height:0}
+.fsfav:hover{background:var(--chip-hover)}
+
+/* --- 16. Responsivo ------------------------------------------------------
+   Abaixo de 1080px a barra lateral vira uma faixa de ícones; abaixo de 780px
+   ela sai de cima da tela e vira uma linha rolável no topo. */
+@media(max-width:1080px){
+  :root{--sidebar:64px}
+  .brand{justify-content:center;padding:16px 8px}
+  .brand div:last-child,.nav .grp{display:none}
+  .nav a{justify-content:center;padding:11px 0}
+  .nav a span{display:none}
+  .content,.top{padding-left:20px;padding-right:20px}
+}
+@media(max-width:780px){
+  .app{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;align-items:center;overflow-x:auto}
+  .brand{border-bottom:0;border-right:1px solid var(--side-line)}
+  .nav{display:flex;padding:6px;flex:1}
+  .nav a{padding:10px 12px}
+  .top{padding:0 16px}.top .tt{font-size:13.5px}
+  .who span,.who b{display:none}
+  /* Na horizontal só sobra o ícone: o title= continua explicando. */
+  .tema-bt span{display:none}
+  .tema-bt{padding:6px;border-radius:50%}
+  .content{padding:18px 16px 60px}
+  .cards{grid-template-columns:1fr 1fr}
+  .agrid{grid-template-columns:1fr}
+}
+
+/* --- 17. Impressão -------------------------------------------------------- */
+@media print{
+  .side,.top,.btn,.tema-bt{display:none!important}
+  .app{display:block}.content{padding:0;max-width:none}
+  .panel{break-inside:avoid;box-shadow:none;border-color:var(--line-strong)}
+}
+
+/* Atalho "abrir automação" na lista de execuções. Só aparece de verdade no
+   hover da linha: visível o tempo todo, 200 linhas viram 400 links azuis
+   disputando atenção com o alvo real da linha, que é o log. */
+.irauto{font-size:11.5px;color:var(--muted);margin-left:8px;opacity:0;
+  transition:opacity .12s ease;white-space:nowrap}
+tr:hover .irauto{opacity:1}
+.irauto:hover{color:var(--blue);text-decoration:underline}
+.irauto:focus{opacity:1}
+
+/* Marca na margem para a ressalva e para o erro. Só essas duas: quando a barra
+   pegava todo nivel='aviso' (cabeçalho, resumo, status final) o log ficava
+   listrado e o destaque deixava de destacar. Fundo bem leve — a barra já
+   basta para o olho achar a linha ao rolar. */
+.log .ll{padding-left:10px;border-left:3px solid transparent}
+.log .ll-aviso{border-left-color:var(--log-aviso);background:rgba(242,193,78,.05)}
+.log .ll-erro{border-left-color:var(--log-erro);background:rgba(242,139,130,.07)}
+
+/* Placar da rodada, no topo da execução. Existe porque o status sozinho
+   ("falhou") não diz se 19 de 20 mensagens chegaram ao cliente ou se nenhuma
+   saiu — e é essa diferença que decide entre reenviar um caso e rodar tudo
+   de novo. */
+.placar{display:flex;align-items:center;gap:26px;flex-wrap:wrap;
+  border:1px solid var(--line);border-radius:var(--r-md);
+  padding:12px 18px;margin-bottom:14px;background:var(--surface-1)}
+.placar .pl-i{display:flex;flex-direction:column;line-height:1.15}
+.placar .pl-i b{font-size:20px;font-variant-numeric:tabular-nums}
+.placar .pl-i small{font-size:11.5px;color:var(--muted);margin-top:1px}
+.placar .pl-ok{color:var(--green-ink)}
+.placar .pl-erro{color:var(--red-ink)}
+.placar .pl-aviso{color:var(--amber-ink);cursor:help}
+.placar .pl-frase{font-size:12.5px;color:var(--ink2);max-width:46ch;text-align:right}
+
+/* Tag de ensaio nas execuções. Duas variantes porque as consequências diferem:
+   "teste" saiu de verdade, só que desviado para uma pessoa; "simulação" não
+   saiu nada. Discreta de propósito — informa a natureza da rodada, não
+   compete com o status, que é o que a linha responde primeiro. */
+.tteste{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.4px;padding:1px 7px;border-radius:20px;vertical-align:1px;
+  margin-left:8px;cursor:help;white-space:nowrap;
+  background:var(--chip-bg);color:var(--ink2);border:1px solid var(--line-strong)}
+.tteste.tsim{background:var(--roxo-soft);color:var(--roxo-ink);border-color:var(--roxo-line)}
+
+/* Paginação. Nasceu com a lista de empresas: 1109 linhas numa página só não
+   é navegável, e o LIMIT fixo anterior escondia 609 delas sem avisar. */
+.paginacao{display:flex;align-items:center;gap:14px;justify-content:center;
+  margin-top:16px}
+.btn.off{opacity:.4;pointer-events:none}
+
+/* --- Dashboard ------------------------------------------------------------
+   O painel somava catálogo (quantas automações existem, quantas empresas há):
+   números que não mudam de uma semana para a outra e não levam a ação nenhuma.
+   As regras abaixo servem ao que substituiu isso — falha, atraso e atividade. */
+
+/* Faixa de agendamento atrasado. Vem antes dos números porque um agendamento
+   que não disparou vale mais que qualquer estatística — e era invisível até
+   alguém abrir Agendamentos e conferir data por data. */
+.alerta-topo{display:flex;align-items:center;gap:14px;margin-bottom:16px;
+  padding:13px 18px;border-radius:var(--r-md);
+  background:var(--amber-soft);border:1px solid var(--aviso-line);color:var(--amber-ink)}
+.alerta-topo .at-ic{font-size:19px;line-height:1}
+.alerta-topo b{font-size:13.5px}
+.alerta-topo .at-lista{font-size:12.5px;margin-top:3px;line-height:1.55}
+.alerta-topo .at-lista a{color:var(--amber-ink);font-weight:600;text-decoration:underline}
+.alerta-topo .muted{color:var(--amber-ink)}
+
+/* Números com carga: verde/vermelho só onde há decisão a tomar. */
+.stat .n small{font-size:.5em;font-weight:700;margin-left:1px;opacity:.65}
+.stat .n-ok{color:var(--green-ink)}
+.stat .n-erro{color:var(--red-ink)}
+.stat .n-run{color:var(--blue)}
+
+/* Atividade por dia. Faixa e não gráfico: a pergunta é "rodou ou parou?", e a
+   altura relativa responde isso sem eixo, legenda ou biblioteca. */
+.faixa{display:flex;align-items:flex-end;gap:6px;height:70px}
+.faixa .fx-col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-end;gap:5px;height:100%;cursor:help}
+/* flex-shrink:0 é o que faz a altura inline valer. Sem ele o item flex trata
+   o height como base negociável e estica até encher a coluna — os dias SEM
+   execução, que deviam ser os menores traços, viravam as maiores barras. */
+.faixa .fx-b{width:100%;max-width:34px;border-radius:3px;background:var(--navy);
+  flex:0 0 auto;min-height:2px;transition:background .12s ease}
+.faixa .fx-col:hover .fx-b{background:var(--blue)}
+/* fx-zero, e nao .vazio: existe uma classe .vazio global (o estado vazio das
+   telas) com padding:56px — as barras herdavam 56+2+56 = 114px e os dias SEM
+   execucao viravam as MAIORES barras do grafico. */
+.faixa .fx-b.fx-zero{background:var(--line-strong)}
+.faixa small{font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* Duas colunas que viram uma só quando não cabem. */
+/* minmax(0,1fr), não 1fr: a coluna de grade tem largura mínima 'auto' por
+   padrão, então uma tabela larga empurra a célula em vez de encolher — era o
+   que fazia o nome da automação passar por baixo do painel vizinho e o
+   "ver logs" sumir na borda. */
+.dash-2col{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:16px;align-items:start}
+.dash-2col>.panel{min-width:0}
+@media (max-width:1100px){.dash-2col{grid-template-columns:1fr}}
+
+/* Nome longo de automação nas tabelas do dashboard: corta com reticências em
+   vez de alargar a tabela. O nome inteiro fica no title. */
+/* table-layout:fixed é o que faz max-width valer numa tabela: sem isso o
+   algoritmo automático dimensiona pelo conteúdo e ignora a largura da célula,
+   que era o que empurrava a tabela para fora do painel. */
+/* O .bd do dashboard já tem padding:0, então a compensação de margem negativa
+   de .panel .bd>table:only-child (feita para tabelas dentro de um bd com
+   padding) sobra e joga 36px para fora do painel. Aqui ela é anulada. */
+.dash-2col .bd>table:only-child{margin:0;width:100%}
+.dash-2col table{table-layout:fixed;width:100%}
+.dash-2col .tbl td:first-child{max-width:0;width:100%}
+.dash-2col .tbl .nm{display:block;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap}
+
+/* Card de envios do AutoMessenger (automacao.html). Volume x pessoas: as duas
+   contagens lado a lado, e o limite interno numa faixa própria — separado dos
+   números para não parecer uma regra externa. */
+.env-grade{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
+.env-n{font-size:24px;font-weight:800;color:var(--navy);line-height:1.1;font-variant-numeric:tabular-nums}
+.env-l{color:var(--ink2);font-size:12px;font-weight:600;margin-top:3px}
+.env-hoje{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;margin-top:12px;
+          padding:8px 10px;border-radius:8px;background:var(--surface-2);font-size:12.5px}
+.env-lim{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.env-barra{height:7px;border-radius:4px;background:var(--line);margin:7px 0 5px;overflow:hidden}
+.env-barra>div{height:100%;border-radius:4px}
+.lim-ok{background:var(--green,#2E9E6B)}
+.lim-alerta{background:var(--amber,#E0A030)}
+.lim-atingido{background:var(--red)}
+.env-sec{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink2);
+         font-weight:800;margin:6px 0 10px}
+
+/* Resumo da rodada (AutoMessenger): rótulo à esquerda, valor à direita, uma
+   linha por escolha. O valor quebra em várias linhas quando é uma lista de
+   arquivos — cortar o nome do arquivo derrotaria o propósito do painel. */
+.res-i{display:flex;gap:10px;justify-content:space-between;align-items:baseline;
+       padding:5px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+.res-i:last-of-type{border-bottom:0}
+.res-l{color:var(--ink2);white-space:nowrap}
+.res-v{font-weight:700;text-align:right;overflow-wrap:anywhere}
+.res-av{margin-top:8px;padding:7px 9px;border-radius:7px;background:var(--amber-soft);
+        color:var(--amber-ink);font-size:11.5px;line-height:1.45}
+
+
+/* Tempo economizado (dashboard e /economia). Barras horizontais porque o
+   rótulo é o nome da automação, longo demais para ficar embaixo de coluna. */
+a.stat.stat-link{text-decoration:none;display:block;transition:border-color .12s ease}
+a.stat.stat-link:hover{border-color:var(--hover-line)}
+.eco-topo{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;
+  margin-bottom:16px}
+.eco-topo>div{background:var(--surface-1);border:1px solid var(--line);border-radius:8px;
+  padding:10px 12px}
+.eco-topo b{display:block;font-size:20px;font-weight:800;color:var(--navy);
+  font-variant-numeric:tabular-nums}
+.eco-topo span{font-size:12px;color:var(--ink2);font-weight:600}
+.eco-barras{display:flex;flex-direction:column;gap:7px}
+.eco-linha{display:grid;grid-template-columns:minmax(0,38%) 1fr 78px;gap:10px;
+  align-items:center;text-decoration:none;color:var(--ink);font-size:13px}
+.eco-linha:hover .eco-b{background:var(--blue)}
+.eco-nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.eco-trilho{height:10px;background:var(--surface-sunken);border-radius:3px;overflow:hidden}
+.eco-b{display:block;height:100%;min-width:2px;background:var(--navy);border-radius:3px;
+  transition:background .12s ease}
+.eco-v{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink2)}
+.eco-tempo{width:72px;text-align:right}
+@media (max-width:640px){.eco-linha{grid-template-columns:1fr 64px}.eco-trilho{grid-column:1/-1;order:3}}

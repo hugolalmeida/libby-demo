@@ -1,0 +1,1070 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<script>
+  try{
+    if(localStorage.getItem('libby-tema')==='dark')
+      document.documentElement.setAttribute('data-theme','dark');
+  }catch(e){}  /* navegador com armazenamento bloqueado: segue no claro */
+</script>
+<title>Libby — Cálculo do DIFAL</title>
+
+
+
+
+<link rel="stylesheet" href="style.css">
+
+
+
+<style>
+.dif-op{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
+.dif-op .fld{margin-bottom:0}
+.dif-op .fld input:not([type=checkbox]){width:200px}
+.dif-op .fld:has(label.check){padding-bottom:8px}
+.dif-op .fld select{width:240px}
+.dif-dest td{padding:8px 12px}
+.dif-dest select{width:230px}
+.dif-dest input{width:110px;text-align:right}
+.dif-dest .regra{font-size:11.5px;color:var(--ink3);margin-left:6px;white-space:nowrap}
+.dif-comp td.num,.dif-comp th.num{text-align:right}
+.dif-comp td.num{white-space:nowrap}
+.dif-comp tr.menor td{background:var(--green-soft);color:var(--green-ink);font-weight:700}
+.dif-comp tr.menor td:first-child{box-shadow:inset 3px 0 0 var(--green)}
+.dif-tag{display:inline-block;font-size:10.5px;font-weight:800;border-radius:var(--r-pill);
+  padding:2px 8px;margin-left:6px;background:var(--green);color:var(--ink-inv);vertical-align:1px}
+.dif-obs{display:block;font-size:11.5px;font-weight:500;color:var(--ink3)}
+.dif-mem{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.dif-card{border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;background:var(--surface-1)}
+.dif-card.menor{border-color:var(--ok-line);background:var(--green-soft)}
+.dif-card h4{font-size:13px;color:var(--navy);margin:0 0 8px}
+.dif-card h4 small{font-weight:600;color:var(--ink3)}
+.dif-card dl{display:grid;grid-template-columns:1fr auto;gap:4px 12px;margin:0;font-size:13px}
+.dif-card dt{color:var(--ink2)}
+.dif-card dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+.dif-card dt.fim,.dif-card dd.fim{font-weight:800;color:var(--ink);border-top:1px solid var(--line);padding-top:5px}
+.dif-vazio{color:var(--ink2);font-size:13.5px;padding:6px 0}
+.dif-lerbox{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.dif-lerbox input[type=file]{max-width:420px}
+.dif-aliq{display:grid;grid-template-columns:3fr 2fr;gap:14px}
+.dif-aliq-box{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;min-width:0}
+.dif-aliq-box h4{font-size:12.5px;color:var(--navy);margin:0;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.dif-aliq-box .lista{max-height:330px;overflow:auto}
+.dif-aliq-box table td,.dif-aliq-box table th{padding:7px 12px}
+.dif-aliq-box td.uf{white-space:nowrap;font-weight:700}
+.dif-aliq-box td.orcs{font-size:12px;color:var(--ink2)}
+.dif-aliq-box td.val{white-space:nowrap;text-align:right}
+.dif-aliq-box th.num{text-align:right}
+.dif-aliq-box td.val input{width:84px;text-align:right;min-height:32px;padding:5px 9px}
+.dif-aliq-box .regra{display:block;font-size:11px;color:var(--ink3);margin-top:2px}
+.dif-aliq-box .hint{padding:8px 12px;margin:0;border-top:1px solid var(--line)}
+@media (max-width:820px){.dif-aliq{grid-template-columns:1fr}}
+#valor{font-variant-numeric:tabular-nums;text-align:right}
+.dif-salvar{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.dif-salvar .fld{margin:0;flex:1;min-width:220px}
+.dif-salvar .fld input{max-width:none;width:100%}
+.dif-salvas td{padding:9px 12px;font-size:13px}
+.dif-salvas td.num{text-align:right;white-space:nowrap}
+.dif-salvas th.num{text-align:right}
+.dif-salvas td.nome{font-weight:700;color:var(--navy)}
+.dif-salvas td.acoes{white-space:nowrap;text-align:right}
+.dif-salvas tr.atual td{background:var(--blue-soft)}
+.dif-orc>details>summary{cursor:pointer;list-style:none}
+.dif-orc>details>summary::-webkit-details-marker{display:none}
+.dif-orc>details>summary h3::before{content:'\25B8  ';color:var(--ink3)}
+.dif-orc>details[open]>summary h3::before{content:'\25BE  '}
+.dif-orc>details>summary .dif-resumo{margin-left:auto;font-size:12.5px;color:var(--ink2);font-weight:600;white-space:nowrap}
+.dif-itens td,.dif-itens th{padding:8px 9px}
+.dif-itens td{font-size:12.5px}
+.dif-itens td.num,.dif-itens th.num{text-align:right;white-space:nowrap}
+.dif-itens td.prod{min-width:220px}
+.dif-itens tr.tot td{background:var(--surface-2);font-weight:800}
+.dif-itens td.rota,.dif-comp td.orc{white-space:nowrap}
+/* A coluna principal do layout (.app) não tem min-width:0, então uma tabela
+   larga alargava a PÁGINA em vez de rolar dentro do painel. width:0 tira a
+   tabela da conta da largura mínima; min-width:100% devolve o espaço. */
+#pane-uma .rolar,#pane-lote .rolar{width:0;min-width:100%}
+@media (max-width:620px){
+  .dif-op .fld,.dif-op .fld input:not([type=checkbox]),.dif-op .fld select{width:100%}
+  .dif-dest select{width:150px}
+  .dif-dest input{width:80px}
+}
+</style>
+
+</head><body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="i-dash"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></g>
+<g id="i-auto"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9l-2.2 2.2M7.1 16.9l-2.2 2.2"/><circle cx="12" cy="12" r="4"/></g>
+<g id="i-exec"><path d="M3 12h4l2-6 4 12 2-6h6"/></g>
+<g id="i-relat"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></g>
+<g id="i-agenda"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></g>
+<g id="i-emp"><path d="M3 21h18M5 21V6l7-3 7 3v15M10 10h1M13 10h1M10 14h1M13 14h1"/></g>
+<g id="i-ciclos"><path d="M21 12a9 9 0 1 1-3.2-6.9"/><path d="M21 3v5h-5"/><path d="M12 8v4.4l2.8 1.6"/></g>
+<g id="i-ponto"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g>
+<g id="i-fgts"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></g>
+<g id="i-guias"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14.5 2 2 4-4"/></g>
+<g id="i-taxa"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2"/></g>
+<g id="i-dirf"><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-4"/><path d="M8 8h4M8 12h3"/><circle cx="17" cy="8" r="4"/><path d="m20.5 11.5 1.5 1.5"/></g>
+<g id="i-pdf"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 14h6M9 17h4"/></g>
+<g id="i-calc"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 11h2M14 11h2M8 15h2M14 15h2M8 19h2M14 19h2"/></g>
+
+<g id="i-melius"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4.5-5"/><circle cx="12" cy="18" r="1.2"/></g>
+<g id="i-post"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><circle cx="12" cy="15" r="2.2"/></g>
+<g id="i-cob"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></g>
+<g id="i-msg"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-4-.9L3 21l1.9-4.7A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></g>
+<g id="i-envio"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></g>
+<g id="i-sol"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.8v2.4M12 19.8v2.4M4.2 12H1.8M22.2 12h-2.4M6.3 6.3 4.6 4.6M19.4 19.4l-1.7-1.7M17.7 6.3l1.7-1.7M4.6 19.4l1.7-1.7"/></g>
+<g id="i-lua"><path d="M20.5 14.2A8.6 8.6 0 0 1 9.8 3.5a8.6 8.6 0 1 0 10.7 10.7z"/></g>
+<g id="i-cfg"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></g>
+</defs></svg>
+
+
+
+
+<div class="app">
+<aside class="side">
+  <div class="brand">
+    <img class="logo" src="logo-libby.png" alt="" width="34" height="34">
+    <div><b>Libby</b><small>Escritório Demo</small></div></div>
+  <nav class="nav" aria-label="Menu principal">
+
+    
+    <div class="grp">Acompanhar</div>
+    
+<a href="dashboard.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-dash"/></svg>
+  <span>Dashboard</span></a>
+
+    
+<a href="execucoes.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-exec"/></svg>
+  <span>Execuções</span></a>
+
+    
+<a href="ciclos.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-ciclos"/></svg>
+  <span>Ciclos</span></a>
+
+    
+<a href="relatorios.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-relat"/></svg>
+  <span>Relatórios</span></a>
+
+
+    
+    
+    <div class="grp">Rotinas</div>
+    
+<a href="fponto.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-ponto"/></svg>
+  <span>Folha de Ponto</span></a>
+
+    
+<a href="fgts.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-fgts"/></svg>
+  <span>FGTS</span></a>
+
+    
+    
+    
+<a href="darf-fgts.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-guias"/></svg>
+  <span>Guias DARF/FGTS</span></a>
+
+    
+    
+<a href="taxas.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-taxa"/></svg>
+  <span>Taxa Assistencial</span></a>
+
+    
+<a href="dirf.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-dirf"/></svg>
+  <span>DIRF</span></a>
+
+    
+<a href="editor-pdf.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-pdf"/></svg>
+  <span>Editor de PDF</span></a>
+
+    
+<a href="calculo-difal.html" class="active" aria-current="page"
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-calc"/></svg>
+  <span>Cálculo do DIFAL</span></a>
+
+    
+    
+<a href="#" data-demo-fora="/controle-melius" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-melius"/></svg>
+  <span>Controle Melius</span></a>
+
+    
+<a href="automacoes.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-auto"/></svg>
+  <span>Automações</span></a>
+
+    
+<a href="#" data-demo-fora="/postagens" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-post"/></svg>
+  <span>Programação de posts</span></a>
+
+    
+
+    
+    <div class="grp">Clientes</div>
+    
+<a href="cobranca.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-cob"/></svg>
+  <span>Cobrança</span></a>
+
+    
+    
+<a href="automacao-automessenger-one.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-envio"/></svg>
+  <span>AutoMessenger</span></a>
+
+    
+<a href="#" data-demo-fora="/mensagens" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-msg"/></svg>
+  <span>Mensagens</span></a>
+
+    
+
+    
+    <div class="grp">Administração</div>
+    
+<a href="agendamentos.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-agenda"/></svg>
+  <span>Agendamentos</span></a>
+
+    
+<a href="empresas.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-emp"/></svg>
+  <span>Empresas</span></a>
+
+    
+<a href="#" data-demo-fora="/config" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-cfg"/></svg>
+  <span>Configurações</span></a>
+
+    
+  </nav>
+</aside>
+
+<div>
+
+<div class="top">
+  <div class="tt">Cálculo do DIFAL</div>
+  <div class="sp"></div>
+
+  
+  <button type="button" class="tema-bt" id="temaBt" onclick="trocaTema()"
+          title="Alternar entre o tema claro e o escuro" aria-pressed="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-lua"/></svg>
+    <span>Tema escuro</span>
+  </button>
+
+  
+  <div class="who">
+    <div class="av">V</div>
+    <div><b>Visitante</b><span>admin</span></div>
+    <a href="#" data-demo-fora="/logout" title="Encerrar a sessão">Sair</a>
+  </div>
+  
+</div>
+<div class="content">
+
+
+
+
+<div class="pagehd">
+  <div class="sp">
+    <h1>Cálculo do DIFAL</h1>
+    <div class="sub">Base Dupla ("por dentro"), Regime Normal. Compare estados para uma operação, ou
+      envie a planilha de orçamentos inteira
+      — o menor custo tributário aparece em destaque.</div>
+  </div>
+  <div class="acts" id="actsUma">
+    <button class="btn" type="button" id="btLimpar">Limpar</button>
+    <button class="btn gr" type="button" id="btExcel" disabled>⬇ Baixar Excel</button>
+  </div>
+</div>
+
+
+<div class="abas" role="tablist">
+  <button class="aba ativa" type="button" data-aba="uma" role="tab">Uma operação</button>
+  <button class="aba" type="button" data-aba="lote" role="tab">Planilha de orçamentos</button>
+</div>
+
+
+<div id="pane-uma">
+<div class="panel">
+  <div class="hd"><h3>Operação</h3><span class="dif-resumo" id="opAtual" style="margin-left:auto;font-size:12.5px;color:var(--ink2)"></span></div>
+  <div class="bd">
+    <div class="dif-op">
+      <div class="fld">
+        <label for="valor">Valor da operação (R$)</label>
+        <input id="valor" inputmode="numeric" placeholder="0,00" autocomplete="off">
+      </div>
+      <div class="fld">
+        <label for="origem">UF de origem</label>
+        <select id="origem">
+          <option value="">— não informada (12%) —</option>
+          <option value="AC">AC — Acre</option><option value="AL">AL — Alagoas</option><option value="AM">AM — Amazonas</option><option value="AP">AP — Amapá</option><option value="BA">BA — Bahia</option><option value="CE">CE — Ceará</option><option value="DF">DF — Distrito Federal</option><option value="ES">ES — Espírito Santo</option><option value="GO">GO — Goiás</option><option value="MA">MA — Maranhão</option><option value="MG">MG — Minas Gerais</option><option value="MS">MS — Mato Grosso do Sul</option><option value="MT">MT — Mato Grosso</option><option value="PA">PA — Pará</option><option value="PB">PB — Paraíba</option><option value="PE">PE — Pernambuco</option><option value="PI">PI — Piauí</option><option value="PR">PR — Paraná</option><option value="RJ">RJ — Rio de Janeiro</option><option value="RN">RN — Rio Grande do Norte</option><option value="RO">RO — Rondônia</option><option value="RR">RR — Roraima</option><option value="RS">RS — Rio Grande do Sul</option><option value="SC">SC — Santa Catarina</option><option value="SE">SE — Sergipe</option><option value="SP">SP — São Paulo</option><option value="TO">TO — Tocantins</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label class="check"><input type="checkbox" id="importado"><span>Mercadoria importada (4%)</span></label>
+      </div>
+    </div>
+    <div class="hint" style="margin-top:10px">Digite só os números do valor, sem vírgula nem ponto: os dois
+      últimos são os centavos, como no banco (1000000 vira 10.000,00). Colar um valor do Excel também funciona.
+      O valor inclui frete, seguro e outras despesas acessórias.
+      A UF de origem serve para sugerir a interestadual de cada destino: 7% de S/SE (exceto ES) para
+      N/NE/CO e ES, 12% nos demais pares, 4% para importado. A sugestão pode ser trocada em cada linha.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="hd"><h3>Estados de destino</h3></div>
+  <div class="rolar">
+    <table class="dif-dest">
+      <thead><tr><th>Estado</th><th>Alíquota interna (%)</th><th>Interestadual (%)</th><th></th></tr></thead>
+      <tbody id="linhas"></tbody>
+    </table>
+  </div>
+  <div class="bd" style="padding-top:10px">
+    <button class="btn sm" type="button" id="btMais">+ Adicionar estado</button>
+    <div class="hint">Alíquota interna com o adicional de combate à pobreza (FECP/FECOEP), se houver —
+      ex.: 22 no RJ. A página não tem tabela de alíquotas: vale o que você digitar.
+      Interestadual em branco = a sugerida, mostrada em cinza.</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="hd"><h3>Comparativo — Base Recomposta x DIFAL</h3></div>
+  <div class="bd" id="resultado"><div class="dif-vazio">Preencha o valor e pelo menos um estado.</div></div>
+</div>
+
+<div class="panel" id="pMem" style="display:none">
+  <div class="hd"><h3>Memória de cálculo</h3></div>
+  <div class="bd"><div class="dif-mem" id="memoria"></div></div>
+</div>
+
+<!-- No FIM de propósito: depois de conferir o comparativo e a memória, a
+     pessoa chega aqui e vê que pode guardar esta operação e baixar todas. -->
+<div class="panel" id="pSalvas">
+  <div class="hd"><h3>Operações salvas <span id="qtSalvas" class="muted" style="font-weight:600"></span></h3>
+    <div style="margin-left:auto;display:flex;gap:8px">
+      <button class="btn pri sm" type="button" id="btSalvar" disabled>Salvar esta operação</button>
+      <button class="btn gr sm" type="button" id="btExcelSalvas" disabled>⬇ Excel de todas</button>
+    </div></div>
+  <div id="barraSalvar" style="display:none;border-bottom:1px solid var(--line)">
+    <div class="bd">
+      <div class="dif-salvar">
+        <div class="fld">
+          <label for="nomeOp">Nome da operação</label>
+          <input id="nomeOp" maxlength="80" autocomplete="off" placeholder="ex.: Orçamento Cisco — ES">
+        </div>
+        <button class="btn pri" type="button" id="btConfSalvar">Salvar</button>
+        <button class="btn" type="button" id="btCancSalvar">Cancelar</button>
+      </div>
+      <div class="hint">Salvar com o nome de uma operação que já existe substitui aquela.</div>
+    </div>
+  </div>
+  <div id="listaSalvas"></div>
+  <div class="bd" style="padding-top:8px"><div class="hint" style="margin:0">Ficam guardadas neste navegador.
+    O Excel junta todas: um resumo com uma linha por operação e o detalhe de cada estado.</div></div>
+</div>
+</div>
+
+
+<div id="pane-lote" style="display:none">
+<div class="panel">
+  <div class="hd"><h3>Planilha de orçamentos</h3></div>
+  <div class="bd">
+    <div class="dif-lerbox">
+      <input type="file" id="arqLote" accept=".xlsx" aria-label="Planilha de orçamentos (.xlsx)">
+      <span class="muted" style="font-size:12.5px">ou</span>
+      <button class="btn sm" type="button" id="btMostraColar">Colar do Excel</button>
+    </div>
+    <div id="caixaColar" style="display:none;margin-top:10px">
+      <textarea id="txtLote" rows="6" placeholder="Copie as linhas no Excel (com a linha de cabeçalho) e cole aqui"></textarea>
+      <button class="btn sm" type="button" id="btLerColado" style="margin-top:6px">Ler o texto colado</button>
+    </div>
+    <div class="hint">Cada linha de cabeçalho (NCM, Produto, IPI, Origem, Destino, Valor) abre um
+      orçamento novo — do jeito que os blocos ficam um embaixo do outro na planilha. As alíquotas não vêm
+      da planilha: você informa abaixo a interestadual de cada rota e a interna de cada destino (a coluna
+      ICMS, se houver, é ignorada). Sem coluna de quantidade, cada linha conta como uma unidade.
+      A planilha é só lida: nada fica gravado na Libby.</div>
+    <div id="lidoLote" style="margin-top:12px"></div>
+  </div>
+</div>
+
+<div class="panel" id="pParam" style="display:none">
+  <div class="hd"><h3>Parâmetros</h3></div>
+  <div class="bd">
+    <div class="dif-aliq">
+      <div class="dif-aliq-box">
+        <h4>Interestadual por rota (origem → destino)</h4>
+        <div class="lista"><table><thead><tr><th>Rota</th><th>Orçamentos</th><th class="num">Alíquota (%)</th></tr></thead>
+          <tbody id="rotasLote"></tbody></table></div>
+        <div class="hint">Uma vez por rota, vale para todos os orçamentos dela. A regra geral aparece
+          embaixo de cada campo, só como lembrete — o número que vale é o que você digita.</div>
+      </div>
+      <div class="dif-aliq-box">
+        <h4>Interna por estado de destino</h4>
+        <div class="lista"><table><thead><tr><th>Destino</th><th class="num">Alíquota (%)</th></tr></thead>
+          <tbody id="internas"></tbody></table></div>
+        <div class="hint">Com o adicional de combate à pobreza (FECP/FECOEP), se houver.</div>
+      </div>
+    </div>
+    <div class="hint" style="margin-top:8px">As alíquotas ficam lembradas neste navegador por rota e por
+      estado: na próxima planilha com a mesma rota, o número já vem preenchido.</div>
+    <div class="fld" style="margin:14px 0 0">
+      <label class="check"><input type="checkbox" id="ipiLote" checked><span>Somar o IPI ao valor da operação</span></label>
+      <div class="hint">No DIFAL de uso e consumo ou ativo imobilizado o IPI entra na base do ICMS, e o valor
+        unitário de orçamento costuma vir sem ele. Desligue se o valor da planilha já inclui o IPI.</div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="pCompLote" style="display:none">
+  <div class="hd"><h3>Comparativo dos orçamentos</h3>
+    <button class="btn gr sm" type="button" id="btExcelLote" disabled style="margin-left:auto">⬇ Baixar Excel</button></div>
+  <div class="bd" id="resLote"></div>
+  <div class="bd" style="padding-top:0"><div class="hint" style="margin:0"><b>DIFAL / valor</b> é a carga do
+    DIFAL sobre o valor da operação — é por ela que o ranking compara, porque os orçamentos têm valores
+    diferentes. <b>Diferença para a menor carga</b> é quantos pontos percentuais o orçamento fica acima da menor.
+    Cada linha soma todos os itens do orçamento. O Excel traz também o IPI em reais e o ICMS de origem e do
+    destino de cada item.</div></div>
+</div>
+<div id="orcsLote"></div>
+</div>
+
+
+<script>
+(function(){
+var UFS = {"AC": "Acre", "AL": "Alagoas", "AM": "Amazonas", "AP": "Amap\u00e1", "BA": "Bahia", "CE": "Cear\u00e1", "DF": "Distrito Federal", "ES": "Esp\u00edrito Santo", "GO": "Goi\u00e1s", "MA": "Maranh\u00e3o", "MG": "Minas Gerais", "MS": "Mato Grosso do Sul", "MT": "Mato Grosso", "PA": "Par\u00e1", "PB": "Para\u00edba", "PE": "Pernambuco", "PI": "Piau\u00ed", "PR": "Paran\u00e1", "RJ": "Rio de Janeiro", "RN": "Rio Grande do Norte", "RO": "Rond\u00f4nia", "RR": "Roraima", "RS": "Rio Grande do Sul", "SC": "Santa Catarina", "SE": "Sergipe", "SP": "S\u00e3o Paulo", "TO": "Tocantins"};
+var SUL_SUDESTE = ["MG", "PR", "RJ", "RS", "SC", "SP"];
+var DESTINO_7 = ["AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MS", "MT", "PA", "PB", "PE", "PI", "RN", "RO", "RR", "SE", "TO"];
+
+var API = "/calculo-difal";
+var CHAVE = "libby_calculo_difal";
+var $ = function(id){ return document.getElementById(id); };
+
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+// Só para MOSTRAR a sugestão enquanto se digita. Quem decide é o servidor
+// (difal.interestadual_sugerida), que recebe a interestadual em branco.
+function sugerida(destino){
+  if ($('importado').checked) return 4;
+  var o = $('origem').value;
+  if (SUL_SUDESTE.indexOf(o) >= 0 && DESTINO_7.indexOf(destino) >= 0) return 7;
+  return 12;
+}
+
+function opcoesUf(sel){
+  var h = '<option value="">— escolha —</option>';
+  Object.keys(UFS).sort().forEach(function(uf){
+    h += '<option value="' + uf + '"' + (uf === sel ? ' selected' : '') + '>' + uf + ' — ' + esc(UFS[uf]) + '</option>';
+  });
+  return h;
+}
+
+function novaLinha(d){
+  d = d || {};
+  var tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td><select class="uf" aria-label="Estado de destino">' + opcoesUf(d.uf || '') + '</select></td>' +
+    '<td><input class="interna" inputmode="decimal" placeholder="18" aria-label="Alíquota interna" value="' + esc(d.interna || '') + '"></td>' +
+    '<td><input class="inter" inputmode="decimal" aria-label="Interestadual" value="' + esc(d.interestadual || '') + '"><span class="regra"></span></td>' +
+    '<td><button type="button" class="btn sm perigo tira" title="Tirar este estado" aria-label="Tirar este estado">✕</button></td>';
+  $('linhas').appendChild(tr);
+  atualizaSugestoes();
+  return tr;
+}
+
+function atualizaSugestoes(){
+  Array.prototype.forEach.call($('linhas').rows, function(tr){
+    var uf = tr.querySelector('.uf').value;
+    var s = sugerida(uf);
+    var inter = tr.querySelector('.inter');
+    inter.placeholder = String(s);
+    var v = inter.value.trim().replace(',', '.');
+    tr.querySelector('.regra').textContent = (v && uf && parseFloat(v) !== s) ? 'regra: ' + s + '%' : '';
+  });
+}
+
+function dados(){
+  return {
+    valor: $('valor').value, origem: $('origem').value, importado: $('importado').checked,
+    destinos: Array.prototype.map.call($('linhas').rows, function(tr){
+      return {uf: tr.querySelector('.uf').value, interna: tr.querySelector('.interna').value,
+              interestadual: tr.querySelector('.inter').value};
+    })
+  };
+}
+
+// ===== Valor no estilo banco =====
+// Quem digita não pensa em vírgula nem ponto: só números, e os dois últimos
+// são os centavos (1-0-0-0-0-0-0 = 10.000,00). Apagar tira o último dígito.
+// O servidor continua recebendo '10.000,00', que o numero_br já entende.
+function fmtCentavos(c){
+  var r = String(Math.floor(c / 100)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  return r + ',' + String(c % 100).padStart(2, '0');
+}
+function mascaraValor(){
+  var dig = $('valor').value.replace(/\D/g, '').replace(/^0+/, '').slice(0, 15);
+  $('valor').value = dig ? fmtCentavos(parseInt(dig, 10)) : '';
+}
+// Texto com separador ou colado do Excel é um VALOR em reais ('52.932,57',
+// '10000'), não uma sequência de dígitos de banco. Mesma regra do numero_br.
+function reaisParaCampo(txt){
+  var t = String(txt || '').replace(/[^\d,.\-]/g, '');
+  if (!/\d/.test(t)) return '';
+  if (t.indexOf(',') >= 0 && t.indexOf('.') >= 0){
+    t = t.lastIndexOf(',') > t.lastIndexOf('.') ? t.replace(/\./g, '').replace(',', '.') : t.replace(/,/g, '');
+  } else if (t.indexOf(',') >= 0){
+    t = t.replace(/\./g, '').replace(',', '.');
+  } else if (t.indexOf('.') >= 0 && t.split('.').pop().length === 3){
+    t = t.replace(/\./g, '');
+  }
+  var v = parseFloat(t);
+  return (isNaN(v) || v <= 0) ? '' : fmtCentavos(Math.round(v * 100));
+}
+
+function guarda(d){ try { localStorage.setItem(CHAVE, JSON.stringify(d)); } catch(e){} }
+function recupera(){ try { return JSON.parse(localStorage.getItem(CHAVE) || 'null'); } catch(e){ return null; } }
+
+var timer = null, seq = 0, ultimoOk = false, ultimoRes = null;
+function agenda(){ clearTimeout(timer); timer = setTimeout(calcula, 250); }
+
+function calcula(){
+  var d = dados(), meu = ++seq;
+  guarda(d);
+  fetch(API + '/calcular', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(d)})
+    .then(function(r){
+      // Na Área do Cliente o servidor explica a recusa (link trocado, muitas
+      // consultas seguidas): mostrar isso, e não um "HTTP 429" sem sentido.
+      if (!r.ok) return r.json().catch(function(){ return {}; })
+        .then(function(j){ throw new Error(j.erro || ('HTTP ' + r.status)); });
+      return r.json();
+    })
+    .then(function(r){ if (meu === seq) mostra(r); })      // resposta velha não pisa na nova
+    .catch(function(e){
+      if (meu !== seq) return;
+      ultimoOk = false; $('btExcel').disabled = true;
+      $('resultado').innerHTML = '<div class="aviso erro">Não consegui calcular agora (' + esc(e.message) + '). Tente de novo.</div>';
+    });
+}
+
+function mostra(r){
+  ultimoOk = r.ok; ultimoRes = r;
+  $('btExcel').disabled = !r.ok;
+  $('btSalvar').disabled = !r.ok;
+  var h = '';
+  if (r.ok){
+    h += '<div class="aviso ok" style="font-weight:600">' + esc(r.conclusao) + '</div>';
+    h += '<div class="rolar"><table class="tbl dif-comp"><thead><tr>' +
+         '<th>Estado</th><th class="num">Interest.</th><th class="num">Interna</th>' +
+         '<th class="num">ICMS de origem</th><th class="num">Base Recomposta</th>' +
+         '<th class="num">ICMS do destino</th><th class="num">DIFAL a recolher</th>' +
+         '<th class="num">Ranking</th><th class="num">Diferença para o menor DIFAL</th></tr></thead><tbody>';
+    r.cenarios.forEach(function(c){
+      var obs = [];
+      if (c.sem_difal) obs.push('interna ≤ interestadual: não há DIFAL');
+      if (c.fora_da_regra) obs.push('interestadual digitada; a regra daria ' + c.sugerida);
+      h += '<tr' + (c.menor ? ' class="menor"' : '') + '>' +
+           '<td>' + esc(c.rotulo) + (c.menor ? '<span class="dif-tag">MENOR</span>' : '') +
+             '<span class="dif-obs">' + esc(c.nome_uf) + (obs.length ? ' · ' + esc(obs.join(' · ')) : '') + '</span></td>' +
+           '<td class="num">' + esc(c.interestadual) + '</td><td class="num">' + esc(c.interna) + '</td>' +
+           '<td class="num">' + esc(c.icms_origem) + '</td><td class="num">' + esc(c.base_dupla) + '</td>' +
+           '<td class="num">' + esc(c.icms_destino) + '</td><td class="num"><b>' + esc(c.difal) + '</b></td>' +
+           '<td class="num">' + c.ranking + 'º</td><td class="num">' + (c.menor ? '—' : esc(c.a_mais)) + '</td></tr>';
+    });
+    h += '</tbody></table></div>';
+  } else if (!r.erros.length){
+    h += '<div class="dif-vazio">' + esc(r.conclusao || 'Preencha o valor e pelo menos um estado.') + '</div>';
+  }
+  if (r.erros.length){
+    h += '<div class="aviso atencao" style="margin:' + (r.ok ? '14px' : '0') + ' 0 0">' +
+         (r.ok ? '<b>Fora do comparativo:</b><br>' : '') +
+         r.erros.map(esc).join('<br>') + '</div>';
+  }
+  $('resultado').innerHTML = h;
+
+  // Memória de cálculo no formato do pedido original, um cartão por estado.
+  var m = '';
+  r.cenarios.forEach(function(c){
+    m += '<div class="dif-card' + (c.menor ? ' menor' : '') + '"><h4>' + esc(c.rotulo) +
+         ' <small>· interestadual ' + esc(c.interestadual) + ' · interna ' + esc(c.interna) + '</small></h4><dl>' +
+         '<dt>Valor da Operação</dt><dd>' + esc(c.valor_operacao) + '</dd>' +
+         '<dt>ICMS de Origem Retido</dt><dd>' + esc(c.icms_origem) + '</dd>' +
+         '<dt>Base Líquida</dt><dd>' + esc(c.base_liquida) + '</dd>' +
+         '<dt>Base de Cálculo Recomposta (Base Dupla)</dt><dd>' + esc(c.base_dupla) + '</dd>' +
+         '<dt>ICMS Total do Destino</dt><dd>' + esc(c.icms_destino) + '</dd>' +
+         '<dt class="fim">VALOR DO DIFAL A RECOLHER</dt><dd class="fim">' + esc(c.difal) + '</dd></dl></div>';
+  });
+  $('memoria').innerHTML = m;
+  $('pMem').style.display = m ? '' : 'none';
+}
+
+function baixar(url, payload, bt, pode){
+  bt.disabled = true;
+  fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)})
+    .then(function(r){
+      if (!r.ok) return r.json().then(function(j){ throw new Error(j.erro || ('HTTP ' + r.status)); });
+      var nome = (/filename="([^"]+)"/.exec(r.headers.get('Content-Disposition') || '') || [])[1] || 'calculo_difal.xlsx';
+      return r.blob().then(function(b){
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(b); a.download = nome;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
+      });
+    })
+    .catch(function(e){ alert('Não consegui gerar o Excel: ' + e.message); })
+    .then(function(){ bt.disabled = !pode(); });
+}
+function baixaExcel(){
+  if (ultimoOk) baixar(API + '/excel', dados(), $('btExcel'), function(){ return ultimoOk; });
+}
+
+
+// ===== Planilha de orçamentos =====
+// Os itens lidos ficam só aqui na página e voltam ao servidor a cada
+// recálculo — o servidor não guarda a planilha do cliente.
+var CHAVE_LOTE = 'libby_calculo_difal_lote';
+var itensLote = [], loteOk = false, seqLote = 0, timerLote = null;
+
+function prefsLote(){ try { return JSON.parse(localStorage.getItem(CHAVE_LOTE) || '{}') || {}; } catch(e){ return {}; } }
+function guardaPrefs(){
+  var p = prefsLote(); p.internas = p.internas || {}; p.inter = p.inter || {};
+  document.querySelectorAll('#internas input').forEach(function(i){ p.internas[i.dataset.uf] = i.value; });
+  document.querySelectorAll('#rotasLote input').forEach(function(i){ p.inter[i.dataset.rota] = i.value; });
+  p.ipi = $('ipiLote').checked;
+  try { localStorage.setItem(CHAVE_LOTE, JSON.stringify(p)); } catch(e){}
+}
+
+function lerLote(fd, origem){
+  $('lidoLote').innerHTML = '<div class="dif-vazio">Lendo…</div>';
+  fetch(API + '/lote/ler', {method:'POST', body: fd})
+    .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(r){
+      itensLote = r.itens;
+      var orcs = {}; r.itens.forEach(function(i){ orcs[i.orc] = 1; });
+      var h = r.itens.length
+        ? '<div class="aviso info" style="margin:0">' + r.itens.length + ' item(ns) em ' + Object.keys(orcs).length +
+          ' orçamento(s) lidos de ' + esc(origem) + '.</div>' : '';
+      if (r.erros.length) h += '<div class="aviso atencao" style="margin:' + (h ? '10px' : '0') + ' 0 0">' +
+                               r.erros.map(esc).join('<br>') + '</div>';
+      $('lidoLote').innerHTML = h;
+      montaAliquotas();
+      $('pParam').style.display = itensLote.length ? '' : 'none';
+      $('pCompLote').style.display = itensLote.length ? '' : 'none';
+      calcLote();
+    })
+    .catch(function(e){ $('lidoLote').innerHTML = '<div class="aviso erro" style="margin:0">Não consegui ler (' + esc(e.message) + ').</div>'; });
+}
+
+// Regra geral da interestadual para o par — só o LEMBRETE embaixo do campo.
+function regra(o, d){ return (SUL_SUDESTE.indexOf(o) >= 0 && DESTINO_7.indexOf(d) >= 0) ? 7 : 12; }
+
+function listaOrcs(ns){
+  ns = ns.sort(function(a, b){ return a - b; });
+  return ns.length <= 6 ? ns.join(', ') : ns.slice(0, 5).join(', ') + ' e mais ' + (ns.length - 5);
+}
+
+// As rotas e os destinos saem da própria planilha: ninguém cadastra estado à
+// mão, e uma rota nova (MG -> RJ) aparece sozinha quando a planilha a traz.
+function montaAliquotas(){
+  var p = prefsLote(), salvasI = p.inter || {}, salvasN = p.internas || {};
+  if (typeof p.ipi === 'boolean') $('ipiLote').checked = p.ipi;
+  var rotas = {}, dests = {};
+  itensLote.forEach(function(i){
+    if (i.origem === i.destino) return;               // operação interna: sem DIFAL
+    var k = i.origem + '>' + i.destino;
+    (rotas[k] = rotas[k] || {o: i.origem, d: i.destino, orcs: {}}).orcs[i.orc] = 1;
+    dests[i.destino] = 1;
+  });
+  $('rotasLote').innerHTML = Object.keys(rotas).sort().map(function(k){
+    var r = rotas[k], ns = Object.keys(r.orcs).map(Number);
+    return '<tr><td class="uf">' + r.o + ' → ' + r.d + '</td>' +
+           '<td class="orcs">' + (ns.length === 1 ? 'Orçamento ' : 'Orçamentos ') + listaOrcs(ns) + '</td>' +
+           '<td class="val"><input data-rota="' + k + '" inputmode="decimal" aria-label="Interestadual ' + r.o + ' para ' + r.d +
+           '" value="' + esc(salvasI[k] || '') + '"><span class="regra">regra: ' + regra(r.o, r.d) + '% · importado: 4%</span></td></tr>';
+  }).join('') || '<tr><td colspan="3" class="orcs">Nenhuma rota entre estados diferentes.</td></tr>';
+  $('internas').innerHTML = Object.keys(dests).sort().map(function(uf){
+    return '<tr><td class="uf">' + uf + ' <span class="orcs" style="font-weight:500">' + esc(UFS[uf] || '') + '</span></td>' +
+           '<td class="val"><input data-uf="' + uf + '" inputmode="decimal" placeholder="ex.: 22" aria-label="Interna de ' + uf +
+           '" value="' + esc(salvasN[uf] || '') + '"></td></tr>';
+  }).join('') || '<tr><td colspan="2" class="orcs">—</td></tr>';
+}
+
+function dadosLote(){
+  var internas = {}, inter = {};
+  document.querySelectorAll('#internas input').forEach(function(i){ internas[i.dataset.uf] = i.value; });
+  document.querySelectorAll('#rotasLote input').forEach(function(i){ inter[i.dataset.rota] = i.value; });
+  return {itens: itensLote, interestaduais: inter, internas: internas, incluir_ipi: $('ipiLote').checked};
+}
+
+function agendaLote(){ clearTimeout(timerLote); timerLote = setTimeout(calcLote, 250); }
+
+function calcLote(){
+  if (!itensLote.length){
+    loteOk = false; $('btExcelLote').disabled = true; $('resLote').innerHTML = ''; $('orcsLote').innerHTML = '';
+    return;
+  }
+  guardaPrefs();
+  var meu = ++seqLote;
+  fetch(API + '/lote/calcular', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(dadosLote())})
+    .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(r){ if (meu === seqLote) mostraLote(r); })
+    .catch(function(e){
+      if (meu !== seqLote) return;
+      loteOk = false; $('btExcelLote').disabled = true;
+      $('resLote').innerHTML = '<div class="aviso erro">Não consegui calcular agora (' + esc(e.message) + ').</div>';
+    });
+}
+
+function mostraLote(r){
+  loteOk = r.ok; $('btExcelLote').disabled = !r.ok;
+  var h = '<div class="aviso ' + (r.ok ? 'ok' : 'atencao') + '" style="font-weight:600">' + esc(r.conclusao) + '</div>';
+  if (r.erros.length) h += '<div class="aviso atencao">' + r.erros.map(esc).join('<br>') + '</div>';
+  if (r.ok){
+    h += '<div class="rolar"><table class="tbl dif-comp"><thead><tr><th>Orçamento</th><th class="num">Itens</th>' +
+         '<th>Origem</th><th class="num">Valor da operação</th>' +
+         '<th class="num">ICMS de origem</th><th class="num">Base Recomposta</th>' +
+         '<th class="num">DIFAL a recolher</th><th class="num">DIFAL / valor</th><th class="num">Ranking</th>' +
+         '<th class="num">Diferença para a menor carga</th></tr></thead><tbody>';
+    r.orcamentos.forEach(function(o){
+      var t = o.tot;
+      h += '<tr' + (o.menor ? ' class="menor"' : '') + '><td class="orc">Orçamento ' + o.n + (o.menor ? '<span class="dif-tag">MENOR</span>' : '') +
+           '<span class="dif-obs">' + esc(o.faixa) + '</span></td><td class="num">' + o.qt + '</td><td>' + esc(o.origens) + '</td>' +
+           '<td class="num">' + esc(t.operacao) + '</td>' +
+           '<td class="num">' + esc(t.icms_origem) + '</td><td class="num">' + esc(t.base_dupla) + '</td>' +
+           '<td class="num">' + esc(t.difal) + '</td><td class="num"><b>' + esc(o.carga) + '</b></td>' +
+           '<td class="num">' + o.ranking + 'º</td><td class="num">' + (o.menor ? '—' : esc(o.dif_pp)) + '</td></tr>';
+    });
+    h += '</tbody></table></div>';
+  }
+  $('resLote').innerHTML = h;
+
+  // Um painel por orçamento, com cada item. Mantém aberto o que a pessoa abriu.
+  var abertos = {};
+  document.querySelectorAll('#orcsLote details').forEach(function(d){ abertos[d.dataset.n] = d.open; });
+  var q = r.tem_qtd;
+  $('orcsLote').innerHTML = r.orcamentos.map(function(o){
+    var t = o.tot, aberto = (o.n in abertos) ? abertos[o.n] : r.orcamentos.length <= 3;
+    var linhas = o.itens.map(function(i){
+      return '<tr><td class="prod">' + esc(i.produto || '—') + '<span class="dif-obs">' +
+             (i.ncm ? 'NCM ' + esc(i.ncm) + ' · ' : '') + esc(i.onde) + (i.obs ? ' · ' + esc(i.obs) : '') + '</span></td>' +
+             '<td class="rota">' + esc(i.rota) + '</td><td class="num">' + esc(i.icms) + '</td><td class="num">' + esc(i.interna) + '</td>' +
+             '<td class="num">' + esc(i.ipi) + '</td>' +
+             (q ? '<td class="num">' + esc(i.qtd) + '</td><td class="num">' + esc(i.valor_unit) + '</td>' : '') +
+             '<td class="num">' + esc(i.valor) + '</td>' +
+             '<td class="num">' + esc(i.operacao) + '</td><td class="num">' + esc(i.base_dupla) + '</td>' +
+             '<td class="num"><b>' + esc(i.difal) + '</b></td></tr>';
+    }).join('');
+    return '<div class="panel dif-orc"><details data-n="' + o.n + '"' + (aberto ? ' open' : '') + '>' +
+      '<summary class="hd"><h3>Orçamento ' + o.n + (o.menor && r.ok ? '<span class="dif-tag">MENOR</span>' : '') + '</h3>' +
+      '<span class="dif-resumo">' + esc(o.faixa) + ' · ' + o.qt + ' item(ns) · DIFAL ' + esc(t.difal) + '</span></summary>' +
+      '<div class="rolar"><table class="dif-itens"><thead><tr><th>Produto</th><th>Rota</th><th class="num">Interest.</th>' +
+      '<th class="num">Interna</th><th class="num">IPI</th>' + (q ? '<th class="num">Qtd</th><th class="num">Valor unit.</th>' : '') +
+      '<th class="num">Valor</th><th class="num">Valor da operação</th>' +
+      '<th class="num">Base Recomposta</th><th class="num">DIFAL</th></tr></thead><tbody>' + linhas +
+      '<tr class="tot"><td colspan="' + (q ? 7 : 5) + '">Total do orçamento ' + o.n + '</td><td class="num">' + esc(t.valor) +
+      '</td><td class="num">' + esc(t.operacao) +
+      '</td><td class="num">' + esc(t.base_dupla) + '</td><td class="num">' + esc(t.difal) +
+      '</td></tr></tbody></table></div></details></div>';
+  }).join('');
+}
+
+
+// ===== Operações salvas =====
+// Guardadas neste navegador. O Excel de todas manda só nome + dados, e o
+// servidor refaz cada conta — o arquivo nunca leva um número guardado velho.
+var CHAVE_SALVAS = CHAVE + '_salvas';
+var nomeAtual = '';
+
+function lerSalvas(){ try { return JSON.parse(localStorage.getItem(CHAVE_SALVAS) || '[]') || []; } catch(e){ return []; } }
+function gravarSalvas(l){
+  try { localStorage.setItem(CHAVE_SALVAS, JSON.stringify(l)); return true; }
+  catch(e){ alert('Não consegui salvar neste navegador (armazenamento bloqueado ou cheio).'); return false; }
+}
+
+function abreSalvar(){
+  if (!ultimoOk) return;
+  $('nomeOp').value = nomeAtual || ('Operação ' + (lerSalvas().length + 1));
+  $('barraSalvar').style.display = '';
+  $('nomeOp').focus(); $('nomeOp').select();
+}
+function fechaSalvar(){ $('barraSalvar').style.display = 'none'; }
+
+function confirmaSalvar(){
+  if (!ultimoOk || !ultimoRes) return;
+  var nome = $('nomeOp').value.trim().slice(0, 80) || ('Operação ' + (lerSalvas().length + 1));
+  var l = lerSalvas();
+  var i = -1;
+  l.forEach(function(o, k){ if (o.nome.toLowerCase() === nome.toLowerCase()) i = k; });
+  // Substituir a que está aberta é o esperado; substituir OUTRA pede confirmação.
+  if (i >= 0 && nome.toLowerCase() !== nomeAtual.toLowerCase() &&
+      !confirm('Já existe uma operação "' + l[i].nome + '". Substituir?')) return;
+  var r = ultimoRes, venc = r.cenarios.filter(function(c){ return c.menor; });
+  var item = {nome: nome, salvo_em: new Date().toISOString(), dados: dados(),
+              resumo: {valor: $('valor').value, origem: $('origem').value,
+                       estados: r.cenarios.map(function(c){ return c.rotulo; }),
+                       menor: venc.map(function(c){ return c.rotulo; }),
+                       difal_menor: venc.length ? venc[0].difal : ''}};
+  if (i >= 0) l[i] = item; else l.push(item);
+  if (!gravarSalvas(l)) return;
+  nomeAtual = nome;
+  fechaSalvar(); mostraSalvas();
+}
+
+function dataCurta(iso){
+  var d = new Date(iso); if (isNaN(d)) return '';
+  var z = function(n){ return String(n).padStart(2, '0'); };
+  return z(d.getDate()) + '/' + z(d.getMonth() + 1) + '/' + d.getFullYear() + ' ' + z(d.getHours()) + ':' + z(d.getMinutes());
+}
+
+function mostraSalvas(){
+  var l = lerSalvas();
+  $('qtSalvas').textContent = l.length ? '(' + l.length + ')' : '';
+  $('btExcelSalvas').disabled = !l.length;
+  $('opAtual').textContent = nomeAtual ? 'Aberta: ' + nomeAtual : '';
+  if (!l.length){
+    $('listaSalvas').innerHTML = '<div class="bd"><div class="dif-vazio">Nenhuma operação salva ainda. Calcule e use ' +
+      '<b>Salvar operação</b> para guardar o resultado com um nome.</div></div>';
+    return;
+  }
+  $('listaSalvas').innerHTML = '<div class="rolar"><table class="dif-salvas"><thead><tr><th>Operação</th>' +
+    '<th class="num">Valor</th><th>Origem</th><th>Estados</th><th>Menor custo</th><th>Salva em</th><th></th></tr></thead><tbody>' +
+    l.map(function(o, k){
+      var r = o.resumo || {};
+      return '<tr' + (o.nome === nomeAtual ? ' class="atual"' : '') + '><td class="nome">' + esc(o.nome) + '</td>' +
+        '<td class="num">R$ ' + esc(r.valor || '') + '</td><td>' + esc(r.origem || '—') + '</td>' +
+        '<td>' + esc((r.estados || []).join(', ')) + '</td>' +
+        '<td>' + esc((r.menor || []).join(', ')) + (r.difal_menor ? ' — ' + esc(r.difal_menor) : '') + '</td>' +
+        '<td class="muted">' + esc(dataCurta(o.salvo_em)) + '</td>' +
+        '<td class="acoes"><button type="button" class="btn sm" data-abre="' + k + '">Abrir</button> ' +
+        '<button type="button" class="btn sm perigo" data-tira="' + k + '" title="Excluir" aria-label="Excluir ' + esc(o.nome) + '">✕</button></td></tr>';
+    }).join('') + '</tbody></table></div>';
+}
+
+function preencheForm(d){
+  $('valor').value = reaisParaCampo(d.valor);
+  $('origem').value = d.origem || ''; $('importado').checked = !!d.importado;
+  $('linhas').innerHTML = '';
+  (d.destinos && d.destinos.length ? d.destinos : [{}, {}]).forEach(novaLinha);
+}
+
+function abreSalva(k){
+  var o = lerSalvas()[k]; if (!o) return;
+  nomeAtual = o.nome; preencheForm(o.dados || {}); fechaSalvar(); calcula(); mostraSalvas();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function tiraSalva(k){
+  var l = lerSalvas(), o = l[k]; if (!o) return;
+  if (!confirm('Excluir a operação "' + o.nome + '"?')) return;
+  l.splice(k, 1);
+  if (o.nome === nomeAtual) nomeAtual = '';
+  if (gravarSalvas(l)) mostraSalvas();
+}
+
+
+// ===== Abas =====
+var CHAVE_ABA = 'libby_calculo_difal_aba';
+function abreAba(nome){
+  document.querySelectorAll('.abas .aba').forEach(function(b){
+    var ativa = b.dataset.aba === nome;
+    b.classList.toggle('ativa', ativa); b.setAttribute('aria-selected', ativa ? 'true' : 'false');
+  });
+  $('pane-uma').style.display = nome === 'uma' ? '' : 'none';
+  $('pane-lote').style.display = nome === 'lote' ? '' : 'none';
+  $('actsUma').style.display = nome === 'uma' ? '' : 'none';
+  try { localStorage.setItem(CHAVE_ABA, nome); } catch(e){}
+}
+document.querySelectorAll('.abas .aba').forEach(function(b){
+  b.addEventListener('click', function(){ abreAba(b.dataset.aba); });
+});
+
+
+// --- eventos ---
+$('valor').addEventListener('input', function(){ mascaraValor(); agenda(); });
+$('valor').addEventListener('paste', function(ev){
+  var t = (ev.clipboardData || window.clipboardData).getData('text');
+  ev.preventDefault();
+  $('valor').value = reaisParaCampo(t); agenda();
+});
+$('btSalvar').addEventListener('click', abreSalvar);
+$('btConfSalvar').addEventListener('click', confirmaSalvar);
+$('btCancSalvar').addEventListener('click', fechaSalvar);
+$('nomeOp').addEventListener('keydown', function(ev){
+  if (ev.key === 'Enter'){ ev.preventDefault(); confirmaSalvar(); }
+  if (ev.key === 'Escape') fechaSalvar();
+});
+$('listaSalvas').addEventListener('click', function(ev){
+  var a = ev.target.closest('[data-abre]'), t = ev.target.closest('[data-tira]');
+  if (a) abreSalva(+a.dataset.abre);
+  if (t) tiraSalva(+t.dataset.tira);
+});
+$('btExcelSalvas').addEventListener('click', function(){
+  var l = lerSalvas(); if (!l.length) return;
+  baixar(API + '/excel-salvas', {operacoes: l.map(function(o){ return {nome: o.nome, dados: o.dados}; })},
+         $('btExcelSalvas'), function(){ return lerSalvas().length > 0; });
+});
+$('origem').addEventListener('change', function(){ atualizaSugestoes(); agenda(); });
+$('importado').addEventListener('change', function(){ atualizaSugestoes(); agenda(); });
+$('linhas').addEventListener('input', function(){ atualizaSugestoes(); agenda(); });
+$('linhas').addEventListener('change', function(){ atualizaSugestoes(); agenda(); });
+$('linhas').addEventListener('click', function(ev){
+  var b = ev.target.closest('.tira'); if (!b) return;
+  b.closest('tr').remove();
+  if (!$('linhas').rows.length) novaLinha();
+  agenda();
+});
+$('btMais').addEventListener('click', function(){ novaLinha().querySelector('.uf').focus(); });
+$('btExcel').addEventListener('click', baixaExcel);
+
+$('arqLote').addEventListener('change', function(){
+  var f = this.files[0]; if (!f) return;
+  var fd = new FormData(); fd.append('arquivo', f); lerLote(fd, f.name);
+});
+$('btMostraColar').addEventListener('click', function(){ $('caixaColar').style.display = ''; $('txtLote').focus(); });
+$('btLerColado').addEventListener('click', function(){
+  var fd = new FormData(); fd.append('texto', $('txtLote').value); lerLote(fd, 'o texto colado');
+});
+$('internas').addEventListener('input', agendaLote);
+$('rotasLote').addEventListener('input', agendaLote);
+$('ipiLote').addEventListener('change', agendaLote);
+$('btExcelLote').addEventListener('click', function(){
+  if (loteOk) baixar(API + '/lote/excel', dadosLote(), $('btExcelLote'), function(){ return loteOk; });
+});
+
+$('btLimpar').addEventListener('click', function(){
+  $('valor').value = ''; $('origem').value = ''; $('importado').checked = false;
+  $('linhas').innerHTML = ''; novaLinha(); novaLinha();
+  nomeAtual = ''; fechaSalvar(); mostraSalvas(); agenda();
+});
+
+// Volta com o último cálculo deste navegador — quem compara cenários costuma
+// voltar à página para mudar um número, não para digitar tudo de novo.
+var d = recupera();
+if (d && d.destinos && d.destinos.length) preencheForm(d);
+else { novaLinha(); novaLinha(); }
+mostraSalvas();
+calcula();
+
+var abaSalva = null; try { abaSalva = localStorage.getItem(CHAVE_ABA); } catch(e){}
+abreAba(abaSalva === 'lote' ? 'lote' : 'uma');
+
+})();
+</script>
+</div></div>
+</div>
+
+<div id="fsmodal" role="dialog" aria-modal="true" aria-label="Selecionar do servidor">
+  <div class="fsbox">
+    <div class="fshd"><b style="color:var(--navy)">Selecionar do servidor</b><div style="flex:1"></div><button class="btn sm" type="button" onclick="fsClose()">Fechar</button></div>
+    <div id="fsbody" style="padding:16px">…</div>
+  </div>
+</div>
+<script>
+function fsOpen(target,mode,ext){var el=document.querySelector('[name="'+target+'"]');var v=(el&&el.value)||'';
+  var start=v; if(mode==='file' && /\.[A-Za-z0-9]+$/.test(v)) start=v.replace(/[\\/][^\\/]*$/,'');
+  document.getElementById('fsmodal').style.display='flex';
+  htmx.ajax('GET','/fs/browse?target='+encodeURIComponent(target)+'&mode='+mode+'&ext='+encodeURIComponent(ext||'')+'&path='+encodeURIComponent(start),{target:'#fsbody',swap:'innerHTML'});}
+function fsClose(){document.getElementById('fsmodal').style.display='none';}
+function fsPick(target,path){var el=document.querySelector('[name="'+target+'"]');if(el)el.value=path;fsClose();}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') fsClose(); });
+document.getElementById('fsmodal').addEventListener('click',function(e){ if(e.target===this) fsClose(); });
+
+/* --- Campo 'upload_lista': um arquivo por linha, com botão de acrescentar ---
+   A ORDEM das linhas é a ordem de chegada no WhatsApp, e é ela que o
+   formulário envia (os <input> têm o mesmo name; o navegador respeita a ordem
+   do documento). Por isso a linha nova entra no FIM. */
+function uplMais(campo){
+  var caixa=document.getElementById('ul-'+campo); if(!caixa) return;
+  var novo=caixa.querySelector('.upl-item').cloneNode(true);
+  novo.querySelector('input[type=file]').value='';
+  caixa.appendChild(novo);
+  novo.querySelector('input[type=file]').click();   /* abre o seletor direto */
+}
+function uplTira(btn){
+  var item=btn.closest('.upl-item'), caixa=item.parentNode;
+  /* A última linha não some: sem nenhum <input> não haveria como voltar a
+     escolher um arquivo. Ela só é esvaziada. */
+  if(caixa.querySelectorAll('.upl-item').length>1) item.remove();
+  else item.querySelector('input[type=file]').value='';
+}
+
+/* --- Tema ------------------------------------------------------------------
+   A escolha fica no navegador de quem clicou (localStorage), não no servidor:
+   é preferência de quem olha a tela, e o login da Libby é por SETOR — gravar
+   no servidor faria a escolha de um contaminar todo o setor.
+
+   Consequência assumida: quem trocar de computador começa no claro de novo. */
+function pintaBotaoTema(escuro){
+  var bt = document.getElementById('temaBt');
+  if(!bt) return;
+  bt.querySelector('use').setAttribute('href', escuro ? '#i-sol' : '#i-lua');
+  bt.querySelector('span').textContent = escuro ? 'Tema claro' : 'Tema escuro';
+  bt.setAttribute('aria-pressed', escuro ? 'true' : 'false');
+}
+function trocaTema(){
+  var escuro = document.documentElement.getAttribute('data-theme') !== 'dark';
+  if(escuro) document.documentElement.setAttribute('data-theme','dark');
+  else       document.documentElement.removeAttribute('data-theme');
+  try{ localStorage.setItem('libby-tema', escuro ? 'dark' : 'light'); }catch(e){}
+  pintaBotaoTema(escuro);
+}
+/* O <head> já aplicou o tema; aqui só acertamos o rótulo do botão, que ainda
+   não existia naquele momento. */
+pintaBotaoTema(document.documentElement.getAttribute('data-theme') === 'dark');
+</script>
+<script>window.__DEMO={"pagina": "/calculo-difal", "mapa": {"/execucao/249": "execucao-249.html", "/automacao/sincronizar-fponto": "automacao-sincronizar-fponto.html", "/automacao/gestta-concluir": "automacao-gestta-concluir.html", "/execucao/272": "execucao-272.html", "/login": "login.html", "/dirf/resultados": "dirf-resultados.html", "/execucao/271": "execucao-271.html", "/automacao/limpar-arquivo-dp": "automacao-limpar-arquivo-dp.html", "/execucao/285": "execucao-285.html", "/execucao/266": "execucao-266.html", "/execucao/268": "execucao-268.html", "/execucao/252": "execucao-252.html", "/execucao/241": "execucao-241.html", "/taxas": "taxas.html", "/automacao/certificados-sheets": "automacao-certificados-sheets.html", "/execucao/244": "execucao-244.html", "/automacao/aviso-vencimento": "automacao-aviso-vencimento.html", "/economia?dias=30": "economia__dias-30.html", "/automacao/aviso-publicar-onvio": "automacao-aviso-publicar-onvio.html", "/execucao/207": "execucao-207.html", "/automacao/econsig-conferir": "automacao-econsig-conferir.html", "/execucoes?automacao=aviso-vencimento-completo&status=ruins": "execucoes__automacao-aviso-vencimento-completo_status-ruins.html", "/execucao/258": "execucao-258.html", "/automacao/aviso-vencimento-completo": "automacao-aviso-vencimento-completo.html", "/execucao/290": "execucao-290.html", "/dirf": "dirf.html", "/execucao/294": "execucao-294.html", "/execucao/270": "execucao-270.html", "/execucao/259": "execucao-259.html", "/automacao/automessenger-one": "automacao-automessenger-one.html", "/execucao/300": "execucao-300.html", "/execucao/293": "execucao-293.html", "/execucao/269": "execucao-269.html", "/automacao/gestta-concluir-df": "automacao-gestta-concluir-df.html", "/execucao/277": "execucao-277.html", "/execucao/279": "execucao-279.html", "/darf-fgts/valores-darf": "darf-fgts-valores-darf.html", "/automacao/consult-cadastro": "automacao-consult-cadastro.html", "/economia": "economia.html", "/execucao/255": "execucao-255.html", "/execucao/278": "execucao-278.html", "/automacao/econsig-emitir": "automacao-econsig-emitir.html", "/empresas": "empresas.html", "/execucoes?automacao=dombot-gfip&status=ruins": "execucoes__automacao-dombot-gfip_status-ruins.html", "/editor-pdf": "editor-pdf.html", "/execucao/254": "execucao-254.html", "/automacao/taxas-boletos": "automacao-taxas-boletos.html", "/execucao/292": "execucao-292.html", "/relatorios": "relatorios.html", "/execucao/295": "execucao-295.html", "/execucao/248": "execucao-248.html", "/execucao/276": "execucao-276.html", "/execucao/256": "execucao-256.html", "/execucao/250": "execucao-250.html", "/execucao/245": "execucao-245.html", "/execucao/281": "execucao-281.html", "/automacao/conferencia-prolabore-dp": "automacao-conferencia-prolabore-dp.html", "/automacao/dombot-admiss": "automacao-dombot-admiss.html", "/automacao/gms-analytics": "automacao-gms-analytics.html", "/automacao/conferencia-df": "automacao-conferencia-df.html", "/automacao/onvio-publicar": "automacao-onvio-publicar.html", "/darf-fgts/valores-fgts": "darf-fgts-valores-fgts.html", "/execucao/243": "execucao-243.html", "/execucao/275": "execucao-275.html", "/execucao/261": "execucao-261.html", "/agendamentos": "agendamentos.html", "/execucao/265": "execucao-265.html", "/automacao/conferir-valores-fgts-dominio": "automacao-conferir-valores-fgts-dominio.html", "/execucoes?automacao=fponto-emitir&status=ruins": "execucoes__automacao-fponto-emitir_status-ruins.html", "/ciclos": "ciclos.html", "/automacao/dombot-dirf": "automacao-dombot-dirf.html", "/execucao/284": "execucao-284.html", "/automacao/pdf-corrigir-spans": "automacao-pdf-corrigir-spans.html", "/execucao/247": "execucao-247.html", "/automacao/atualizar-contatos": "automacao-atualizar-contatos.html", "/automacao/gestta-concluir-df/painel": "automacao-gestta-concluir-df-painel.html", "/execucao/296": "execucao-296.html", "/execucao/274": "execucao-274.html", "/automacao/sincronizar-gms": "automacao-sincronizar-gms.html", "/execucao/299": "execucao-299.html", "/execucao/253": "execucao-253.html", "/execucao/262": "execucao-262.html", "/automacao/sincronizar-taxas": "automacao-sincronizar-taxas.html", "/calculo-difal": "calculo-difal.html", "/execucao/289": "execucao-289.html", "/execucao/286": "execucao-286.html", "/automacao/fponto-emitir": "automacao-fponto-emitir.html", "/automacao/conferir-valores-darf": "automacao-conferir-valores-darf.html", "/automacao/taxas-emitir": "automacao-taxas-emitir.html", "/execucoes?automacao=onvio-publicar&status=ruins": "execucoes__automacao-onvio-publicar_status-ruins.html", "/execucao/280": "execucao-280.html", "/automacao/dombot-gfip": "automacao-dombot-gfip.html", "/execucao/267": "execucao-267.html", "/fponto": "fponto.html", "/execucao/209": "execucao-209.html", "/execucao/283": "execucao-283.html", "/execucao/246": "execucao-246.html", "/execucao/298": "execucao-298.html", "/execucao/242": "execucao-242.html", "/execucao/251": "execucao-251.html", "/execucao/297": "execucao-297.html", "/execucoes?automacao=gestta-concluir-df&status=ruins": "execucoes__automacao-gestta-concluir-df_status-ruins.html", "/cobranca": "cobranca.html", "/automacao/gms-emitir": "automacao-gms-emitir.html", "/fgts": "fgts.html", "/automacao/conferencia-venc-onvio": "automacao-conferencia-venc-onvio.html", "/execucao/273": "execucao-273.html", "/execucao/257": "execucao-257.html", "/execucao/260": "execucao-260.html", "/execucao/291": "execucao-291.html", "/execucao/288": "execucao-288.html", "/execucao/263": "execucao-263.html", "/execucao/282": "execucao-282.html", "/execucao/187": "execucao-187.html", "/execucao/264": "execucao-264.html", "/execucoes?automacao=gms-emitir&tipo=real": "execucoes__automacao-gms-emitir_tipo-real.html", "/execucoes": "execucoes.html", "/darf-fgts": "darf-fgts.html", "/automacao/divisor-icms-fecoep": "automacao-divisor-icms-fecoep.html", "/automacoes": "automacoes.html", "/": "dashboard.html", "/automacao/conferir-valores-fgts": "automacao-conferir-valores-fgts.html", "/execucao/287": "execucao-287.html"}, "fetch": {}, "aovivo": {}};</script><script src="demo.js"></script></body></html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Libby: central de automações de um escritório de contabilidade. Demonstração interativa com dados fictícios.">
+<link rel="icon" href="logo-libby.png">
+<title>Libby RPA Contábil</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+
+/* Layout: uma coluna larga de seções; o "terminal" da execução é o objeto
+   central da página, e o marca-texto amarelo só aparece sobre os números de
+   tempo poupado — é o que um contador grifaria no relatório. */
+:root{
+  --bg:#F2F5F4; --paper:#FFFFFF; --ink:#0E2830; --ink-2:#4A626B; --ink-3:#7A8F95;
+  --line:#D6E0DE; --line-2:#BFCDCA;
+  --accent:#13705E; --accent-soft:#DDEFEA;
+  --mark:rgba(245,197,24,.55);
+  --warn:#9A6B00; --bad:#B23A3A;
+  --term-bg:#0F2229; --term-ink:#CFE3DE; --term-dim:#6E8A90; --term-ok:#6FD3A8; --term-warn:#F5C518; --term-line:#1E3940;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Public Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C1A1E; --paper:#12252B; --ink:#E3EDEA; --ink-2:#A2B7B3; --ink-3:#6F878A;
+  --line:#22383E; --line-2:#2F4950; --accent:#4FC3A1; --accent-soft:#163A33;
+  --mark:rgba(245,197,24,.28); --warn:#E5B64A; --bad:#F08A8A;
+  --term-bg:#071215; --term-line:#173036; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C1A1E; --paper:#12252B; --ink:#E3EDEA; --ink-2:#A2B7B3; --ink-3:#6F878A;
+  --line:#22383E; --line-2:#2F4950; --accent:#4FC3A1; --accent-soft:#163A33;
+  --mark:rgba(245,197,24,.28); --warn:#E5B64A; --bad:#F08A8A;
+  --term-bg:#071215; --term-line:#173036; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.015em}
+h2{font-size:clamp(26px,3.4vw,36px);font-weight:800;line-height:1.1}
+h3{font-size:18px;font-weight:700}
+p{margin:0}
+.lede{color:var(--ink-2);max-width:62ch}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.mark{background:linear-gradient(transparent 38%, var(--mark) 38%, var(--mark) 88%, transparent 88%);padding:0 .12em}
+.num{font-variant-numeric:tabular-nums}
+section{padding-block:64px;border-top:1px solid var(--line)}
+section>.wrap{display:flex;flex-direction:column;gap:28px}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* topo */
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:20px}
+.brand{font-family:var(--f-display);font-weight:800;font-size:22px;display:flex;align-items:center;gap:10px}
+.brand i{width:26px;height:26px;border-radius:7px;background:var(--accent);display:inline-grid;place-items:center;
+  color:var(--paper);font-style:normal;font-size:15px}
+.aviso-sim{font-family:var(--f-mono);font-size:12px;color:var(--ink-2);border:1px dashed var(--line-2);
+  border-radius:999px;padding:5px 12px}
+
+.cta{display:inline-block;background:var(--accent);color:var(--paper);font-weight:700;font-size:16px;
+  text-decoration:none;border-radius:9px;padding:13px 20px}
+.cta:hover{filter:brightness(1.08)}
+.cta-sm{font-size:13.5px;padding:8px 14px}
+.cta-linha{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-top:26px}
+.cta-linha span{font-size:13.5px;color:var(--ink-2);max-width:34ch}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:40px;align-items:center;padding-block:28px 64px}
+.hero h1{font-size:clamp(38px,5.6vw,64px);font-weight:800;line-height:1.02}
+.hero .lede{font-size:18px;margin-top:18px}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:30px}
+.kpi b{display:block;font-family:var(--f-display);font-size:30px;font-weight:800;line-height:1.1}
+.kpi span{font-size:13px;color:var(--ink-2)}
+@media (max-width:880px){.hero{grid-template-columns:1fr}}
+
+/* terminal */
+.term{background:var(--term-bg);color:var(--term-ink);border-radius:12px;overflow:hidden;
+  box-shadow:0 18px 40px -24px rgba(5,20,25,.6);min-width:0}
+.term-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;
+  border-bottom:1px solid var(--term-line);font-family:var(--f-mono);font-size:12px;color:var(--term-dim)}
+.term-hd b{color:var(--term-ink);font-weight:500}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--term-line);border-radius:999px;padding:2px 9px}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--term-ok)}
+.pill.idle::before{background:var(--term-dim)}
+.log{font-family:var(--f-mono);font-size:12.5px;line-height:1.7;padding:12px 16px;height:300px;overflow:auto;margin:0;white-space:pre-wrap;word-break:break-word}
+.log .t{color:var(--term-dim)}
+.log .ok{color:var(--term-ok)}
+.log .w{color:var(--term-warn)}
+.prog{height:4px;background:var(--term-line)}
+.prog i{display:block;height:100%;width:0;background:var(--term-ok);transition:width .25s ease}
+.term-ft{display:flex;gap:18px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--term-line);
+  font-family:var(--f-mono);font-size:12px;color:var(--term-dim)}
+.term-ft b{color:var(--term-ink);font-weight:500}
+
+/* antes x depois */
+.passos{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;border:1px solid var(--line);
+  border-radius:12px;background:var(--paper);overflow:hidden}
+.passo{padding:18px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.passo:last-child{border-right:0}
+.passo .n{font-family:var(--f-mono);font-size:12px;color:var(--ink-3)}
+.passo b{font-size:15px}
+.passo span{font-size:13px;color:var(--ink-2)}
+.passo .min{margin-top:auto;font-family:var(--f-mono);font-size:13px;color:var(--ink)}
+@media (max-width:760px){.passo{border-right:0;border-bottom:1px solid var(--line)}.passo:last-child{border-bottom:0}}
+.compara{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.compara>div{border-left:3px solid var(--line-2);padding:4px 0 4px 16px}
+.compara>div.libby{border-color:var(--accent)}
+.compara b{font-family:var(--f-display);font-size:28px;font-weight:800;display:block}
+.compara span{color:var(--ink-2);font-size:14px}
+@media (max-width:560px){.compara{grid-template-columns:1fr}}
+
+/* simulador */
+.sim{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:880px){.sim{grid-template-columns:1fr}}
+.ctl{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:18px}
+.fld{display:flex;flex-direction:column;gap:7px}
+.fld label{font-size:13px;font-weight:600}
+.fld small{color:var(--ink-3);font-size:12px}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:9px;padding:9px 11px;cursor:pointer;
+  background:var(--bg);font-size:14px;text-align:left;color:var(--ink);font-family:inherit}
+.opt:hover{border-color:var(--line-2)}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.opt em{font-style:normal;display:block;font-size:12px;color:var(--ink-2)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.val{font-family:var(--f-mono);font-size:13px}
+.btn{font-family:var(--f-body);font-weight:700;font-size:15px;border:0;border-radius:9px;padding:12px 16px;cursor:pointer;
+  background:var(--accent);color:var(--paper)}
+.btn:disabled{opacity:.55;cursor:default}
+.res{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.res>div{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.res b{display:block;font-family:var(--f-display);font-size:24px;font-weight:800}
+.res span{font-size:12.5px;color:var(--ink-2)}
+@media (max-width:520px){.res{grid-template-columns:1fr}}
+
+/* painel simulado */
+.dash{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px}
+@media (max-width:880px){.dash{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px;min-width:0}
+.card h3{margin-bottom:4px}
+.card .sub{font-size:13px;color:var(--ink-2);margin-bottom:14px}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px}
+.tile b{display:block;font-family:var(--f-display);font-size:28px;font-weight:800;line-height:1.1}
+.tile span{font-size:12.5px;color:var(--ink-2)}
+.chart svg{width:100%;height:auto;display:block}
+.chart text{font-family:var(--f-mono);font-size:11px;fill:var(--ink-3)}
+.chart .vl{fill:var(--ink);font-weight:500}
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:grid;grid-template-columns:minmax(0,1fr) 64px;gap:4px 10px;font-size:13.5px}
+.bar .tr{grid-column:1/-1;height:8px;background:var(--bg);border-radius:3px;overflow:hidden}
+.bar .tr i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.bar .h{text-align:right;font-family:var(--f-mono);font-size:13px}
+
+/* arquitetura */
+.arq{display:grid;grid-template-columns:minmax(0,1fr) 28px minmax(0,1.2fr) 28px minmax(0,1.3fr);align-items:center;gap:0}
+.arq .seta{text-align:center;color:var(--ink-3);font-family:var(--f-mono)}
+.no{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.no h3{font-size:15px}
+.no p{font-size:13px;color:var(--ink-2);margin-top:6px}
+.no .tag{font-family:var(--f-mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.pilha{display:flex;flex-direction:column;gap:12px}
+@media (max-width:880px){.arq{grid-template-columns:1fr}.arq .seta{transform:rotate(90deg);padding-block:4px}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{font-family:var(--f-mono);font-size:12.5px;border:1px solid var(--line-2);border-radius:999px;padding:4px 11px;color:var(--ink-2)}
+.licoes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.licoes div{display:flex;flex-direction:column;gap:6px}
+.licoes p{font-size:14.5px;color:var(--ink-2)}
+footer{border-top:1px solid var(--line);padding-block:28px 48px;font-size:13px;color:var(--ink-3)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head><body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><i>L</i>Libby</div>
+    <a class="cta cta-sm" href="entrar.html">Abrir a demonstração</a>
+  </header>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Central de automações · escritório de contabilidade</div>
+      <h1 style="margin-top:14px">O robô que fecha a competência enquanto a equipe confere.</h1>
+      <p class="lede">A Libby reúne mais de 40 automações de Departamento Pessoal e Fiscal num só lugar: emite relatórios no Domínio, publica no Onvio, conclui tarefas no Gestta e avisa no Discord quando algo precisa de olho humano.</p>
+      <div class="cta-linha">
+        <a class="cta" href="entrar.html">Abrir a demonstração interativa →</a>
+        <span>As telas da Libby de verdade, com empresas, pessoas e números fictícios.</span>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><b class="num">40+</b><span>automações no catálogo</span></div>
+        <div class="kpi"><b class="num">500+</b><span>commits desde jul/2026</span></div>
+        <div class="kpi"><b class="num"><span class="mark" id="hero-h">537h</span></b><span>poupadas na demonstração</span></div>
+      </div>
+    </div>
+    <div class="term" aria-label="Execução simulada de uma automação">
+      <div class="term-hd"><span><b>Folha de Ponto — Emitir</b> · competência 09/2026</span><span class="pill" id="hero-pill">rodando</span></div>
+      <div class="prog"><i id="hero-prog"></i></div>
+      <pre class="log" id="hero-log"></pre>
+      <div class="term-ft"><span>empresas <b class="num" id="hero-n">0/38</b></span><span>robô <b class="num" id="hero-r">0min</b></span><span>à mão seriam <b class="num" id="hero-m">0min</b></span></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div><div class="eyebrow">O trabalho de antes</div>
+      <h2 style="margin-top:10px">Cinco telas, três sistemas, uma empresa de cada vez.</h2></div>
+    <p class="lede">Emitir a folha de ponto de um cliente era uma sequência curta, repetida dezenas de vezes no começo de todo mês. Nenhum passo é difícil. O custo está na repetição e no erro de quem faz o mesmo clique pela quadragésima vez.</p>
+    <div class="passos">
+      <div class="passo"><span class="n">1</span><b>Trocar de empresa</b><span>No Domínio, pelo código do cliente</span><span class="min">≈ 0,5 min</span></div>
+      <div class="passo"><span class="n">2</span><b>Emitir o relatório</b><span>Competência, filtros, gerar</span><span class="min">≈ 1,5 min</span></div>
+      <div class="passo"><span class="n">3</span><b>Salvar o PDF</b><span>Nome no padrão do escritório</span><span class="min">≈ 0,5 min</span></div>
+      <div class="passo"><span class="n">4</span><b>Publicar no Onvio</b><span>Pasta certa do portal do cliente</span><span class="min">≈ 1,5 min</span></div>
+      <div class="passo"><span class="n">5</span><b>Concluir no Gestta</b><span>Achar a tarefa e anexar</span><span class="min">≈ 1 min</span></div>
+    </div>
+    <div class="compara">
+      <div><b class="num">≈ 5 min</b><span>por empresa, à mão. Com 38 clientes, mais de 3 horas da manhã de alguém.</span></div>
+      <div class="libby"><b class="num">≈ 25 s</b><span>por empresa, na Libby. Rodando numa VM, sem ocupar o computador da equipe.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="simulador">
+  <div class="wrap">
+    <div><div class="eyebrow">Simulador</div>
+      <h2 style="margin-top:10px">Escolha uma automação e rode um lote.</h2></div>
+    <p class="lede">Os passos, mensagens e tempos imitam rodadas reais. As empresas são inventadas, e o lote roda acelerado: um minuto de robô vira um segundo aqui.</p>
+    <div class="sim">
+      <div class="ctl">
+        <div class="fld"><label id="lbl-auto">Automação</label><div class="opts" id="opts" role="group" aria-labelledby="lbl-auto"></div></div>
+        <div class="fld">
+          <label for="qtd">Empresas no lote <span class="val num" id="qtd-v">30</span></label>
+          <input type="range" id="qtd" min="5" max="120" step="1" value="30">
+        </div>
+        <div class="fld">
+          <label for="minm">Minutos à mão por empresa <span class="val num" id="minm-v">5</span></label>
+          <input type="range" id="minm" min="1" max="20" step="0.5" value="5">
+          <small>Ajuste para o tempo do seu escritório.</small>
+        </div>
+        <button class="btn" id="rodar" type="button">Rodar simulação</button>
+      </div>
+      <div style="min-width:0">
+        <div class="term">
+          <div class="term-hd"><span><b id="sim-nome">—</b> · competência 09/2026</span><span class="pill idle" id="sim-pill">pronta</span></div>
+          <div class="prog"><i id="sim-prog"></i></div>
+          <pre class="log" id="sim-log"></pre>
+        </div>
+        <div class="res">
+          <div><b class="num" id="r-manual">—</b><span>trabalho manual equivalente</span></div>
+          <div><b class="num" id="r-robo">—</b><span>tempo de robô</span></div>
+          <div><b class="num"><span class="mark" id="r-poup">—</span></b><span>devolvidos à equipe</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div><div class="eyebrow">Painel · exemplo com dados fictícios</div>
+      <h2 style="margin-top:10px">O Dashboard mostra o tempo devolvido, não só o que rodou.</h2></div>
+    <p class="lede">Os mesmos números do Dashboard da demonstração. Cada rodada real conta o que entregou (empresas emitidas, arquivos publicados, mensagens enviadas) e multiplica pelos minutos que aquilo levaria à mão. Simulações e testes ficam fora da conta. A estimativa de cada automação é editável na própria Libby.</p>
+    <div class="tiles">
+      <div class="tile"><b class="num"><span class="mark">537h</span></b><span>trabalho manual poupado</span></div>
+      <div class="tile"><b class="num">67</b><span>dias de 8 horas</span></div>
+      <div class="tile"><b class="num">262</b><span>rodadas reais medidas</span></div>
+      <div class="tile"><b class="num">85%</b><span>rodadas sem falha · 30 dias</span></div>
+    </div>
+    <div class="dash">
+      <div class="card chart"><h3>Horas poupadas por mês</h3><div class="sub">jul a out/2026</div><div id="chart-mes"></div></div>
+      <div class="card"><h3>Onde o tempo foi poupado</h3><div class="sub">desde o início</div><div class="bars" id="bars"></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div><div class="eyebrow">Arquitetura</div>
+      <h2 style="margin-top:10px">A web na nuvem, o Domínio numa VM.</h2></div>
+    <p class="lede">O Domínio é um programa de desktop e aceita uma instância por máquina. Por isso a Libby se divide: o servidor web e as automações por API ficam numa VPS, e cada VM roda um agente que busca serviço na fila e devolve o resultado.</p>
+    <div class="arq">
+      <div class="no"><span class="tag">Equipe</span><h3>Navegador</h3><p>DP, Fiscal e Marketing disparam, agendam e acompanham o log ao vivo.</p></div>
+      <div class="seta" aria-hidden="true">→</div>
+      <div class="no"><span class="tag">VPS · Docker</span><h3>Libby (FastAPI + PostgreSQL)</h3><p>Fila, agendador, histórico, relatórios. Automações web falam direto com Onvio, Gestta e Google Sheets.</p></div>
+      <div class="seta" aria-hidden="true">→</div>
+      <div class="pilha">
+        <div class="no"><span class="tag">VM 1</span><h3>Agente dos DomBots</h3><p>Controla o Domínio pela interface (pywinauto): troca de empresa, emissão, PDF.</p></div>
+        <div class="no"><span class="tag">VM 2 · elevado</span><h3>Agente do FGTS</h3><p>Recalcula e transmite pelo SEFIP, que exige um processo administrador à parte.</p></div>
+      </div>
+    </div>
+    <div class="chips" aria-label="Tecnologias">
+      <span>Python</span><span>FastAPI</span><span>Jinja2</span><span>PostgreSQL</span><span>Docker</span><span>Nginx</span><span>pywinauto</span><span>Selenium</span><span>Playwright</span><span>PyMuPDF</span><span>pandas</span><span>Google Sheets API</span><span>Discord webhooks</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div><div class="eyebrow">O que aprendi construindo</div>
+      <h2 style="margin-top:10px">Automação boa é a que diz quando não deu certo.</h2></div>
+    <div class="licoes">
+      <div><h3>Falha parcial é um estado</h3><p>Um lote de 80 em que 79 saíram não é "falhou". A Libby tem o desfecho "concluída com falhas", e a 2ª tentativa no fim do lote recupera a maioria sozinha.</p></div>
+      <div><h3>Diálogos inesperados</h3><p>O Domínio abre avisos fora de hora. Um catálogo único de diálogos, compartilhado entre os DomBots, decide quais fechar e quais param o lote.</p></div>
+      <div><h3>Conferir antes de publicar</h3><p>Antes de mandar um PDF ao portal do cliente, o robô confere o nome da empresa dentro do arquivo. Publicar errado custa mais do que não publicar.</p></div>
+      <div><h3>Simulação de verdade</h3><p>Toda automação roda em modo simulação, mostrando o que faria sem enviar nada. É assim que um fluxo novo chega à primeira rodada real.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Libby é um sistema de uso interno e não está disponível publicamente. A <a href="entrar.html">demonstração</a> é a interface real renderizada sem servidor: empresas, pessoas, números e logs são fictícios, e nenhuma ação é salva ou enviada. Desenvolvido por Hugo Almeida.</div>
+</footer>
+
+<script>
+(function(){
+  var reduz = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var EMPRESAS = ["Padaria Bom Grão Ltda","Auto Peças Rio Branco","Clínica Sorriso Pleno","Mercadinho Dois Irmãos","Transportes Serra Azul",
+    "Restaurante Sabor da Terra","Ótica Visão Clara","Construtora Alicerce","Farmácia Vida Nova","Pet Shop Quatro Patas",
+    "Academia Corpo em Ação","Escola Pequeno Saber","Hotel Mirante do Vale","Distribuidora Litoral","Oficina Motor Forte",
+    "Lavanderia Bolha Branca","Gráfica Ponto Final","Sorveteria Gelato Sul","Imobiliária Chave Certa","Laboratório Bioanálise",
+    "Cafeteria Grão Moído","Floricultura Jardim Real","Papelaria Traço Fino","Açougue Boi Gordo","Vidraçaria Cristal",
+    "Studio Beleza Pura","Marmoraria Pedra Nobre","Livraria Página Um","Hortifruti Colheita","Serralheria Aço Firme"];
+
+  // Passos por empresa: [texto, tipo]. {e} = empresa, {c} = código.
+  var AUTOS = [
+    {id:"fponto", nome:"Folha de Ponto — Emitir", desc:"Domínio → Onvio → Gestta", min:5, seg:25, pulo:"sem funcionários na competência — pulada",
+      passos:[["Trocando para {c} {e}",""],["Relatório Folha de Ponto 09/2026 emitido",""],["PDF salvo: {c}_FOLHA_PONTO_092026.pdf",""],["Publicado no Onvio › Pessoal › Folha de Ponto","ok"],["Tarefa concluída no Gestta","ok"]]},
+    {id:"df", nome:"Conferência DF — DARF e FGTS", desc:"Guias × Domínio × Onvio", min:6, seg:18, pulo:"guia de FGTS não encontrada na pasta — fica para revisão",
+      passos:[["Lendo guias de {c} {e}",""],["DARF: valor confere com a DCTFWeb",""],["FGTS: valor confere com o resumo da folha",""],["Guias publicadas no Onvio › Fiscal › Impostos","ok"]]},
+    {id:"taxas", nome:"Taxa Assistencial — Boletos", desc:"Emitir, separar e publicar", min:5, seg:22, pulo:"empresa sem empregados no sindicato — pulada",
+      passos:[["Trocando para {c} {e}",""],["Relatório da taxa emitido no Domínio",""],["Boleto separado do lote do sindicato",""],["Publicado no Onvio › Pessoal › Taxas","ok"]]},
+    {id:"admiss", nome:"Contratos Admissionais", desc:"Emitir e conferir o nome no PDF", min:10, seg:35, pulo:"duas filiais com o mesmo nome — tentando o próximo código",
+      passos:[["Trocando para {c} {e}",""],["Contrato de experiência emitido",""],["Nome do empregador conferido no PDF","ok"],["Arquivo salvo na pasta do cliente","ok"]]},
+    {id:"msg", nome:"AutoMessenger — Avisos", desc:"Mensagem para o contato de cada cliente", min:1.5, seg:6, pulo:"contato sem telefone cadastrado — fica fora do envio",
+      passos:[["Montando aviso para {c} {e}",""],["Contato encontrado pelo telefone",""],["Mensagem enviada","ok"]]},
+    {id:"gestta", nome:"Gestta — Concluir tarefas", desc:"Anexar o arquivo e concluir", min:2, seg:4, pulo:"tarefa já estava concluída — ignorada",
+      passos:[["Buscando tarefa de {c} {e}",""],["Arquivo anexado",""],["Tarefa concluída","ok"]]}
+  ];
+
+  function horas(min){
+    min = Math.round(min);
+    var h = Math.floor(min/60), m = min%60;
+    if (!h) return m + "min";
+    return m ? h + "h " + (m<10?"0":"") + m + "min" : h + "h";
+  }
+  function seg(s){ return s < 60 ? Math.round(s) + "s" : horas(s/60); }
+  function codigo(i){ return String(140 + i*37).padStart(4,"0"); }
+  function relogio(base, s){
+    var d = new Date(base.getTime() + s*1000);
+    return d.toTimeString().slice(0,8);
+  }
+  function linha(log, hora, txt, tipo){
+    var el = document.createElement("span");
+    el.innerHTML = '<span class="t">' + hora + '</span>  ';
+    var t = document.createElement("span");
+    if (tipo) t.className = tipo;
+    t.textContent = txt;
+    el.appendChild(t);
+    el.appendChild(document.createTextNode("\n"));
+    log.appendChild(el);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  // Monta a sequência inteira de linhas de um lote, com o tempo de robô de cada uma.
+  function roteiro(auto, n){
+    var out = [], t = 0, ok = 0, pulos = 0;
+    out.push({s:0, txt:"Lote iniciado · " + n + " empresas · competência 09/2026", tipo:""});
+    for (var i = 0; i < n; i++){
+      var e = EMPRESAS[i % EMPRESAS.length], c = codigo(i);
+      var pula = (i % 11) === 7;
+      var passos = pula ? [auto.passos[0]] : auto.passos;
+      var dt = auto.seg * (0.8 + ((i*7)%5)/10);
+      passos.forEach(function(p, k){
+        t += dt / auto.passos.length;
+        out.push({s:t, txt:p[0].replace("{e}", e).replace("{c}", c), tipo:p[1]});
+      });
+      if (pula){ pulos++; out.push({s:t, txt:"  " + auto.pulo, tipo:"w", fim:true}); }
+      else { ok++; out[out.length-1].fim = true; out[out.length-1].ok = true; }
+    }
+    out.push({s:t, txt:"Concluída · " + ok + " entregues · " + pulos + " para revisão · aviso enviado no Discord", tipo:"ok"});
+    return {linhas:out, total:t, ok:ok, pulos:pulos};
+  }
+
+  // ---- hero: lote que roda sozinho, em loop
+  (function(){
+    var log = document.getElementById("hero-log"), prog = document.getElementById("hero-prog"),
+        nEl = document.getElementById("hero-n"), rEl = document.getElementById("hero-r"), mEl = document.getElementById("hero-m"),
+        pill = document.getElementById("hero-pill");
+    var auto = AUTOS[0], N = 38, base = new Date(2026, 9, 1, 6, 0, 0);
+    function rodar(){
+      var r = roteiro(auto, N), i = 0, feitas = 0, entregues = 0;
+      log.textContent = ""; pill.textContent = "rodando"; pill.className = "pill";
+      // Começa já com algumas linhas: o quadro parado precisa mostrar o que é.
+      var pre = reduz ? r.linhas.length : 14;
+      function passo(){
+        var l = r.linhas[i];
+        linha(log, relogio(base, l.s), l.txt, l.tipo);
+        if (l.fim) feitas++;
+        if (l.ok) entregues++;
+        nEl.textContent = feitas + "/" + N;
+        rEl.textContent = seg(l.s);
+        mEl.textContent = horas(entregues * auto.min);
+        prog.style.width = (100 * (i+1) / r.linhas.length) + "%";
+        i++;
+      }
+      while (i < pre && i < r.linhas.length) passo();
+      if (reduz) { pill.textContent = "concluída"; pill.className = "pill idle"; return; }
+      var tm = setInterval(function(){
+        if (i >= r.linhas.length){ clearInterval(tm); pill.textContent = "concluída"; pill.className = "pill idle"; setTimeout(rodar, 4000); return; }
+        passo();
+      }, 420);
+    }
+    rodar();
+  })();
+
+  // ---- simulador
+  var escolhida = AUTOS[0], rodando = false;
+  var opts = document.getElementById("opts"), qtd = document.getElementById("qtd"), minm = document.getElementById("minm");
+  AUTOS.forEach(function(a){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "opt"; b.setAttribute("aria-pressed", a === escolhida ? "true" : "false");
+    b.innerHTML = "<span><span class=\"t-nome\"></span><em></em></span>";
+    b.querySelector(".t-nome").textContent = a.nome;
+    b.querySelector("em").textContent = a.desc + " · ≈ " + String(a.min).replace(".", ",") + " min à mão";
+    b.addEventListener("click", function(){
+      if (rodando) return;
+      escolhida = a;
+      [].forEach.call(opts.children, function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      minm.value = a.min; sync(); preview();
+    });
+    opts.appendChild(b);
+  });
+  function sync(){
+    document.getElementById("qtd-v").textContent = qtd.value;
+    document.getElementById("minm-v").textContent = String(minm.value).replace(".", ",");
+  }
+  function resultado(n, roboS){
+    var manual = n * parseFloat(minm.value);
+    document.getElementById("r-manual").textContent = horas(manual);
+    document.getElementById("r-robo").textContent = seg(roboS);
+    document.getElementById("r-poup").textContent = horas(manual);
+  }
+  var simLog = document.getElementById("sim-log"), simProg = document.getElementById("sim-prog"), simPill = document.getElementById("sim-pill");
+  // Estado inicial já preenchido: o lote anterior, parado, com o resultado.
+  function preview(){
+    var n = +qtd.value, r = roteiro(escolhida, n);
+    document.getElementById("sim-nome").textContent = escolhida.nome;
+    simLog.textContent = "";
+    var base = new Date(2026, 9, 1, 8, 0, 0);
+    r.linhas.slice(0, 9).forEach(function(l){ linha(simLog, relogio(base, l.s), l.txt, l.tipo); });
+    linha(simLog, "        ", "… clique em Rodar simulação para ver o lote inteiro", "t");
+    simProg.style.width = "0";
+    simPill.textContent = "pronta"; simPill.className = "pill idle";
+    resultado(r.ok, r.total);
+  }
+  qtd.addEventListener("input", function(){ sync(); if (!rodando) preview(); });
+  minm.addEventListener("input", function(){ sync(); if (!rodando) preview(); });
+  document.getElementById("rodar").addEventListener("click", function(){
+    if (rodando) return;
+    rodando = true; this.disabled = true;
+    var btn = this, n = +qtd.value, r = roteiro(escolhida, n), base = new Date(2026, 9, 1, 8, 0, 0);
+    simLog.textContent = ""; simPill.textContent = "rodando"; simPill.className = "pill";
+    var i = 0, entregues = 0;
+    // 1 min de robô = 1 s na tela, com teto para lote grande não arrastar.
+    var passoMs = Math.max(35, Math.min(400, (r.total / 60 * 1000) / r.linhas.length));
+    if (reduz) passoMs = 0;
+    function fim(){
+      simPill.textContent = "concluída"; simPill.className = "pill idle";
+      rodando = false; btn.disabled = false; resultado(r.ok, r.total);
+    }
+    function passo(){
+      if (i >= r.linhas.length) return fim();
+      var l = r.linhas[i++];
+      linha(simLog, relogio(base, l.s), l.txt, l.tipo);
+      if (l.ok) entregues++;
+      simProg.style.width = (100 * i / r.linhas.length) + "%";
+      resultado(entregues, l.s);
+      if (passoMs) setTimeout(passo, passoMs); else passo();
+    }
+    passo();
+  });
+  sync(); preview();
+
+  // ---- painel fictício
+  var MESES = [{m:"jul", h:26},{m:"ago", h:135},{m:"set", h:166},{m:"out", h:210}];
+  (function(){
+    var W = 460, H = 220, pl = 40, pb = 26, pt = 18, top = 240;
+    var bw = (W - pl - 10) / MESES.length;
+    var y = function(v){ return pt + (H - pt - pb) * (1 - v/top); };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Horas poupadas por mês, de julho a outubro de 2026 (fictício)">';
+    [0, 60, 120, 180, 240].forEach(function(v){
+      s += '<line x1="' + pl + '" x2="' + (W-6) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="var(--line)" stroke-width="1"/>';
+      s += '<text x="' + (pl-6) + '" y="' + (y(v)+4) + '" text-anchor="end">' + v + 'h</text>';
+    });
+    MESES.forEach(function(d, i){
+      var x = pl + i*bw + bw*0.2, w = bw*0.6, last = i === MESES.length-1;
+      s += '<rect x="' + x + '" y="' + y(d.h) + '" width="' + w + '" height="' + (y(0)-y(d.h)) + '" rx="3" fill="var(--accent)" opacity="' + (last ? 1 : .55) + '"/>';
+      s += '<text class="vl" x="' + (x+w/2) + '" y="' + (y(d.h)-6) + '" text-anchor="middle">' + d.h + 'h</text>';
+      s += '<text x="' + (x+w/2) + '" y="' + (H-8) + '" text-anchor="middle">' + d.m + '</text>';
+    });
+    document.getElementById("chart-mes").innerHTML = s + '</svg>';
+
+    var POR = [["Folha de Ponto — Emitir",108],["Taxa GMS — Emitir e publicar",84],["Aviso de Vencimento — Completo",59],
+               ["AutoMessenger — Avisos",56],["Gestta — Concluir tarefas",38],["Publicar arquivo no Onvio",35]];
+    var bars = document.getElementById("bars");
+    POR.forEach(function(p){
+      var d = document.createElement("div"); d.className = "bar";
+      d.innerHTML = '<span></span><span class="h num">' + p[1] + 'h</span><span class="tr"><i style="width:' + (100*p[1]/POR[0][1]) + '%"></i></span>';
+      d.firstChild.textContent = p[0];
+      bars.appendChild(d);
+    });
+  })();
+})();
+</script>
+
+</body></html>

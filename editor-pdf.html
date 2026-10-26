@@ -1,0 +1,1073 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<script>
+  try{
+    if(localStorage.getItem('libby-tema')==='dark')
+      document.documentElement.setAttribute('data-theme','dark');
+  }catch(e){}  /* navegador com armazenamento bloqueado: segue no claro */
+</script>
+<title>Libby — Editor de PDF</title>
+
+
+
+
+<link rel="stylesheet" href="style.css">
+
+
+
+</head><body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="i-dash"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></g>
+<g id="i-auto"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9l-2.2 2.2M7.1 16.9l-2.2 2.2"/><circle cx="12" cy="12" r="4"/></g>
+<g id="i-exec"><path d="M3 12h4l2-6 4 12 2-6h6"/></g>
+<g id="i-relat"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></g>
+<g id="i-agenda"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></g>
+<g id="i-emp"><path d="M3 21h18M5 21V6l7-3 7 3v15M10 10h1M13 10h1M10 14h1M13 14h1"/></g>
+<g id="i-ciclos"><path d="M21 12a9 9 0 1 1-3.2-6.9"/><path d="M21 3v5h-5"/><path d="M12 8v4.4l2.8 1.6"/></g>
+<g id="i-ponto"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g>
+<g id="i-fgts"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></g>
+<g id="i-guias"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14.5 2 2 4-4"/></g>
+<g id="i-taxa"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2"/></g>
+<g id="i-dirf"><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-4"/><path d="M8 8h4M8 12h3"/><circle cx="17" cy="8" r="4"/><path d="m20.5 11.5 1.5 1.5"/></g>
+<g id="i-pdf"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 14h6M9 17h4"/></g>
+<g id="i-calc"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 11h2M14 11h2M8 15h2M14 15h2M8 19h2M14 19h2"/></g>
+
+<g id="i-melius"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4.5-5"/><circle cx="12" cy="18" r="1.2"/></g>
+<g id="i-post"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><circle cx="12" cy="15" r="2.2"/></g>
+<g id="i-cob"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></g>
+<g id="i-msg"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-4-.9L3 21l1.9-4.7A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></g>
+<g id="i-envio"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></g>
+<g id="i-sol"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.8v2.4M12 19.8v2.4M4.2 12H1.8M22.2 12h-2.4M6.3 6.3 4.6 4.6M19.4 19.4l-1.7-1.7M17.7 6.3l1.7-1.7M4.6 19.4l1.7-1.7"/></g>
+<g id="i-lua"><path d="M20.5 14.2A8.6 8.6 0 0 1 9.8 3.5a8.6 8.6 0 1 0 10.7 10.7z"/></g>
+<g id="i-cfg"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></g>
+</defs></svg>
+
+
+
+
+<div class="app">
+<aside class="side">
+  <div class="brand">
+    <img class="logo" src="logo-libby.png" alt="" width="34" height="34">
+    <div><b>Libby</b><small>Escritório Demo</small></div></div>
+  <nav class="nav" aria-label="Menu principal">
+
+    
+    <div class="grp">Acompanhar</div>
+    
+<a href="dashboard.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-dash"/></svg>
+  <span>Dashboard</span></a>
+
+    
+<a href="execucoes.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-exec"/></svg>
+  <span>Execuções</span></a>
+
+    
+<a href="ciclos.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-ciclos"/></svg>
+  <span>Ciclos</span></a>
+
+    
+<a href="relatorios.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-relat"/></svg>
+  <span>Relatórios</span></a>
+
+
+    
+    
+    <div class="grp">Rotinas</div>
+    
+<a href="fponto.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-ponto"/></svg>
+  <span>Folha de Ponto</span></a>
+
+    
+<a href="fgts.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-fgts"/></svg>
+  <span>FGTS</span></a>
+
+    
+    
+    
+<a href="darf-fgts.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-guias"/></svg>
+  <span>Guias DARF/FGTS</span></a>
+
+    
+    
+<a href="taxas.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-taxa"/></svg>
+  <span>Taxa Assistencial</span></a>
+
+    
+<a href="dirf.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-dirf"/></svg>
+  <span>DIRF</span></a>
+
+    
+<a href="editor-pdf.html" class="active" aria-current="page"
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-pdf"/></svg>
+  <span>Editor de PDF</span></a>
+
+    
+<a href="calculo-difal.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-calc"/></svg>
+  <span>Cálculo do DIFAL</span></a>
+
+    
+    
+<a href="#" data-demo-fora="/controle-melius" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-melius"/></svg>
+  <span>Controle Melius</span></a>
+
+    
+<a href="automacoes.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-auto"/></svg>
+  <span>Automações</span></a>
+
+    
+<a href="#" data-demo-fora="/postagens" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-post"/></svg>
+  <span>Programação de posts</span></a>
+
+    
+
+    
+    <div class="grp">Clientes</div>
+    
+<a href="cobranca.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-cob"/></svg>
+  <span>Cobrança</span></a>
+
+    
+    
+<a href="automacao-automessenger-one.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-envio"/></svg>
+  <span>AutoMessenger</span></a>
+
+    
+<a href="#" data-demo-fora="/mensagens" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-msg"/></svg>
+  <span>Mensagens</span></a>
+
+    
+
+    
+    <div class="grp">Administração</div>
+    
+<a href="agendamentos.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-agenda"/></svg>
+  <span>Agendamentos</span></a>
+
+    
+<a href="empresas.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-emp"/></svg>
+  <span>Empresas</span></a>
+
+    
+<a href="#" data-demo-fora="/config" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-cfg"/></svg>
+  <span>Configurações</span></a>
+
+    
+  </nav>
+</aside>
+
+<div>
+
+<div class="top">
+  <div class="tt">Editor de PDF</div>
+  <div class="sp"></div>
+
+  
+  <button type="button" class="tema-bt" id="temaBt" onclick="trocaTema()"
+          title="Alternar entre o tema claro e o escuro" aria-pressed="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-lua"/></svg>
+    <span>Tema escuro</span>
+  </button>
+
+  
+  <div class="who">
+    <div class="av">V</div>
+    <div><b>Visitante</b><span>admin</span></div>
+    <a href="#" data-demo-fora="/logout" title="Encerrar a sessão">Sair</a>
+  </div>
+  
+</div>
+<div class="content">
+
+
+
+
+<div class="pagehd">
+  <div class="sp">
+    <h1>Editor de PDF</h1>
+    <div class="sub">Leia o texto do PDF e busque termos, clique num parágrafo para substituir ou escolha um ponto em branco para adicionar texto — sempre com prévia antes de aplicar.</div>
+  </div>
+  <div style="flex:1"></div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <input type="file" id="arquivo" accept=".pdf">
+    <button class="btn gr" id="btEnviar" type="button">⬆ Enviar PDF</button>
+  </div>
+</div>
+
+<div id="aviso" class="panel" style="display:none;border-color:var(--erro-line);background:var(--red-soft)">
+  <div class="bd" style="padding:12px 16px;color:var(--red-ink);font-weight:600" id="avisoTxt"></div>
+</div>
+
+<div id="vazio" class="vazio">
+  <div class="ic">📄</div>
+  <b>Comece enviando um PDF</b>
+  <p>Depois de enviar, você pode extrair o texto, buscar termos dentro do
+     documento ou editar linha por linha — sempre com prévia antes de aplicar.</p>
+  <button class="btn pri" type="button" onclick="document.getElementById('arquivo').click()">Escolher PDF</button>
+</div>
+
+<div id="area" style="display:none">
+
+  <!-- Abas. Hoje são duas (Ler e Editar); o escopo prevê ainda 'Criar/editar
+       template' e 'Aplicar em pasta', que entram aqui como novas abas. -->
+  <div class="abas">
+    <button class="aba" data-aba="ler" type="button">📖 Ler / extrair</button>
+    <button class="aba ativa" data-aba="editar" type="button">✏️ Editar por linha</button>
+    <button class="aba" data-aba="lote" type="button">📁 Aplicar em lote</button>
+  </div>
+
+  <!-- ABA: Ler / extrair -->
+  <div id="pane-ler" style="display:none">
+    <div class="panel">
+      <div class="hd"><h3>Ler / extrair</h3>
+        <span class="muted" style="font-size:12px">Confira o que o sistema enxerga antes de editar</span>
+      </div>
+      <div class="bd" style="padding:14px">
+        <div style="display:grid;grid-template-columns:1fr 2fr auto auto;gap:10px;align-items:end">
+          <label style="font-size:12.5px">Páginas
+            <input class="in" id="faixa" placeholder="tudo (ex.: 1-3,5)"></label>
+          <label style="font-size:12.5px">Buscar termos <span class="muted" style="font-weight:400">— separados por vírgula</span>
+            <input class="in" id="termos" placeholder="cnpj, vencimento"></label>
+          <button class="btn pri" type="button" id="btLer">Extrair texto</button>
+          <button class="btn gho" type="button" id="btBuscar">Buscar</button>
+        </div>
+        <div class="muted" style="font-size:12px;margin-top:6px">
+          A busca ignora acentos e maiúsculas — “cnpj” encontra “CNPJ”.
+        </div>
+
+        <div id="achados" style="display:none;margin-top:14px"></div>
+
+        <div style="margin-top:14px;display:flex;align-items:center;gap:10px">
+          <b style="font-size:12.5px;color:var(--navy)">Texto extraído</b>
+          <span class="muted" id="infoTexto" style="font-size:12px"></span>
+          <div style="flex:1"></div>
+          <button class="btn gho sm" type="button" id="btCopiar">Copiar</button>
+          <form method="post" action="#" id="frmTxt" style="margin:0">
+            <input type="hidden" name="faixa" id="faixaTxt">
+            <button class="btn gho sm" type="submit">⬇ Salvar .txt</button>
+          </form>
+        </div>
+        <pre id="texto" style="margin-top:8px;max-height:520px;overflow:auto;background:var(--surface-2);
+             padding:12px;border-radius:6px;font-size:12px;line-height:1.5;white-space:pre-wrap">Clique em “Extrair texto”.</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABA: Editar por linha -->
+  <div id="pane-editar">
+  <div class="panel">
+    <div class="hd">
+      <h3 id="nomeArq">documento.pdf</h3>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn gho sm" type="button" id="btAnt">◀ Anterior</button>
+        <span class="muted" id="lblPag" style="min-width:96px;text-align:center">Pág 1 / 1</span>
+        <button class="btn gho sm" type="button" id="btProx">Próxima ▶</button>
+        <a class="btn gr sm" id="btBaixar" href="#">⬇ Baixar PDF</a>
+      </div>
+    </div>
+    <div class="bd">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+
+        <!-- Documento: clique para selecionar o parágrafo (ou o ponto) -->
+        <div>
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
+            <div style="font-size:12.5px;font-weight:700;color:var(--navy)">
+              Documento <span class="muted" style="font-weight:500" id="dicaClique">— clique no parágrafo</span>
+            </div>
+            <div style="flex:1"></div>
+            <button class="btn sm pri" type="button" id="btModoTrocar">Substituir texto</button>
+            <button class="btn sm gho" type="button" id="btModoBloco">Selecionar bloco</button>
+            <button class="btn sm gho" type="button" id="btModoInserir">Adicionar texto</button>
+          </div>
+
+          <!-- Avisa quando o PDF nao tem texto para ler (Type3 sem ToUnicode,
+               digitalizacao). Sem isto a pessoa clica num parágrafo, recebe
+               quadradinhos e conclui que o editor está quebrado. -->
+          <div id="semTexto" class="panel" style="display:none;margin-bottom:8px;
+               border-color:var(--erro-line);background:var(--red-soft)">
+            <div class="bd" style="padding:10px 12px;font-size:12.5px;color:var(--red-ink)">
+              <b>Este PDF não tem texto para ler.</b>
+              <span id="semTextoMotivo"></span>
+              <span id="semTextoAcao"></span>
+            </div>
+          </div>
+          <div style="position:relative;border:1px solid var(--line);border-radius:11px;overflow:auto;max-height:70vh;background:var(--surface-3)">
+            <img id="imgPag" style="display:block;width:100%;cursor:crosshair" alt="Página do PDF">
+            <div id="marca" style="position:absolute;border:2px solid var(--blue);background:rgba(46,109,180,.14);display:none;pointer-events:none;border-radius:3px"></div>
+          </div>
+        </div>
+
+        <!-- Edição + prévia -->
+        <div>
+          <div style="font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:6px" id="tituloTxt">Texto do parágrafo</div>
+          <textarea id="txt" rows="9" placeholder="Clique num parágrafo do documento ao lado."
+            style="width:100%;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-size:13.5px;font-family:'Segoe UI',sans-serif;resize:vertical" disabled></textarea>
+
+          <!-- Aparência do texto novo. Só faz sentido ao ADICIONAR: ao
+               substituir um parágrafo, a fonte e a cor vêm do próprio PDF. -->
+          <div id="aparencia" style="display:none;gap:10px;margin-top:10px;align-items:end">
+            <label style="font-size:12.5px">Tamanho
+              <input class="in" id="insTam" type="number" min="4" max="72" step="0.5" value="10" style="width:88px"></label>
+            <label style="font-size:12.5px">Fonte
+              <select class="in" id="insFonte">
+                <option value="helv">Helvetica (Arial)</option>
+                <option value="hebo">Helvetica negrito</option>
+                <option value="tiro">Times</option>
+                <option value="tibo">Times negrito</option>
+                <option value="cour">Courier (monoespaçada)</option>
+              </select></label>
+            <label style="font-size:12.5px">Cor
+              <input class="in" id="insCor" type="color" value="#000000" style="width:64px;padding:2px"></label>
+            <label style="font-size:12.5px" id="lblFundo">Fundo
+              <input class="in" id="insFundo" type="color" value="#ffffff" style="width:64px;padding:2px"></label>
+          </div>
+          <div id="dicaOcr" class="muted" style="display:none;font-size:12px;margin-top:6px">
+            Texto lido por OCR — <b>confira antes de aplicar</b>. Tamanho, cor e
+            fundo vieram do próprio documento.
+          </div>
+
+          <div style="display:flex;gap:8px;margin:10px 0">
+            <button class="btn pri" type="button" id="btPrevia" disabled>Atualizar prévia</button>
+            <button class="btn gr" type="button" id="btAplicar" disabled>Aplicar</button>
+            <button class="btn gho" type="button" id="btSalvarTpl" disabled
+                    title="Guarda esta troca como regra reutilizável">★ Salvar como template</button>
+          </div>
+          <div id="tplAviso" class="muted" style="font-size:12px;margin-bottom:8px"></div>
+
+          <div id="metricas" class="muted" style="font-size:12.5px;margin-bottom:8px">—</div>
+
+          <div style="font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:6px">Prévia</div>
+          <div style="border:1px solid var(--line);border-radius:11px;overflow:auto;max-height:44vh;background:var(--surface-3)">
+            <div id="prevVazia" class="muted" style="padding:22px;text-align:center;font-size:12.5px">
+              A prévia aparece aqui depois de clicar em “Atualizar prévia”.
+            </div>
+            <img id="imgPrev" style="display:none;width:100%" alt="Prévia da página">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div><!-- /pane-editar -->
+
+  <!-- ABA: Aplicar em lote -->
+  <div id="pane-lote" style="display:none">
+    <div class="panel">
+      <div class="hd"><h3>Aplicar template em lote</h3>
+        <span class="muted" style="font-size:12px">Os originais nunca são alterados</span>
+      </div>
+      <div class="bd" style="padding:14px">
+
+        <label style="font-size:12.5px;display:block">1) Template
+          <select class="in" id="tplLote"><option value="">— carregando —</option></select></label>
+        <div id="tplRegras" class="muted" style="font-size:12px;margin-top:6px"></div>
+
+        <div style="margin-top:14px;font-size:12.5px;font-weight:700;color:var(--navy)">2) De onde vêm os PDFs</div>
+        <div style="display:flex;gap:16px;margin:8px 0;font-size:13px">
+          <label><input type="radio" name="origem" value="pasta" checked> Pasta do servidor</label>
+          <label><input type="radio" name="origem" value="upload"> Enviar do meu computador</label>
+        </div>
+
+        <div id="origemPasta">
+          <span style="display:flex;gap:8px">
+            <input class="in" id="pastaLote" placeholder="Ex.: Z:/Pessoal/Informes/2026-02">
+            <button class="btn gho" type="button" onclick="fsOpen('pastaLote','dir','')">Procurar…</button>
+          </span>
+          <div class="muted" style="font-size:12px;margin-top:4px">
+            Caminho no SERVIDOR (ou num drive de rede que ele enxergue). Os corrigidos saem
+            numa subpasta <b>Corrigidos</b>, ao lado dos originais.
+          </div>
+        </div>
+
+        <div id="origemUpload" style="display:none">
+          <input type="file" id="arqsLote" accept=".pdf" multiple>
+          <div class="muted" style="font-size:12px;margin-top:4px">
+            Selecione vários PDFs (Ctrl+A na pasta). Volta um <b>.zip</b> com os corrigidos.
+            Para lotes grandes prefira a pasta do servidor — aqui tudo trafega pela rede (limite de 200 MB).
+          </div>
+        </div>
+
+        <div style="margin-top:14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+          <label style="font-size:13px"><input type="checkbox" id="soRelatorio" checked>
+            <b>Apenas relatório</b> — mostra o que mudaria, sem gravar nada</label>
+          <div style="flex:1"></div>
+          <button class="btn pri" type="button" id="btLote">Aplicar</button>
+        </div>
+
+        <div id="resLote" style="display:none;margin-top:16px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- .aba agora vem do style.css (era duplicado aqui) -->
+
+<script>
+let SID=null, PAG=0, PAGINAS=1, ANCORA=null;
+// MODO decide o que o clique no documento significa:
+//   'trocar'  -> acha o paragrafo sob o ponto e substitui o texto dele;
+//   'inserir' -> guarda o ponto e escreve ali, sem apagar nada.
+//   'bloco'   -> arrasta um retangulo; o OCR le aquele pedaco e a troca
+//                apaga e reescreve (para PDF sem camada de texto).
+let MODO='trocar', PONTO=null, BLOCO=null, CAMADA=null;
+const $=id=>document.getElementById(id);
+
+function erro(m){ $('avisoTxt').textContent=m; $('aviso').style.display=m?'block':'none'; }
+
+function carregarPagina(){
+  // cache-buster: a mesma URL muda de conteudo depois de cada edicao aplicada
+  $('imgPag').src=`/editor-pdf/${SID}/pagina/${PAG}.png?t=${Date.now()}`;
+  $('lblPag').textContent=`Pág ${PAG+1} / ${PAGINAS}`;
+  $('marca').style.display='none';
+  ANCORA=null; PONTO=null; BLOCO=null;
+  $('txt').value=''; $('txt').disabled=true;
+  $('btPrevia').disabled=true; $('btAplicar').disabled=true;
+  $('imgPrev').removeAttribute('src'); $('imgPrev').style.display='none';
+  $('prevVazia').style.display='block';
+  $('metricas').textContent='—';
+}
+
+$('btEnviar').onclick=async()=>{
+  const f=$('arquivo').files[0];
+  if(!f){ erro('Escolha um arquivo PDF.'); return; }
+  erro('');
+  const fd=new FormData(); fd.append('arquivo',f);
+  const r=await fetch('/editor-pdf/upload',{method:'POST',body:fd});
+  const d=await r.json();
+  if(!r.ok){ erro(d.erro||'Falha ao enviar.'); return; }
+  SID=d.sid; PAGINAS=d.paginas; PAG=0;
+  $('nomeArq').textContent=d.nome;
+  CAMADA=d.camada||null;
+  // PDF sem texto: avisa e já entra no modo bloco, que é o único que funciona
+  // ali. Deixar no modo de parágrafo só renderia o clique com quadradinhos.
+  if(CAMADA && CAMADA.legivel===false){
+    $('semTextoMotivo').textContent = ' ' + (CAMADA.motivo||'');
+    $('semTextoAcao').textContent = CAMADA.ocr_disponivel
+      ? ' Use "Selecionar bloco": o texto é lido por OCR da imagem da página.'
+      : ' E o OCR não está disponível neste servidor, então só dá para adicionar texto novo.';
+    $('semTexto').style.display='block';
+    aplicarModo(CAMADA.ocr_disponivel ? 'bloco' : 'inserir');
+  } else {
+    $('semTexto').style.display='none';
+    aplicarModo('trocar');
+  }
+  $('btBaixar').href=`/editor-pdf/${SID}/baixar`;
+  $('area').style.display='block';
+  // Estado vazio some assim que o primeiro PDF entra (revisao UX 21/08/2026).
+  var _v=$('vazio'); if(_v) _v.style.display='none';
+  carregarPagina();
+};
+
+$('btAnt').onclick=()=>{ if(PAG>0){PAG--;carregarPagina();} };
+$('btProx').onclick=()=>{ if(PAG<PAGINAS-1){PAG++;carregarPagina();} };
+
+// --- Modo do clique ---------------------------------------------------------
+const DICA_MODO = {
+  trocar:  '— clique no parágrafo',
+  bloco:   '— arraste um retângulo sobre o texto',
+  inserir: '— arraste a área do texto (ou clique num ponto)',
+};
+const TITULO_MODO = {
+  trocar: 'Texto do parágrafo', bloco: 'Texto do bloco', inserir: 'Texto a adicionar',
+};
+const PLACEHOLDER_MODO = {
+  trocar:  'Clique num parágrafo do documento ao lado.',
+  bloco:   'Arraste um retângulo sobre o texto que quer trocar.',
+  inserir: 'Arraste a área onde o texto deve caber e escreva aqui. A largura da área é que quebra as linhas.',
+};
+function aplicarModo(novo){
+  MODO=novo;
+  for(const [m, id] of [['trocar','btModoTrocar'],['bloco','btModoBloco'],['inserir','btModoInserir']])
+    $(id).className = 'btn sm ' + (MODO===m ? 'pri' : 'gho');
+  $('dicaClique').textContent = DICA_MODO[MODO];
+  $('tituloTxt').textContent  = TITULO_MODO[MODO];
+  $('txt').placeholder        = PLACEHOLDER_MODO[MODO];
+  // Fonte, cor e tamanho só aparecem quando o texto novo é escrito por nós.
+  // Ao substituir um parágrafo eles vêm do próprio PDF e não há o que escolher.
+  $('aparencia').style.display = (MODO==='trocar') ? 'none' : 'flex';
+  // O fundo só existe ao trocar um bloco: é a cor que apaga o texto antigo.
+  $('lblFundo').style.display  = (MODO==='bloco') ? '' : 'none';
+  $('dicaOcr').style.display   = 'none';
+  // Trocar de modo invalida a seleção anterior: as âncoras são diferentes.
+  ANCORA=null; PONTO=null; BLOCO=null;
+  $('marca').style.display='none';
+  $('txt').value=''; $('txt').disabled = (MODO!=='inserir');
+  $('btPrevia').disabled=true; $('btAplicar').disabled=true;
+  $('metricas').textContent = MODO==='trocar' ? '—'
+    : (MODO==='bloco' ? 'Arraste sobre o texto no documento.'
+                      : 'Arraste a área do texto no documento (ou clique num ponto).');
+  if(typeof avaliarSalvarTpl==='function'){ TEXTO_ORIGINAL=''; avaliarSalvarTpl(); }
+}
+$('btModoInserir').onclick=()=>aplicarModo('inserir');
+$('btModoTrocar').onclick =()=>aplicarModo('trocar');
+$('btModoBloco').onclick  =()=>aplicarModo('bloco');
+
+// --- Arrasto do retângulo (modo bloco) --------------------------------------
+// Converte para pixels reais da imagem: ela é exibida com width:100%, então o
+// fator naturalWidth/offsetWidth importa em qualquer largura de tela.
+function fatores(){
+  const img=$('imgPag'), r=img.getBoundingClientRect();
+  return {r, fx:img.naturalWidth/r.width, fy:img.naturalHeight/r.height};
+}
+function desenharMarca(px, py, pw, ph){
+  const {fx, fy} = fatores(), m=$('marca');
+  m.style.left=(px/fx)+'px'; m.style.top=(py/fy)+'px';
+  m.style.width=Math.max(pw/fx,2)+'px'; m.style.height=Math.max(ph/fy,2)+'px';
+  m.style.display='block';
+}
+let ARRASTANDO=null;
+$('imgPag').addEventListener('mousedown', ev=>{
+  if(!SID || (MODO!=='bloco' && MODO!=='inserir')) return;
+  ev.preventDefault();                       // senão o navegador arrasta a imagem
+  const {r, fx, fy} = fatores();
+  ARRASTANDO = {x:(ev.clientX-r.left)*fx, y:(ev.clientY-r.top)*fy};
+});
+document.addEventListener('mousemove', ev=>{
+  if(!ARRASTANDO) return;
+  const {r, fx, fy} = fatores();
+  const x=(ev.clientX-r.left)*fx, y=(ev.clientY-r.top)*fy;
+  desenharMarca(Math.min(x,ARRASTANDO.x), Math.min(y,ARRASTANDO.y),
+                Math.abs(x-ARRASTANDO.x), Math.abs(y-ARRASTANDO.y));
+});
+document.addEventListener('mouseup', async ev=>{
+  if(!ARRASTANDO) return;
+  const ini=ARRASTANDO; ARRASTANDO=null;
+  const {r, fx, fy} = fatores();
+  const x=(ev.clientX-r.left)*fx, y=(ev.clientY-r.top)*fy;
+  const cx=Math.min(x,ini.x), cy=Math.min(y,ini.y);
+  const cw=Math.abs(x-ini.x), ch=Math.abs(y-ini.y);
+
+  if(MODO==='inserir'){
+    // Arrasto curto demais é um clique: vira ponto, e aí a largura fica por
+    // conta do servidor (vai até a margem direita), como era antes.
+    marcarPontoInsercao(cx, cy, cw>=6&&ch>=6 ? cw : 0, cw>=6&&ch>=6 ? ch : 0);
+    return;
+  }
+  if(cw<6 || ch<6){ $('marca').style.display='none';
+    erro('Arraste um retângulo maior sobre o texto.'); return; }
+  await lerBloco({pagina:PAG, x:cx, y:cy, w:cw, h:ch});
+});
+
+// Ponto (ou área) onde o texto novo vai entrar. `w`/`h` em zero = só um clique.
+function marcarPontoInsercao(x, y, w, h){
+  PONTO={x:x, y:y, w:w, h:h}; erro('');
+  $('txt').disabled=false; $('txt').focus();
+  $('btPrevia').disabled=false; $('btAplicar').disabled=true;
+  if(w && h){
+    desenharMarca(x, y, w, h);
+    $('metricas').textContent='Área marcada. As linhas quebram na largura dela.';
+  } else {
+    const {fy} = fatores();
+    desenharMarca(x, y, 2, ($('insTam').value||10)*1.5);
+    $('metricas').textContent='Ponto escolhido — o texto segue até a margem direita. '
+      +'Para quebrar linha, arraste uma área.';
+  }
+}
+
+async function lerBloco(caixa){
+  $('metricas').textContent='Lendo o bloco…';
+  const r=await fetch(`/editor-pdf/${SID}/bloco/ler`,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(caixa)});
+  const d=await r.json();
+  if(!r.ok){ erro(d.erro||'Não consegui ler esse trecho.');
+             $('metricas').textContent='—'; return; }
+  erro('');
+  // O servidor devolve o retângulo que de fato vai ser trocado (ele encosta na
+  // borda da tinta). Redesenhar nele evita a surpresa de apagar mais do que o
+  // que estava marcado.
+  BLOCO = d.caixa;
+  desenharMarca(d.caixa.x, d.caixa.y, d.caixa.w, d.caixa.h);
+  $('txt').value=d.texto; $('txt').disabled=false;
+  $('insTam').value=d.tamanho; $('insCor').value=d.cor; $('insFundo').value=d.fundo;
+  $('btPrevia').disabled=false; $('btAplicar').disabled=true;
+  $('dicaOcr').style.display = d.origem==='ocr' ? 'block' : 'none';
+  $('metricas').textContent = d.origem==='ocr'
+    ? 'Lido por OCR. Corrija o texto se precisar e gere a prévia.'
+    : 'Lido da camada de texto do PDF.';
+}
+
+function corpoBloco(){
+  return JSON.stringify({pagina:PAG, x:BLOCO.x, y:BLOCO.y, w:BLOCO.w, h:BLOCO.h,
+                         texto:$('txt').value,
+                         tamanho:parseFloat($('insTam').value)||0,
+                         fonte:$('insFonte').value,
+                         cor:$('insCor').value, fundo:$('insFundo').value});
+}
+
+async function previaBloco(){
+  if(!BLOCO) return;
+  $('metricas').textContent='Gerando prévia…';
+  const r=await fetch(`/editor-pdf/${SID}/bloco/previa`,{
+    method:'POST',headers:{'Content-Type':'application/json'},body:corpoBloco()});
+  const d=await r.json();
+  if(!r.ok){ erro(d.erro||'Falha na prévia.'); $('metricas').textContent='—'; return; }
+  erro('');
+  $('imgPrev').src=d.png; $('imgPrev').style.display='block';
+  $('prevVazia').style.display='none';
+  desenharMarca(d.caixa.x, d.caixa.y, d.caixa.w, d.caixa.h);
+  $('metricas').textContent = (d.cabe ? `${d.linhas} linha(s) em ${d.tamanho}pt. `
+                                      : 'NÃO CABE NA PÁGINA. ') + (d.avisos||[]).join(' ');
+  $('btAplicar').disabled=!d.cabe;
+}
+
+async function aplicarBloco(){
+  if(!BLOCO) return;
+  const r=await fetch(`/editor-pdf/${SID}/bloco`,{
+    method:'POST',headers:{'Content-Type':'application/json'},body:corpoBloco()});
+  const d=await r.json();
+  if(!r.ok){ erro(d.erro||'Falha ao trocar o bloco.'); return; }
+  erro('');
+  carregarPagina();
+  $('metricas').textContent='Bloco trocado. Marque outro trecho ou baixe o PDF.';
+}
+
+// Clique no documento -> converte para pixels reais da imagem (ela e exibida
+// redimensionada por width:100%, entao o fator naturalWidth/offsetWidth importa).
+$('imgPag').onclick=async(ev)=>{
+  // Nos modos 'bloco' e 'inserir' quem manda e o arrasto (mousedown/mouseup):
+  // la o clique curto ja e tratado como ponto, e responder aqui tambem faria
+  // a selecao acontecer duas vezes.
+  if(!SID || MODO==='bloco' || MODO==='inserir') return;
+  const img=$('imgPag'), r=img.getBoundingClientRect();
+  const fx=img.naturalWidth/r.width, fy=img.naturalHeight/r.height;
+  const x=(ev.clientX-r.left)*fx, y=(ev.clientY-r.top)*fy;
+
+  const resp=await fetch(`/editor-pdf/${SID}/paragrafo`,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({pagina:PAG,x:x,y:y})});
+  const d=await resp.json();
+  if(!resp.ok){ erro(d.erro||'Nada encontrado aqui.'); return; }
+  erro('');
+
+  ANCORA=d.ancora;
+  $('txt').value=d.texto; $('txt').disabled=false;
+  $('btPrevia').disabled=false; $('btAplicar').disabled=false;
+  // Guarda o texto como veio: e o lado 'de' da regra, quando a pessoa salvar
+  // isto como template. Sem ele nao ha o que procurar nos outros PDFs.
+  TEXTO_ORIGINAL = d.texto;
+  avaliarSalvarTpl();
+  $('metricas').textContent=`Parágrafo com ${d.linhas} linha(s).`;
+
+  // Destaque na escala em que a imagem esta sendo exibida.
+  const m=$('marca');
+  m.style.left=(d.destaque.x/fx)+'px'; m.style.top=(d.destaque.y/fy)+'px';
+  m.style.width=(d.destaque.w/fx)+'px'; m.style.height=(d.destaque.h/fy)+'px';
+  m.style.display='block';
+};
+
+// Corpo comum das chamadas de insercao: ponto, texto e aparencia.
+function corpoInsercao(){
+  // w/h em zero quando foi só um clique: o servidor então decide a largura.
+  return JSON.stringify({pagina:PAG, x:PONTO.x, y:PONTO.y,
+                         w:PONTO.w||0, h:PONTO.h||0, texto:$('txt').value,
+                         tamanho:parseFloat($('insTam').value)||10,
+                         fonte:$('insFonte').value, cor:$('insCor').value});
+}
+
+function marcarCaixa(caixa){
+  const img=$('imgPag'), r=img.getBoundingClientRect();
+  const fx=img.naturalWidth/r.width, fy=img.naturalHeight/r.height, m=$('marca');
+  m.style.left=(caixa.x/fx)+'px'; m.style.top=(caixa.y/fy)+'px';
+  m.style.width=Math.max(caixa.w/fx,2)+'px'; m.style.height=Math.max(caixa.h/fy,2)+'px';
+  m.style.display='block';
+}
+
+async function previaInsercao(){
+  if(!PONTO) return;
+  if(!$('txt').value.trim()){ erro('Escreva o texto a adicionar.'); return; }
+  $('metricas').textContent='Gerando prévia…';
+  const r=await fetch(`/editor-pdf/${SID}/inserir/previa`,{
+    method:'POST',headers:{'Content-Type':'application/json'},body:corpoInsercao()});
+  const d=await r.json();
+  if(!r.ok){ erro(d.erro||'Falha na prévia.'); $('metricas').textContent='—'; return; }
+  erro('');
+  $('imgPrev').src=d.png; $('imgPrev').style.display='block';
+  $('prevVazia').style.display='none';
+  marcarCaixa(d.caixa);
+  $('metricas').textContent = (d.cabe
+    ? `${d.linhas} linha(s), ${Math.round(d.altura_pt)}pt de altura. `
+    : 'NÃO CABE NA PÁGINA. ') + (d.avisos||[]).join(' ');
+  $('btAplicar').disabled=!d.cabe;
+}
+
+async function aplicarInsercao(){
+  if(!PONTO) return;
+  const r=await fetch(`/editor-pdf/${SID}/inserir`,{
+    method:'POST',headers:{'Content-Type':'application/json'},body:corpoInsercao()});
+  const d=await r.json();
+  if(!r.ok){ erro(d.erro||'Falha ao adicionar o texto.'); return; }
+  erro('');
+  carregarPagina();
+  $('metricas').textContent=`Texto adicionado em ${d.linhas} linha(s). `
+    +'Clique noutro ponto ou baixe o PDF.';
+}
+
+$('btPrevia').onclick=async()=>{
+  if(MODO==='bloco'){ return previaBloco(); }
+  if(MODO==='inserir'){ return previaInsercao(); }
+  if(!ANCORA) return;
+  $('metricas').textContent='Gerando prévia…';
+  const r=await fetch(`/editor-pdf/${SID}/previa`,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({pagina:PAG,ancora:ANCORA,texto:$('txt').value})});
+  const d=await r.json();
+  if(!r.ok){ erro(d.erro||'Falha na prévia.'); $('metricas').textContent='—'; return; }
+  erro('');
+  $('imgPrev').src=d.png; $('imgPrev').style.display='block';
+  $('prevVazia').style.display='none';
+  $('metricas').textContent = d.cabe
+    ? `${d.linhas_antes} → ${d.linhas_depois} linhas; ` + (Math.round(d.deslocamento_pt||0) > 0
+        ? `o conteúdo abaixo desce ${Math.round(d.deslocamento_pt)}pt.`
+        : 'coube no espaço existente — nada abaixo se move.')
+    : 'NÃO CABE NA PÁGINA: '+(d.avisos||[]).join(' ');
+  $('btAplicar').disabled=!d.cabe;
+};
+
+$('btAplicar').onclick=async()=>{
+  if(MODO==='bloco'){ return aplicarBloco(); }
+  if(MODO==='inserir'){ return aplicarInsercao(); }
+  if(!ANCORA) return;
+  const r=await fetch(`/editor-pdf/${SID}/aplicar`,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({pagina:PAG,ancora:ANCORA,texto:$('txt').value})});
+  const d=await r.json();
+  if(!r.ok){ erro(d.erro||'Falha ao aplicar.'); return; }
+  erro('');
+  // A ancora ficou obsoleta: o documento mudou. Recarrega a pagina do zero.
+  carregarPagina();
+  $('metricas').textContent=`Aplicado: ${d.linhas_antes} → ${d.linhas_depois} linhas. Clique noutro parágrafo ou baixe o PDF.`;
+};
+
+// --- Abas -------------------------------------------------------------------
+document.querySelectorAll('.aba').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.aba').forEach(x=>x.classList.remove('ativa'));
+    b.classList.add('ativa');
+    $('pane-ler').style.display    = b.dataset.aba==='ler' ? '' : 'none';
+    $('pane-editar').style.display = b.dataset.aba==='editar' ? '' : 'none';
+    $('pane-lote').style.display   = b.dataset.aba==='lote' ? '' : 'none';
+  };
+});
+
+// --- Aba Ler / extrair -------------------------------------------------------
+async function lerTexto(){
+  if(!SID) return;
+  const r=await fetch(`/editor-pdf/${SID}/texto`,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({faixa:$('faixa').value})});
+  const d=await r.json();
+  if(!r.ok){ erro(d.erro||'Falha ao extrair.'); return; }
+  erro('');
+  $('texto').textContent = d.texto || '(sem texto extraível nessas páginas)';
+  $('infoTexto').textContent = `${d.paginas_lidas.length} de ${d.total_paginas} página(s)`;
+  // O form de download precisa da mesma faixa que foi extraida na tela.
+  $('faixaTxt').value = $('faixa').value;
+  $('frmTxt').action = `/editor-pdf/${SID}/txt`;
+}
+$('btLer').onclick=lerTexto;
+
+$('btBuscar').onclick=async()=>{
+  if(!SID) return;
+  const termos=$('termos').value.trim();
+  if(!termos){ erro('Digite ao menos um termo para buscar.'); return; }
+  const r=await fetch(`/editor-pdf/${SID}/buscar`,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({termos:termos,faixa:$('faixa').value})});
+  const d=await r.json();
+  if(!r.ok){ erro(d.erro||'Falha na busca.'); return; }
+  erro('');
+  const box=$('achados');
+  if(!d.total){
+    box.style.display='';
+    box.innerHTML='<div class="muted" style="font-size:12.5px">Nenhum resultado para: '
+      + d.termos.map(t=>`<b>${t}</b>`).join(', ') + '</div>';
+    return;
+  }
+  let html=`<div style="font-size:12.5px;margin-bottom:6px"><b>${d.total}</b> ocorrência(s)</div>`;
+  html+='<table class="tbl"><thead><tr><th>Termo</th><th>Pág</th><th>Linha</th><th>Texto</th></tr></thead><tbody>';
+  for(const [termo,lista] of Object.entries(d.achados)){
+    lista.forEach(a=>{
+      html+=`<tr><td><b>${termo}</b></td><td>${a.pagina}</td><td>${a.linha}</td>`
+          + `<td style="font-size:12px">${(a.texto||'').replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}</td></tr>`;
+    });
+  }
+  html+='</tbody></table>';
+  if((d.sem_resultado||[]).length){
+    html+=`<div class="muted" style="font-size:12px;margin-top:6px">Sem resultado: ${d.sem_resultado.join(', ')}</div>`;
+  }
+  box.style.display=''; box.innerHTML=html;
+  // Extrai o texto junto: quem busca costuma querer ler o contexto em seguida.
+  if($('texto').textContent.startsWith('Clique em')) lerTexto();
+};
+
+$('btCopiar').onclick=async function(){
+  const t=$('texto').textContent||'';
+  const btn=this, orig=btn.textContent;
+  try{ await navigator.clipboard.writeText(t); }
+  catch(e){
+    // http (nao-seguro) bloqueia a clipboard API — cai no textarea temporario.
+    const ta=document.createElement('textarea'); ta.value=t;
+    ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); }catch(_){}
+    document.body.removeChild(ta);
+  }
+  btn.textContent='Copiado!'; setTimeout(()=>btn.textContent=orig,1500);
+};
+
+// --- Salvar como template ----------------------------------------------------
+// A regra guarda 'texto original -> texto novo'. Por isso o botao so liga
+// depois de o paragrafo ser selecionado E o texto ter sido de fato alterado:
+// sem o "de" e o "para" nao existe regra nenhuma para salvar.
+let TEXTO_ORIGINAL = '';
+
+function avaliarSalvarTpl(){
+  const mudou = TEXTO_ORIGINAL && $('txt').value.trim() && $('txt').value !== TEXTO_ORIGINAL;
+  $('btSalvarTpl').disabled = !mudou;
+  $('tplAviso').textContent = mudou
+    ? 'Vai salvar: "' + TEXTO_ORIGINAL.slice(0,40) + '..." -> "' + $('txt').value.slice(0,40) + '..."'
+    : '';
+}
+$('txt').addEventListener('input', avaliarSalvarTpl);
+
+$('btSalvarTpl').onclick=async()=>{
+  const de=TEXTO_ORIGINAL, para=$('txt').value;
+  if(!de || de===para) return;
+  const nome=prompt('Nome do template (ex.: Informe 2Talk para 4Talk):','');
+  if(nome===null) return;
+  if(!nome.trim()){ erro('De um nome ao template.'); return; }
+  const r=await fetch('/editor-pdf/templates',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({nome:nome,regras:[{de:de,para:para,todas_paginas:true}]})});
+  const d=await r.json();
+  if(!r.ok){ erro(d.erro||'Falha ao salvar o template.'); return; }
+  erro('');
+  $('tplAviso').textContent='Template "'+nome+'" salvo. Use a aba "Aplicar em lote".';
+  carregarTemplates();
+};
+
+// --- Aplicar em lote ---------------------------------------------------------
+let TEMPLATES=[];
+
+async function carregarTemplates(){
+  const r=await fetch('/editor-pdf/templates');
+  const d=await r.json();
+  TEMPLATES=d.templates||[];
+  const sel=$('tplLote');
+  sel.innerHTML = TEMPLATES.length
+    ? TEMPLATES.map(t=>'<option value="'+t.id+'">'+t.nome+'</option>').join('')
+    : '<option value="">-- nenhum template salvo ainda --</option>';
+  mostrarRegras();
+}
+
+function mostrarRegras(){
+  const t=TEMPLATES.find(x=>String(x.id)===$('tplLote').value);
+  if(!t){ $('tplRegras').textContent=''; return; }
+  $('tplRegras').innerHTML = t.regras.map(r=>
+    '<div>- "'+(r.de||'').slice(0,60)+'" -> "'+(r.para||'').slice(0,60)+'"</div>').join('');
+}
+$('tplLote').onchange=mostrarRegras;
+
+document.querySelectorAll('input[name=origem]').forEach(el=>{
+  el.onchange=()=>{
+    const up = el.value==='upload' && el.checked;
+    $('origemPasta').style.display = up?'none':'';
+    $('origemUpload').style.display = up?'':'none';
+  };
+});
+
+$('btLote').onclick=async()=>{
+  const tid=$('tplLote').value;
+  if(!tid){ erro('Salve um template antes de aplicar em lote.'); return; }
+  const apenas=$('soRelatorio').checked;
+  const upload=document.querySelector('input[name=origem]:checked').value==='upload';
+  const box=$('resLote');
+  box.style.display=''; box.innerHTML='<div class="muted">Processando...</div>';
+  erro('');
+
+  try{
+    if(upload){
+      const fs=$('arqsLote').files;
+      if(!fs.length){ erro('Selecione os PDFs a enviar.'); box.style.display='none'; return; }
+      const fd=new FormData();
+      fd.append('template_id',tid); fd.append('apenas_relatorio',apenas?'1':'0');
+      for(const f of fs) fd.append('arquivos',f);
+      const r=await fetch('/editor-pdf/lote-upload',{method:'POST',body:fd});
+      // Quando grava de verdade a resposta e um .zip, nao JSON.
+      const ct=r.headers.get('Content-Type')||'';
+      if(r.ok && ct.includes('zip')){
+        const blob=await r.blob();
+        const a=document.createElement('a');
+        a.href=URL.createObjectURL(blob); a.download='Corrigidos.zip';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        box.innerHTML='<div style="color:var(--green);font-weight:600">Pronto - o .zip com os corrigidos foi baixado.</div>';
+        return;
+      }
+      const d=await r.json();
+      if(!r.ok){ erro(d.erro||'Falha no lote.'); box.style.display='none'; return; }
+      renderLote(d);
+    } else {
+      const pasta=$('pastaLote').value.trim();
+      if(!pasta){ erro('Informe a pasta do servidor.'); box.style.display='none'; return; }
+      const r=await fetch('/editor-pdf/lote',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({template_id:tid,pasta:pasta,apenas_relatorio:apenas})});
+      const d=await r.json();
+      if(!r.ok){ erro(d.erro||'Falha no lote.'); box.style.display='none'; return; }
+      renderLote(d);
+    }
+  }catch(e){ erro('Falha no lote: '+e); box.style.display='none'; }
+};
+
+function renderLote(d){
+  const esc=t=>(t||'').replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
+  let h='<div style="font-size:13px;margin-bottom:8px">'
+      + (d.apenas_relatorio ? '<b>Apenas relatorio</b> - nada foi gravado. ' : '')
+      + '<b>'+d.arquivos+'</b> arquivo(s) &middot; <b>'+d.correcoes+'</b> correcao(oes)'
+      + (d.erros?' &middot; <b style="color:var(--red-ink)">'+d.erros+' erro(s)</b>':'')
+      + (d.sem_correcao?' &middot; '+d.sem_correcao+' sem correcao':'')
+      + '</div>';
+  if(d.pasta_saida) h+='<div class="muted" style="font-size:12px;margin-bottom:8px">Saida: <code>'+esc(d.pasta_saida)+'</code></div>';
+  h+='<table class="tbl"><thead><tr><th>Arquivo</th><th>Correcoes</th><th>Status</th></tr></thead><tbody>';
+  (d.resultados||[]).forEach(r=>{
+    const cor = r.status==='ok'?'var(--green)':(r.status==='erro'?'var(--red-ink)':'var(--ink2)');
+    const txt = r.status==='ok'?'corrigido':(r.status==='erro'?('erro: '+esc(r.erro||'')):'nada a corrigir');
+    h+='<tr><td>'+esc(r.arquivo)+'</td><td>'+r.correcoes+'</td>'
+     + '<td style="color:'+cor+';font-size:12.5px">'+txt+'</td></tr>';
+  });
+  h+='</tbody></table>';
+  if(d.apenas_relatorio && d.correcoes>0){
+    h+='<div class="muted" style="font-size:12px;margin-top:8px">Desmarque "Apenas relatorio" para gravar os corrigidos.</div>';
+  }
+  $('resLote').innerHTML=h;
+}
+
+carregarTemplates();
+</script>
+</div></div>
+</div>
+
+<div id="fsmodal" role="dialog" aria-modal="true" aria-label="Selecionar do servidor">
+  <div class="fsbox">
+    <div class="fshd"><b style="color:var(--navy)">Selecionar do servidor</b><div style="flex:1"></div><button class="btn sm" type="button" onclick="fsClose()">Fechar</button></div>
+    <div id="fsbody" style="padding:16px">…</div>
+  </div>
+</div>
+<script>
+function fsOpen(target,mode,ext){var el=document.querySelector('[name="'+target+'"]');var v=(el&&el.value)||'';
+  var start=v; if(mode==='file' && /\.[A-Za-z0-9]+$/.test(v)) start=v.replace(/[\\/][^\\/]*$/,'');
+  document.getElementById('fsmodal').style.display='flex';
+  htmx.ajax('GET','/fs/browse?target='+encodeURIComponent(target)+'&mode='+mode+'&ext='+encodeURIComponent(ext||'')+'&path='+encodeURIComponent(start),{target:'#fsbody',swap:'innerHTML'});}
+function fsClose(){document.getElementById('fsmodal').style.display='none';}
+function fsPick(target,path){var el=document.querySelector('[name="'+target+'"]');if(el)el.value=path;fsClose();}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') fsClose(); });
+document.getElementById('fsmodal').addEventListener('click',function(e){ if(e.target===this) fsClose(); });
+
+/* --- Campo 'upload_lista': um arquivo por linha, com botão de acrescentar ---
+   A ORDEM das linhas é a ordem de chegada no WhatsApp, e é ela que o
+   formulário envia (os <input> têm o mesmo name; o navegador respeita a ordem
+   do documento). Por isso a linha nova entra no FIM. */
+function uplMais(campo){
+  var caixa=document.getElementById('ul-'+campo); if(!caixa) return;
+  var novo=caixa.querySelector('.upl-item').cloneNode(true);
+  novo.querySelector('input[type=file]').value='';
+  caixa.appendChild(novo);
+  novo.querySelector('input[type=file]').click();   /* abre o seletor direto */
+}
+function uplTira(btn){
+  var item=btn.closest('.upl-item'), caixa=item.parentNode;
+  /* A última linha não some: sem nenhum <input> não haveria como voltar a
+     escolher um arquivo. Ela só é esvaziada. */
+  if(caixa.querySelectorAll('.upl-item').length>1) item.remove();
+  else item.querySelector('input[type=file]').value='';
+}
+
+/* --- Tema ------------------------------------------------------------------
+   A escolha fica no navegador de quem clicou (localStorage), não no servidor:
+   é preferência de quem olha a tela, e o login da Libby é por SETOR — gravar
+   no servidor faria a escolha de um contaminar todo o setor.
+
+   Consequência assumida: quem trocar de computador começa no claro de novo. */
+function pintaBotaoTema(escuro){
+  var bt = document.getElementById('temaBt');
+  if(!bt) return;
+  bt.querySelector('use').setAttribute('href', escuro ? '#i-sol' : '#i-lua');
+  bt.querySelector('span').textContent = escuro ? 'Tema claro' : 'Tema escuro';
+  bt.setAttribute('aria-pressed', escuro ? 'true' : 'false');
+}
+function trocaTema(){
+  var escuro = document.documentElement.getAttribute('data-theme') !== 'dark';
+  if(escuro) document.documentElement.setAttribute('data-theme','dark');
+  else       document.documentElement.removeAttribute('data-theme');
+  try{ localStorage.setItem('libby-tema', escuro ? 'dark' : 'light'); }catch(e){}
+  pintaBotaoTema(escuro);
+}
+/* O <head> já aplicou o tema; aqui só acertamos o rótulo do botão, que ainda
+   não existia naquele momento. */
+pintaBotaoTema(document.documentElement.getAttribute('data-theme') === 'dark');
+</script>
+<script>window.__DEMO={"pagina": "/editor-pdf", "mapa": {"/execucao/249": "execucao-249.html", "/automacao/sincronizar-fponto": "automacao-sincronizar-fponto.html", "/automacao/gestta-concluir": "automacao-gestta-concluir.html", "/execucao/272": "execucao-272.html", "/login": "login.html", "/dirf/resultados": "dirf-resultados.html", "/execucao/271": "execucao-271.html", "/automacao/limpar-arquivo-dp": "automacao-limpar-arquivo-dp.html", "/execucao/285": "execucao-285.html", "/execucao/266": "execucao-266.html", "/execucao/268": "execucao-268.html", "/execucao/252": "execucao-252.html", "/execucao/241": "execucao-241.html", "/taxas": "taxas.html", "/automacao/certificados-sheets": "automacao-certificados-sheets.html", "/execucao/244": "execucao-244.html", "/automacao/aviso-vencimento": "automacao-aviso-vencimento.html", "/economia?dias=30": "economia__dias-30.html", "/automacao/aviso-publicar-onvio": "automacao-aviso-publicar-onvio.html", "/execucao/207": "execucao-207.html", "/automacao/econsig-conferir": "automacao-econsig-conferir.html", "/execucoes?automacao=aviso-vencimento-completo&status=ruins": "execucoes__automacao-aviso-vencimento-completo_status-ruins.html", "/execucao/258": "execucao-258.html", "/automacao/aviso-vencimento-completo": "automacao-aviso-vencimento-completo.html", "/execucao/290": "execucao-290.html", "/dirf": "dirf.html", "/execucao/294": "execucao-294.html", "/execucao/270": "execucao-270.html", "/execucao/259": "execucao-259.html", "/automacao/automessenger-one": "automacao-automessenger-one.html", "/execucao/300": "execucao-300.html", "/execucao/293": "execucao-293.html", "/execucao/269": "execucao-269.html", "/automacao/gestta-concluir-df": "automacao-gestta-concluir-df.html", "/execucao/277": "execucao-277.html", "/execucao/279": "execucao-279.html", "/darf-fgts/valores-darf": "darf-fgts-valores-darf.html", "/automacao/consult-cadastro": "automacao-consult-cadastro.html", "/economia": "economia.html", "/execucao/255": "execucao-255.html", "/execucao/278": "execucao-278.html", "/automacao/econsig-emitir": "automacao-econsig-emitir.html", "/empresas": "empresas.html", "/execucoes?automacao=dombot-gfip&status=ruins": "execucoes__automacao-dombot-gfip_status-ruins.html", "/editor-pdf": "editor-pdf.html", "/execucao/254": "execucao-254.html", "/automacao/taxas-boletos": "automacao-taxas-boletos.html", "/execucao/292": "execucao-292.html", "/relatorios": "relatorios.html", "/execucao/295": "execucao-295.html", "/execucao/248": "execucao-248.html", "/execucao/276": "execucao-276.html", "/execucao/256": "execucao-256.html", "/execucao/250": "execucao-250.html", "/execucao/245": "execucao-245.html", "/execucao/281": "execucao-281.html", "/automacao/conferencia-prolabore-dp": "automacao-conferencia-prolabore-dp.html", "/automacao/dombot-admiss": "automacao-dombot-admiss.html", "/automacao/gms-analytics": "automacao-gms-analytics.html", "/automacao/conferencia-df": "automacao-conferencia-df.html", "/automacao/onvio-publicar": "automacao-onvio-publicar.html", "/darf-fgts/valores-fgts": "darf-fgts-valores-fgts.html", "/execucao/243": "execucao-243.html", "/execucao/275": "execucao-275.html", "/execucao/261": "execucao-261.html", "/agendamentos": "agendamentos.html", "/execucao/265": "execucao-265.html", "/automacao/conferir-valores-fgts-dominio": "automacao-conferir-valores-fgts-dominio.html", "/execucoes?automacao=fponto-emitir&status=ruins": "execucoes__automacao-fponto-emitir_status-ruins.html", "/ciclos": "ciclos.html", "/automacao/dombot-dirf": "automacao-dombot-dirf.html", "/execucao/284": "execucao-284.html", "/automacao/pdf-corrigir-spans": "automacao-pdf-corrigir-spans.html", "/execucao/247": "execucao-247.html", "/automacao/atualizar-contatos": "automacao-atualizar-contatos.html", "/automacao/gestta-concluir-df/painel": "automacao-gestta-concluir-df-painel.html", "/execucao/296": "execucao-296.html", "/execucao/274": "execucao-274.html", "/automacao/sincronizar-gms": "automacao-sincronizar-gms.html", "/execucao/299": "execucao-299.html", "/execucao/253": "execucao-253.html", "/execucao/262": "execucao-262.html", "/automacao/sincronizar-taxas": "automacao-sincronizar-taxas.html", "/calculo-difal": "calculo-difal.html", "/execucao/289": "execucao-289.html", "/execucao/286": "execucao-286.html", "/automacao/fponto-emitir": "automacao-fponto-emitir.html", "/automacao/conferir-valores-darf": "automacao-conferir-valores-darf.html", "/automacao/taxas-emitir": "automacao-taxas-emitir.html", "/execucoes?automacao=onvio-publicar&status=ruins": "execucoes__automacao-onvio-publicar_status-ruins.html", "/execucao/280": "execucao-280.html", "/automacao/dombot-gfip": "automacao-dombot-gfip.html", "/execucao/267": "execucao-267.html", "/fponto": "fponto.html", "/execucao/209": "execucao-209.html", "/execucao/283": "execucao-283.html", "/execucao/246": "execucao-246.html", "/execucao/298": "execucao-298.html", "/execucao/242": "execucao-242.html", "/execucao/251": "execucao-251.html", "/execucao/297": "execucao-297.html", "/execucoes?automacao=gestta-concluir-df&status=ruins": "execucoes__automacao-gestta-concluir-df_status-ruins.html", "/cobranca": "cobranca.html", "/automacao/gms-emitir": "automacao-gms-emitir.html", "/fgts": "fgts.html", "/automacao/conferencia-venc-onvio": "automacao-conferencia-venc-onvio.html", "/execucao/273": "execucao-273.html", "/execucao/257": "execucao-257.html", "/execucao/260": "execucao-260.html", "/execucao/291": "execucao-291.html", "/execucao/288": "execucao-288.html", "/execucao/263": "execucao-263.html", "/execucao/282": "execucao-282.html", "/execucao/187": "execucao-187.html", "/execucao/264": "execucao-264.html", "/execucoes?automacao=gms-emitir&tipo=real": "execucoes__automacao-gms-emitir_tipo-real.html", "/execucoes": "execucoes.html", "/darf-fgts": "darf-fgts.html", "/automacao/divisor-icms-fecoep": "automacao-divisor-icms-fecoep.html", "/automacoes": "automacoes.html", "/": "dashboard.html", "/automacao/conferir-valores-fgts": "automacao-conferir-valores-fgts.html", "/execucao/287": "execucao-287.html"}, "fetch": {}, "aovivo": {}};</script><script src="demo.js"></script></body></html>

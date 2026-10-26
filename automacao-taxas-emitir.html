@@ -1,0 +1,1036 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<script>
+  try{
+    if(localStorage.getItem('libby-tema')==='dark')
+      document.documentElement.setAttribute('data-theme','dark');
+  }catch(e){}  /* navegador com armazenamento bloqueado: segue no claro */
+</script>
+<title>Libby — Taxa Assistencial — Emitir no Domínio (DomBot)</title>
+
+
+
+
+<link rel="stylesheet" href="style.css">
+
+
+
+</head><body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="i-dash"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></g>
+<g id="i-auto"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9l-2.2 2.2M7.1 16.9l-2.2 2.2"/><circle cx="12" cy="12" r="4"/></g>
+<g id="i-exec"><path d="M3 12h4l2-6 4 12 2-6h6"/></g>
+<g id="i-relat"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></g>
+<g id="i-agenda"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></g>
+<g id="i-emp"><path d="M3 21h18M5 21V6l7-3 7 3v15M10 10h1M13 10h1M10 14h1M13 14h1"/></g>
+<g id="i-ciclos"><path d="M21 12a9 9 0 1 1-3.2-6.9"/><path d="M21 3v5h-5"/><path d="M12 8v4.4l2.8 1.6"/></g>
+<g id="i-ponto"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g>
+<g id="i-fgts"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></g>
+<g id="i-guias"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14.5 2 2 4-4"/></g>
+<g id="i-taxa"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2"/></g>
+<g id="i-dirf"><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-4"/><path d="M8 8h4M8 12h3"/><circle cx="17" cy="8" r="4"/><path d="m20.5 11.5 1.5 1.5"/></g>
+<g id="i-pdf"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 14h6M9 17h4"/></g>
+<g id="i-calc"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 11h2M14 11h2M8 15h2M14 15h2M8 19h2M14 19h2"/></g>
+
+<g id="i-melius"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4.5-5"/><circle cx="12" cy="18" r="1.2"/></g>
+<g id="i-post"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><circle cx="12" cy="15" r="2.2"/></g>
+<g id="i-cob"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></g>
+<g id="i-msg"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-4-.9L3 21l1.9-4.7A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></g>
+<g id="i-envio"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></g>
+<g id="i-sol"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.8v2.4M12 19.8v2.4M4.2 12H1.8M22.2 12h-2.4M6.3 6.3 4.6 4.6M19.4 19.4l-1.7-1.7M17.7 6.3l1.7-1.7M4.6 19.4l1.7-1.7"/></g>
+<g id="i-lua"><path d="M20.5 14.2A8.6 8.6 0 0 1 9.8 3.5a8.6 8.6 0 1 0 10.7 10.7z"/></g>
+<g id="i-cfg"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></g>
+</defs></svg>
+
+
+
+
+<div class="app">
+<aside class="side">
+  <div class="brand">
+    <img class="logo" src="logo-libby.png" alt="" width="34" height="34">
+    <div><b>Libby</b><small>Escritório Demo</small></div></div>
+  <nav class="nav" aria-label="Menu principal">
+
+    
+    <div class="grp">Acompanhar</div>
+    
+<a href="dashboard.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-dash"/></svg>
+  <span>Dashboard</span></a>
+
+    
+<a href="execucoes.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-exec"/></svg>
+  <span>Execuções</span></a>
+
+    
+<a href="ciclos.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-ciclos"/></svg>
+  <span>Ciclos</span></a>
+
+    
+<a href="relatorios.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-relat"/></svg>
+  <span>Relatórios</span></a>
+
+
+    
+    
+    <div class="grp">Rotinas</div>
+    
+<a href="fponto.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-ponto"/></svg>
+  <span>Folha de Ponto</span></a>
+
+    
+<a href="fgts.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-fgts"/></svg>
+  <span>FGTS</span></a>
+
+    
+    
+    
+<a href="darf-fgts.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-guias"/></svg>
+  <span>Guias DARF/FGTS</span></a>
+
+    
+    
+<a href="taxas.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-taxa"/></svg>
+  <span>Taxa Assistencial</span></a>
+
+    
+<a href="dirf.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-dirf"/></svg>
+  <span>DIRF</span></a>
+
+    
+<a href="editor-pdf.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-pdf"/></svg>
+  <span>Editor de PDF</span></a>
+
+    
+<a href="calculo-difal.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-calc"/></svg>
+  <span>Cálculo do DIFAL</span></a>
+
+    
+    
+<a href="#" data-demo-fora="/controle-melius" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-melius"/></svg>
+  <span>Controle Melius</span></a>
+
+    
+<a href="automacoes.html" class="active" aria-current="page"
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-auto"/></svg>
+  <span>Automações</span></a>
+
+    
+<a href="#" data-demo-fora="/postagens" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-post"/></svg>
+  <span>Programação de posts</span></a>
+
+    
+
+    
+    <div class="grp">Clientes</div>
+    
+<a href="cobranca.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-cob"/></svg>
+  <span>Cobrança</span></a>
+
+    
+    
+<a href="automacao-automessenger-one.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-envio"/></svg>
+  <span>AutoMessenger</span></a>
+
+    
+<a href="#" data-demo-fora="/mensagens" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-msg"/></svg>
+  <span>Mensagens</span></a>
+
+    
+
+    
+    <div class="grp">Administração</div>
+    
+<a href="agendamentos.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-agenda"/></svg>
+  <span>Agendamentos</span></a>
+
+    
+<a href="empresas.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-emp"/></svg>
+  <span>Empresas</span></a>
+
+    
+<a href="#" data-demo-fora="/config" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-cfg"/></svg>
+  <span>Configurações</span></a>
+
+    
+  </nav>
+</aside>
+
+<div>
+
+<div class="top">
+  <div class="tt">Taxa Assistencial — Emitir no Domínio (DomBot)</div>
+  <div class="sp"></div>
+
+  
+  <button type="button" class="tema-bt" id="temaBt" onclick="trocaTema()"
+          title="Alternar entre o tema claro e o escuro" aria-pressed="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-lua"/></svg>
+    <span>Tema escuro</span>
+  </button>
+
+  
+  <div class="who">
+    <div class="av">V</div>
+    <div><b>Visitante</b><span>admin</span></div>
+    <a href="#" data-demo-fora="/logout" title="Encerrar a sessão">Sair</a>
+  </div>
+  
+</div>
+<div class="content">
+
+
+
+
+
+<div class="crumb"><a href="automacoes.html">Automações</a> <span style="opacity:.45">›</span> Taxa Assistencial — Emitir no Domínio (DomBot)</div>
+
+<div class="pagehd">
+  <div class="sp">
+    <h1>Taxa Assistencial — Emitir no Domínio (DomBot)</h1>
+    
+    
+    
+      <div class="sub" style="margin-bottom:6px">Emite e salva os PDFs da Taxa Assistencial no Domínio (Relatórios → F → M, por rubrica), a partir do cadastro do sindicato (sindicatos/&lt;sindicato&gt;.json: código, nome, rubrica). Só emite empresas liberadas para a competência, na…</div>
+      <details class="detalhes"><summary>Ver explicação completa</summary>
+        <div><p>Emite e salva os PDFs da Taxa Assistencial no Domínio (Relatórios → F → M, por rubrica), a partir do cadastro do sindicato (sindicatos/&lt;sindicato&gt;.json: código, nome, rubrica). Só emite empresas <b>liberadas</b> para a competência, na tela Taxa Assistencial.</p><p>O que acontece depois depende do fluxo do sindicato. No fluxo &#39;email&#39; (Bares VR), os PDFs vão ao sindicato e o retorno é tratado pela automação &#39;Separar e publicar boletos&#39;. No fluxo &#39;concluir&#39; (Panificação/Motorista), os PDFs são publicados pela tela do Domínio (&#39;Publicação de Documentos Externos&#39;, com data de vencimento) e a tarefa é concluída no Gestta — se nada for publicado, a conclusão é cancelada, para a tarefa não fechar sem documento entregue.</p><p>Cada sindicato usa o próprio motor de emissão, porque a navegação no Domínio difere: Bares usa Relatórios &gt; F &gt; M; Panificação e Motorista usam o Gerenciador de Relatórios. Roda na VM (Domínio aberto e logado).</p></div></details>
+    
+  </div>
+  <div class="acts">
+    <span class="chip ok"><span class="cdot"></span>pronto</span>
+    
+    
+    
+    
+  </div>
+</div>
+<div style="height:20px"></div>
+
+<div class="col-exec">
+  <div>
+  <div class="panel"><div class="hd"><h3>Executar</h3></div>
+  <div class="bd">
+  
+    
+
+    
+    
+    <div class="prevoo falta">
+      <div class="prevoo-t">Faltam configurações para esta automação</div>
+      <ul>
+        
+        <li><b>Acesso ao Domínio</b> — Usuário, senha e atalho do Domínio, usados pelos DomBots.
+          <a href="#" data-demo-fora="/config">Configurar agora ↗</a></li>
+        
+        <li><b>Envio de e-mail</b> — Conta e senha de aplicativo para enviar ao sindicato.
+          <a href="#" data-demo-fora="/config">Configurar agora ↗</a></li>
+        
+      </ul>
+      <div class="prevoo-p">Rodar assim provavelmente vai falhar no meio do caminho.
+        Dá para executar mesmo assim, mas a Libby vai pedir confirmação.</div>
+    </div>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    <form method="post" action="#" data-demo-acao="/automacao/taxas-emitir/executar" enctype="multipart/form-data" id="formExec"
+          data-faltando="2"
+          data-falta-nomes="Acesso ao Domínio, Envio de e-mail"
+          data-agente-off="">
+
+    
+    
+    <section class="secao" data-grupo="dados">
+      <div class="secao-hd"><h4>O que a Libby vai usar</h4><span>Datas, pastas e planilhas desta rodada.</span></div>
+
+      
+      
+
+      
+      
+      <div class="fld" data-campo="sindicato">
+        <label for="c-sindicato">Sindicato (cadastro em sindicatos/&lt;sindicato&gt;.json)</label>
+
+        
+          <select id="c-sindicato" name="sindicato"><option >bares_vr</option><option >bares_bm</option><option >panificacao</option><option >motorista</option></select>
+        
+
+        
+        
+        
+      </div>
+      
+      <div class="fld" data-campo="competencia">
+        <label for="c-competencia">Competência (MM/AAAA)</label>
+
+        
+          <input id="c-competencia" name="competencia" value="">
+        
+
+        
+        <div class="hint">vazio = mês anterior</div>
+        
+      </div>
+      
+      <div class="fld" data-campo="diretorio">
+        <label for="c-diretorio">Pasta de saída dos PDFs</label>
+
+        
+          <div style="display:flex;gap:8px;max-width:520px"><input id="c-diretorio" name="diretorio" value="" style="flex:1;max-width:none"><button type="button" class="btn sm" onclick="fsOpen('diretorio','dir','')">Procurar…</button></div>
+        
+
+        
+        <div class="hint">cria automaticamente uma subpasta com a competência (ex: .../08.2026). Vazio = padrão do sistema</div>
+        
+      </div>
+      
+      <div class="fld" data-campo="email_destino">
+        <label for="c-email_destino">Destinatário do e-mail (vazio = do cadastro do sindicato; senão EMAIL_DESTINATARIO do .env)</label>
+
+        
+          <input id="c-email_destino" name="email_destino" value="">
+        
+
+        
+        
+        
+      </div>
+      
+      <div class="fld" data-campo="vencimento_email">
+        <label for="c-vencimento_email">Data de vencimento no e-mail (dd/mm/aaaa)</label>
+
+        
+          <input id="c-vencimento_email" name="vencimento_email" value="">
+        
+
+        
+        <div class="hint">vazio = dia 5 do mês seguinte, já antecipado se cair em fim de semana ou feriado nacional. Preencha para ponto facultativo, feriado municipal ou data combinada com o sindicato</div>
+        
+      </div>
+      
+      <div class="fld" data-campo="vencimento_publicacao">
+        <label for="c-vencimento_publicacao">Data de vencimento da publicação (dd/mm/aaaa)</label>
+
+        
+          <input id="c-vencimento_publicacao" name="vencimento_publicacao" value="">
+        
+
+        
+        <div class="hint">vazio = dia 10 do mês seguinte, já antecipado se cair em fim de semana ou feriado nacional. Preencha para ponto facultativo, feriado municipal ou data combinada</div>
+        
+      </div>
+      
+      <div class="fld" data-campo="pasta_publicacao">
+        <label for="c-pasta_publicacao">Pasta de publicação no Domínio</label>
+
+        
+          <input id="c-pasta_publicacao" name="pasta_publicacao" value="">
+        
+
+        
+        <div class="hint">vazio = &#39;pasta_publicacao&#39; do cadastro (padrão &#39;Pessoal/Taxa Assistencial&#39;)</div>
+        
+      </div>
+      
+      <div class="fld" data-campo="limite">
+        <label for="c-limite">Limite de empresas (0 = todas; use 1 p/ testar)</label>
+
+        
+          <input id="c-limite" name="limite" value="0">
+        
+
+        
+        
+        
+      </div>
+      
+      <div class="fld" data-campo="caminho_json">
+        <label for="c-caminho_json">Caminho explícito do cadastro (vazio = sindicatos/&lt;sindicato&gt;.json)</label>
+
+        
+          <div style="display:flex;gap:8px;max-width:520px"><input id="c-caminho_json" name="caminho_json" value="" style="flex:1;max-width:none"><button type="button" class="btn sm" onclick="fsOpen('caminho_json','file','.json')">Procurar…</button></div>
+        
+
+        
+        
+        
+      </div>
+
+      
+
+      
+      
+    </section>
+    
+    <section class="secao" data-grupo="opcoes">
+      <div class="secao-hd"><h4>Passos e opções</h4><span>Ligue ou desligue cada passo. Tudo ligado = o processo completo.</span></div>
+
+      
+      <div class="opcoes">
+
+      
+      
+      <div class="fld" data-campo="enviar_email">
+        
+
+        
+          <label class="check" for="c-enviar_email"><input type="checkbox" id="c-enviar_email" name="enviar_email" checked><span>Enviar e-mail ao sindicato com os PDFs ao final</span></label>
+        
+
+        
+        
+        
+      </div>
+      
+      <div class="fld" data-campo="emitir">
+        
+
+        
+          <label class="check" for="c-emitir"><input type="checkbox" id="c-emitir" name="emitir" checked><span>Emitir no Domínio (DomBot)</span></label>
+        
+
+        
+        <div class="hint">desligue para <b>só</b> publicar e concluir os PDFs que já estão na pasta (ex.: a emissão rodou mas a publicação falhou). Sem isso, ele emite tudo de novo</div>
+        
+      </div>
+      
+      <div class="fld" data-campo="publicar_dominio">
+        
+
+        
+          <label class="check" for="c-publicar_dominio"><input type="checkbox" id="c-publicar_dominio" name="publicar_dominio" checked><span>Publicar os PDFs no Domínio (tela &#39;Publicação de Documentos Externos&#39;</span></label>
+        
+
+        
+        <div class="hint">entrega o documento ao cliente com data de vencimento) — sindicatos de fluxo &#39;concluir&#39; (Panificação/Motorista)</div>
+        
+      </div>
+
+      </div>
+
+      
+      
+    </section>
+    
+    <section class="secao" data-grupo="trava">
+      <div class="secao-hd"><h4>Antes de rodar</h4><span>A simulação mostra o que aconteceria, sem fazer nada.</span></div>
+
+      
+      
+
+      
+      
+      <div class="fld" data-campo="dry_run_publicacao">
+        
+
+        
+          <label class="check" for="c-dry_run_publicacao"><input type="checkbox" id="c-dry_run_publicacao" name="dry_run_publicacao" ><span>Publicação em simulação (dry-run)</span></label>
+        
+
+        
+        <div class="hint">lista os PDFs que publicaria, sem abrir a tela do Domínio</div>
+        
+      </div>
+      
+      <div class="fld" data-campo="dry_run_gestta">
+        
+
+        
+          <label class="check" for="c-dry_run_gestta"><input type="checkbox" id="c-dry_run_gestta" name="dry_run_gestta" ><span>Conclusão no Gestta em simulação (dry-run)</span></label>
+        
+
+        
+        <div class="hint">só p/ sindicatos que concluem (Panificação/Motorista)</div>
+        
+      </div>
+
+      
+
+      
+      
+    </section>
+    
+    <section class="secao" data-grupo="aviso">
+      <div class="secao-hd"><h4>Aviso no Discord</h4><span>Para quem a Libby avisa quando terminar.</span></div>
+
+      
+      
+
+      
+      
+      <div class="fld" data-campo="discord_webhook">
+        <label for="c-discord_webhook">Webhook do Discord (aviso do resultado)</label>
+
+        
+          
+          <select name="discord_webhook" id="whSel" style="max-width:460px" onchange="whTroca()">
+            <option value="">— sem aviso no Discord —</option>
+            
+            <option value="https://discord.com/api/webhooks/000000/exemplo"  >Cristina</option>
+            
+            <option value="__outro__">(outro — colar URL)</option>
+          </select>
+          <input name="discord_webhook_novo" id="whNovo" placeholder="https://discord.com/api/webhooks/..." style="max-width:460px;margin-top:6px;display:none">
+        
+
+        
+        <div class="hint">vazio = DISCORD_WEBHOOK_URL do .env</div>
+        
+      </div>
+      
+      <div class="fld" data-campo="discord_mentions">
+        <label for="c-discord_mentions">Menções no aviso (cargo/pessoa)</label>
+
+        
+          
+          <input type="hidden" name="discord_mentions" id="mnHid" value="&lt;@&amp;1299044385899548752&gt;">
+          <div style="position:relative;max-width:460px">
+            <button type="button" id="mnBtn" class="btn" onclick="mnAbre(event)" style="width:100%;justify-content:space-between;font-weight:500">
+              <span id="mnResumo" style="flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+              <span style="opacity:.5;font-size:10px">▼</span>
+            </button>
+            <div id="mnLista" style="display:none;position:fixed;z-index:300;background:var(--surface-1);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow-pop);overflow:auto;padding:4px">
+              
+              
+              <input id="mnBusca" placeholder="Buscar nome…" oninput="mnFiltra()" onclick="event.stopPropagation()"
+                     style="width:100%;margin:2px 0 5px;padding:6px 9px;border:1px solid var(--line);border-radius:6px;font-size:13px">
+              
+              
+              
+              <div class="mnGrupo" data-grupo="c" style="font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--ink3);padding:6px 9px 3px">
+                Cargos (marca o time inteiro)</div>
+              
+              <label class="check mnItem" data-nome="equipe dp" style="padding:5px 9px;border-radius:6px;width:100%">
+                <input type="checkbox" class="mnChk" value="&lt;@&amp;900000000000000001&gt;"  onchange="mnJunta()">
+                <span>Equipe DP</span></label>
+              
+              
+              <label class="check mnItem" data-nome="equipe fiscal" style="padding:5px 9px;border-radius:6px;width:100%">
+                <input type="checkbox" class="mnChk" value="&lt;@&amp;900000000000000002&gt;"  onchange="mnJunta()">
+                <span>Equipe Fiscal</span></label>
+              
+              
+              <label class="check mnItem" data-nome="id 1299044385899548752" style="padding:5px 9px;border-radius:6px;width:100%">
+                <input type="checkbox" class="mnChk" value="&lt;@&amp;1299044385899548752&gt;" checked onchange="mnJunta()">
+                <span>ID 1299044385899548752</span></label>
+              
+              
+              <div class="mnGrupo" data-grupo="p" style="font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--ink3);padding:6px 9px 3px">
+                Pessoas</div>
+              
+              <label class="check mnItem" data-nome="ana ribeiro" style="padding:5px 9px;border-radius:6px;width:100%">
+                <input type="checkbox" class="mnChk" value="&lt;@900000000000000100&gt;"  onchange="mnJunta()">
+                <span>Ana Ribeiro</span></label>
+              
+              
+              <label class="check mnItem" data-nome="bruno tavares" style="padding:5px 9px;border-radius:6px;width:100%">
+                <input type="checkbox" class="mnChk" value="&lt;@900000000000000101&gt;"  onchange="mnJunta()">
+                <span>Bruno Tavares</span></label>
+              
+              
+              <label class="check mnItem" data-nome="camila freitas" style="padding:5px 9px;border-radius:6px;width:100%">
+                <input type="checkbox" class="mnChk" value="&lt;@900000000000000102&gt;"  onchange="mnJunta()">
+                <span>Camila Freitas</span></label>
+              
+              
+              <label class="check mnItem" data-nome="diego moura" style="padding:5px 9px;border-radius:6px;width:100%">
+                <input type="checkbox" class="mnChk" value="&lt;@900000000000000103&gt;"  onchange="mnJunta()">
+                <span>Diego Moura</span></label>
+              
+              
+              <label class="check mnItem" data-nome="elisa prado" style="padding:5px 9px;border-radius:6px;width:100%">
+                <input type="checkbox" class="mnChk" value="&lt;@900000000000000104&gt;"  onchange="mnJunta()">
+                <span>Elisa Prado</span></label>
+              
+              
+              <label class="check mnItem" data-nome="fábio nunes" style="padding:5px 9px;border-radius:6px;width:100%">
+                <input type="checkbox" class="mnChk" value="&lt;@900000000000000105&gt;"  onchange="mnJunta()">
+                <span>Fábio Nunes</span></label>
+              
+              <div id="mnVazio" style="display:none;padding:10px 9px;color:var(--ink3);font-size:12.5px">Nenhum contato com esse nome.</div>
+              
+              
+              <div style="border-top:1px solid var(--line);margin-top:4px;padding:7px 9px 3px">
+                <a href="#" data-demo-fora="/config/discord" style="font-size:12px;color:var(--muted)">Gerenciar contatos…</a>
+              </div>
+              
+            </div>
+          </div>
+          <div class="hint">Pode marcar mais de um. Nenhum marcado = avisa sem marcar ninguém.</div>
+        
+
+        
+        
+        
+      </div>
+
+      
+
+      
+      
+    </section>
+    
+
+    
+    <div class="acao-barra">
+      <button class="btn pri lg" type="submit" id="btExec">▶ Executar</button>
+      <button class="btn" type="submit" formaction="#" data-demo-acao="/automacao/taxas-emitir/salvar"
+              title="Salva os campos sem rodar a automação">Salvar config</button>
+      <div style="flex:1"></div>
+      <span id="modoAviso" class="chip"></span>
+    </div>
+    </form>
+
+    <script src="discord_campo.js"></script>
+    <script>
+    whTroca(); mnJunta();
+
+    // Modo de execução. A caixa "simulação" é a diferença entre conferir e
+    // mandar mensagem para 300 clientes, e era só mais uma caixa no meio da
+    // lista. Aqui ela vira o estado visível do botão — e sair da simulação
+    // pede confirmação escrita, porque mensagem enviada não volta.
+    (function(){
+      var form = document.getElementById('formExec');
+      // Agente da VM offline: confirma, mas não bloqueia. O heartbeat pode ter
+      // atrasado, e travar o botão impediria uma execução que ia funcionar.
+      function agenteOk(){
+        var f = document.getElementById('formExec');
+        if(!f || !f.dataset.agenteOff) return true;
+        return confirm('O agente da VM está OFFLINE.\n\nEsta automação roda na ' +
+          'máquina do Domínio, e é o agente de lá que pega o trabalho. A execução ' +
+          'vai ficar parada em "na fila" até ele voltar.\n\nEnfileirar assim mesmo?');
+      }
+      if(!form) return;
+      var dry = form.querySelector('[name="dry_run"]');
+      var aviso = document.getElementById('modoAviso');
+      var bt = document.getElementById('btExec');
+      if(!dry || !aviso){
+        if(aviso) aviso.style.display='none';
+        // Sem campo de simulação o bloco acima nem roda — mas o aviso de
+        // configuração faltando precisa valer para TODAS as automações.
+        form.addEventListener('submit', function(ev){
+          if(ev.submitter && ev.submitter.formAction &&
+             ev.submitter.formAction.indexOf('/salvar') >= 0) return;
+          if(!agenteOk()){ ev.preventDefault(); return; }
+          if(+form.dataset.faltando > 0 && !confirm(
+               'Esta automação precisa de: ' + form.dataset.faltaNomes + ', e isso ainda ' +
+               'não está configurado.\n\nEla provavelmente vai falhar no meio. Executar assim mesmo?')){
+            ev.preventDefault();
+          }
+        });
+        return;
+      }
+      function pinta(){
+        var simulando = dry.checked;
+        aviso.className = 'chip ' + (simulando ? 'run' : 'err');
+        aviso.innerHTML = '<span class="cdot"></span>' +
+          (simulando ? 'Simulação — nada será enviado' : 'ENVIO REAL — vale de verdade');
+        bt.textContent = simulando ? '▶ Rodar simulação' : '▶ Executar de verdade';
+        form.classList.toggle('modo-real', !simulando);
+      }
+      dry.addEventListener('change', pinta);
+      form.addEventListener('submit', function(ev){
+        if(ev.submitter && ev.submitter.formAction &&
+           ev.submitter.formAction.indexOf('/salvar') >= 0) return;   // salvar não confirma
+        if(!agenteOk()){ ev.preventDefault(); return; }
+        // Pré-voo: avisa, mas não bloqueia. O mapa de requisitos é uma lista
+        // mantida à mão — se ele estiver errado, travar o botão impediria uma
+        // automação que funciona. Confirmar evita o clique distraído sem isso.
+        if(+form.dataset.faltando > 0 && !confirm(
+             'Esta automação precisa de: ' + form.dataset.faltaNomes + ', e isso ainda ' +
+             'não está configurado.\n\nEla provavelmente vai falhar no meio. Executar assim mesmo?')){
+          ev.preventDefault(); return;
+        }
+        if(!dry.checked && !confirm(
+             'A simulação está DESLIGADA: isto vai executar de verdade e o que for ' +
+             'enviado não volta atrás.\\n\\nConfirma executar "Taxa Assistencial — Emitir no Domínio (DomBot)"?')){
+          ev.preventDefault();
+        }
+      });
+      pinta();
+    })();
+    </script>
+
+    
+    <style>
+    /* Seletor de empresas (campos tipo 'empresas'). */
+    .selemp-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+    .selemp-chip{display:inline-flex;align-items:center;gap:6px;background:var(--chip-bg);
+      border:1px solid var(--line);border-radius:999px;padding:3px 6px 3px 10px;font-size:12.5px}
+    .selemp-chip b{font-weight:600}
+    .selemp-chip button{border:0;background:transparent;cursor:pointer;color:var(--ink3);
+      font-size:15px;line-height:1;padding:0 3px;border-radius:50%}
+    .selemp-chip button:hover{color:var(--red-ink);background:var(--red-soft)}
+    .selemp-busca{width:100%;max-width:520px}
+    .selemp-lista{position:absolute;z-index:200;left:0;right:0;max-width:520px;max-height:260px;
+      overflow:auto;background:var(--surface-1);border:1px solid var(--line);border-radius:9px;
+      box-shadow:var(--shadow-pop);margin-top:3px;padding:4px}
+    /* color EXPLICITO: o item e um <button>, e botao sem cor herda o preto
+       padrao do navegador — no tema escuro isso vira texto quase invisivel
+       sobre o fundo escuro do popup. As demais linhas da lista usam var(--ink)
+       e acompanham o tema; esta nao acompanhava. */
+    .selemp-item{display:block;width:100%;text-align:left;border:0;background:transparent;
+      color:var(--ink);font-family:inherit;
+      cursor:pointer;padding:7px 9px;border-radius:6px;font-size:13px;line-height:1.45}
+    .selemp-item:hover,.selemp-item:focus-visible{background:var(--surface-3)}
+    .selemp-item .cod{font-weight:700;margin-right:7px;color:var(--blue)}
+    .selemp-item .cnpj{color:var(--ink2);font-size:11.5px;display:block;margin-top:1px}
+    .selemp-vazio{padding:10px 9px;color:var(--ink3);font-size:12.5px}
+    </style>
+    <script>
+    // Seletor de empresas com busca. O valor enviado continua sendo texto (uma
+    // por linha, "código - nome"): o motor filtra por substring, então guardar
+    // o código junto do nome faz o filtro acertar mesmo quando o relatório do
+    // Domínio escreve o nome de um jeito ligeiramente diferente.
+    (function(){
+      var timer = null, abertoEm = null;
+
+      function chips(campo){
+        var hid = document.getElementById('c-' + campo);
+        var box = document.getElementById('chips-' + campo);
+        if(!hid || !box) return;
+        box.innerHTML = '';
+        var linhas = (hid.value || '').split('\n').filter(function(l){return l.trim();});
+        linhas.forEach(function(linha, i){
+          var el = document.createElement('span');
+          el.className = 'selemp-chip';
+          var txt = document.createElement('span');
+          var partes = linha.split(' - ');
+          if(partes.length > 1){
+            txt.innerHTML = '<b>' + partes[0].trim() + '</b> ' + partes.slice(1).join(' - ').trim();
+          } else { txt.textContent = linha.trim(); }
+          var x = document.createElement('button');
+          x.type = 'button'; x.textContent = '×'; x.title = 'Remover';
+          x.onclick = function(){
+            var atual = (hid.value || '').split('\n').filter(function(l){return l.trim();});
+            atual.splice(i, 1);
+            hid.value = atual.join('\n');
+            chips(campo);
+          };
+          el.appendChild(txt); el.appendChild(x); box.appendChild(el);
+        });
+      }
+
+      window.empBusca = function(input){
+        var campo = input.id.replace('busca-', '');
+        var lista = document.getElementById('lista-' + campo);
+        abertoEm = campo;
+        clearTimeout(timer);
+        // Espera a digitação parar: uma requisição por tecla inundaria o
+        // servidor e as respostas chegariam fora de ordem.
+        timer = setTimeout(function(){
+          fetch('/api/empresas/buscar?limite=20&q=' + encodeURIComponent(input.value || ''),
+                {credentials: 'same-origin'})
+            .then(function(r){
+              // Sessão expirada devolve a PÁGINA de login (200 + HTML), não um
+              // erro — r.json() falharia com "Unexpected token <" e o seletor
+              // ficaria mudo sem dizer por quê.
+              var tipo = r.headers.get('content-type') || '';
+              if(tipo.indexOf('application/json') === -1){
+                throw new Error('sessao');
+              }
+              return r.json();
+            })
+            .then(function(d){
+              lista.innerHTML = '';
+              var itens = d.empresas || [];
+              if(!itens.length){
+                lista.innerHTML = '<div class="selemp-vazio">Nenhuma empresa encontrada.</div>';
+              }
+              itens.forEach(function(e){
+                var b = document.createElement('button');
+                b.type = 'button'; b.className = 'selemp-item';
+                b.innerHTML = '<span class="cod">' + e.codigo + '</span>' + e.nome +
+                              (e.cnpj ? '<span class="cnpj">' + e.cnpj + '</span>' : '');
+                b.onclick = function(){
+                  var hid = document.getElementById('c-' + campo);
+                  var linha = e.codigo + ' - ' + e.nome;
+                  var atual = (hid.value || '').split('\n').filter(function(l){return l.trim();});
+                  // Sem repetir: clicar duas vezes na mesma empresa não deve
+                  // criar dois chips iguais.
+                  if(atual.indexOf(linha) === -1){ atual.push(linha); }
+                  hid.value = atual.join('\n');
+                  chips(campo);
+                  input.value = ''; lista.style.display = 'none';
+                };
+                lista.appendChild(b);
+              });
+              lista.style.display = 'block';
+            })
+            .catch(function(err){
+              lista.innerHTML = (err && err.message === 'sessao')
+                ? '<div class="selemp-vazio">Sua sessão expirou — recarregue a página (F5) e entre de novo.</div>'
+                : '<div class="selemp-vazio">Não consegui buscar as empresas. Se a Libby foi atualizada agora, reinicie-a.</div>';
+              lista.style.display = 'block';
+            });
+        }, 180);
+      };
+
+      // Fecha ao clicar fora — sem isto a lista fica pendurada sobre o resto
+      // do formulário.
+      document.addEventListener('click', function(ev){
+        document.querySelectorAll('.selemp-lista').forEach(function(l){
+          var raiz = l.closest('.selemp');
+          if(raiz && !raiz.contains(ev.target)) l.style.display = 'none';
+        });
+      });
+
+      document.querySelectorAll('.selemp').forEach(function(el){
+        chips(el.dataset.alvo.replace('c-', ''));
+      });
+    })();
+    </script>
+
+    
+    <script>
+    // Esconde os campos de e-mail quando o sindicato selecionado NÃO usa e-mail.
+    (function(){
+      var FLUXOS = {"bares": "emitir_publicar", "comercio": "emitir_publicar", "motorista": "emitir_publicar", "panificacao": "emitir_publicar"};
+      var CAMPOS_EMAIL = ['enviar_email','email_destino'];
+      var CAMPOS_GESTTA = ['dry_run_gestta'];
+      var form = document.getElementById('formExec');
+      if(!form) return;
+      var sel = form.querySelector('select[name="sindicato"]');
+      function mostra(campos, on){
+        campos.forEach(function(c){
+          var fld = form.querySelector('.fld[data-campo="'+c+'"]');
+          if(fld) fld.style.display = on ? '' : 'none';
+        });
+      }
+      function aplica(){
+        var fluxo = FLUXOS[sel ? sel.value : ''] || 'email';
+        mostra(CAMPOS_EMAIL, fluxo === 'email');
+        mostra(CAMPOS_GESTTA, fluxo === 'concluir');
+      }
+      if(sel){
+        sel.addEventListener('change', function(){
+          window.location = '/automacao/taxas-emitir?sindicato=' + encodeURIComponent(sel.value);
+        });
+      }
+      aplica();
+    })();
+    </script>
+    
+
+    
+  
+  </div></div>
+
+  
+  
+  <div class="panel"><div class="hd"><h3>Agendamento</h3><a class="btn sm" href="agendamentos.html">Ver todos</a></div>
+  <div class="bd">
+  
+  <table style="margin-bottom:14px">
+    <tr>
+      <td style="width:90px"><span class="chip ok"><span class="cdot"></span>ativo</span></td>
+      <td>Dias 5 as 08h30</td>
+      <td style="text-align:right;white-space:nowrap">
+        <form method="post" action="#" data-demo-acao="/agendamentos/3/toggle" style="display:inline"><input type="hidden" name="volta" value="/automacao/taxas-emitir"><button class="btn sm" type="submit">Pausar</button></form>
+        <form method="post" action="#" data-demo-acao="/agendamentos/3/remover" style="display:inline" onsubmit="return confirm('Remover este agendamento?')"><input type="hidden" name="volta" value="/automacao/taxas-emitir"><button class="btn perigo sm" type="submit">Remover</button></form>
+      </td></tr>
+  </table>
+  
+  
+  
+  <form method="post" action="#" data-demo-acao="/agendamentos" style="display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end">
+    
+    <input type="hidden" name="automacao" value="taxas-emitir::bares"><input type="hidden" name="volta" value="/automacao/taxas-emitir?sindicato=bares">
+    <div class="fld" style="margin:0"><label>Recorrência</label><select name="tipo" onchange="agTipo(this)" style="width:170px"><option value="mensal">Mensal</option><option value="semanal">Semanal</option><option value="diario">Diário</option><option value="unico">Data específica (uma vez)</option></select></div>
+    <div class="fld ag-mensal" style="margin:0"><label>Dias do mês</label><input name="dias_mensal" placeholder="ex.: 1,15" style="width:140px"></div>
+    <div class="fld ag-unico" style="margin:0;display:none"><label>Data</label><input type="date" name="data" style="width:160px"></div>
+    <div class="fld ag-semanal" style="margin:0;display:none"><label>Dias</label><div style="display:flex;gap:10px;flex-wrap:wrap"><label class="check" style="font-size:12.5px"><input type="checkbox" name="dow" value="0"><span>Seg</span></label><label class="check" style="font-size:12.5px"><input type="checkbox" name="dow" value="1"><span>Ter</span></label><label class="check" style="font-size:12.5px"><input type="checkbox" name="dow" value="2"><span>Qua</span></label><label class="check" style="font-size:12.5px"><input type="checkbox" name="dow" value="3"><span>Qui</span></label><label class="check" style="font-size:12.5px"><input type="checkbox" name="dow" value="4"><span>Sex</span></label><label class="check" style="font-size:12.5px"><input type="checkbox" name="dow" value="5"><span>Sáb</span></label><label class="check" style="font-size:12.5px"><input type="checkbox" name="dow" value="6"><span>Dom</span></label></div></div>
+    <div class="fld" style="margin:0"><label>Horário</label><input type="time" name="horario" value="06:00" style="width:110px"></div>
+    <div class="fld" style="margin:0"><label>&nbsp;</label><label class="check"><input type="checkbox" name="dry_run"><span>simulação</span></label></div>
+    <button class="btn pri" type="submit">+ Agendar</button>
+  </form>
+  <p class="muted" style="margin:10px 0 0;font-size:12.5px">O agendamento congela a config <b>salva</b> desta tela (mensagem, planilha, anexos). Salve antes de agendar. A <b>data específica</b> roda uma vez e se desativa sozinha; se o servidor estiver fora naquele dia, ela não sai atrasada e aparece como atrasada no painel.</p>
+  <script>function agTipo(sel){var f=sel.closest('form');['mensal','semanal','unico'].forEach(function(t){f.querySelectorAll('.ag-'+t).forEach(function(e){e.style.display=(sel.value==t)?'':'none';});});}</script>
+  
+  </div></div>
+  
+  </div>
+
+  <aside>
+    
+    
+    <div class="panel"><div class="hd"><h3>Últimas execuções</h3></div><div class="bd">
+    <table><tr>
+      <td class="co num" style="width:60px">#251</td>
+      <td class="muted num">13/10 14:54</td>
+      <td style="text-align:right"><a href="execucao-251.html"><span class="chip ok"><span class="cdot"></span>concluida</span></a></td></tr>
+    <tr>
+      <td class="co num" style="width:60px">#243</td>
+      <td class="muted num">09/10 16:05</td>
+      <td style="text-align:right"><a href="execucao-243.html"><span class="chip ok"><span class="cdot"></span>concluida</span></a></td></tr>
+    <tr>
+      <td class="co num" style="width:60px">#234</td>
+      <td class="muted num">08/10 14:35</td>
+      <td style="text-align:right"><a href="#" data-demo-fora="/execucao/234"><span class="chip ok"><span class="cdot"></span>concluida</span></a></td></tr>
+    <tr>
+      <td class="co num" style="width:60px">#231</td>
+      <td class="muted num">08/10 10:12</td>
+      <td style="text-align:right"><a href="#" data-demo-fora="/execucao/231"><span class="chip ok"><span class="cdot"></span>concluida</span></a></td></tr>
+    <tr>
+      <td class="co num" style="width:60px">#212</td>
+      <td class="muted num">06/10 09:21</td>
+      <td style="text-align:right"><a href="#" data-demo-fora="/execucao/212"><span class="chip ok"><span class="cdot"></span>concluida</span></a></td></tr>
+    <tr>
+      <td class="co num" style="width:60px">#206</td>
+      <td class="muted num">05/10 13:36</td>
+      <td style="text-align:right"><a href="#" data-demo-fora="/execucao/206"><span class="chip ok"><span class="cdot"></span>concluida</span></a></td></tr>
+    <tr>
+      <td class="co num" style="width:60px">#196</td>
+      <td class="muted num">02/10 10:23</td>
+      <td style="text-align:right"><a href="#" data-demo-fora="/execucao/196"><span class="chip ok"><span class="cdot"></span>concluida</span></a></td></tr>
+    <tr>
+      <td class="co num" style="width:60px">#174</td>
+      <td class="muted num">24/09 10:16</td>
+      <td style="text-align:right"><a href="#" data-demo-fora="/execucao/174"><span class="chip ok"><span class="cdot"></span>concluida</span></a></td></tr>
+    <tr>
+      <td class="co num" style="width:60px">#150</td>
+      <td class="muted num">18/09 14:53</td>
+      <td style="text-align:right"><a href="#" data-demo-fora="/execucao/150"><span class="chip ok"><span class="cdot"></span>concluida</span></a></td></tr>
+    <tr>
+      <td class="co num" style="width:60px">#142</td>
+      <td class="muted num">17/09 09:10</td>
+      <td style="text-align:right"><a href="#" data-demo-fora="/execucao/142"><span class="chip ok"><span class="cdot"></span>concluida</span></a></td></tr>
+    </table>
+    </div></div>
+
+    
+  </aside>
+</div>
+</div></div>
+</div>
+
+<div id="fsmodal" role="dialog" aria-modal="true" aria-label="Selecionar do servidor">
+  <div class="fsbox">
+    <div class="fshd"><b style="color:var(--navy)">Selecionar do servidor</b><div style="flex:1"></div><button class="btn sm" type="button" onclick="fsClose()">Fechar</button></div>
+    <div id="fsbody" style="padding:16px">…</div>
+  </div>
+</div>
+<script>
+function fsOpen(target,mode,ext){var el=document.querySelector('[name="'+target+'"]');var v=(el&&el.value)||'';
+  var start=v; if(mode==='file' && /\.[A-Za-z0-9]+$/.test(v)) start=v.replace(/[\\/][^\\/]*$/,'');
+  document.getElementById('fsmodal').style.display='flex';
+  htmx.ajax('GET','/fs/browse?target='+encodeURIComponent(target)+'&mode='+mode+'&ext='+encodeURIComponent(ext||'')+'&path='+encodeURIComponent(start),{target:'#fsbody',swap:'innerHTML'});}
+function fsClose(){document.getElementById('fsmodal').style.display='none';}
+function fsPick(target,path){var el=document.querySelector('[name="'+target+'"]');if(el)el.value=path;fsClose();}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') fsClose(); });
+document.getElementById('fsmodal').addEventListener('click',function(e){ if(e.target===this) fsClose(); });
+
+/* --- Campo 'upload_lista': um arquivo por linha, com botão de acrescentar ---
+   A ORDEM das linhas é a ordem de chegada no WhatsApp, e é ela que o
+   formulário envia (os <input> têm o mesmo name; o navegador respeita a ordem
+   do documento). Por isso a linha nova entra no FIM. */
+function uplMais(campo){
+  var caixa=document.getElementById('ul-'+campo); if(!caixa) return;
+  var novo=caixa.querySelector('.upl-item').cloneNode(true);
+  novo.querySelector('input[type=file]').value='';
+  caixa.appendChild(novo);
+  novo.querySelector('input[type=file]').click();   /* abre o seletor direto */
+}
+function uplTira(btn){
+  var item=btn.closest('.upl-item'), caixa=item.parentNode;
+  /* A última linha não some: sem nenhum <input> não haveria como voltar a
+     escolher um arquivo. Ela só é esvaziada. */
+  if(caixa.querySelectorAll('.upl-item').length>1) item.remove();
+  else item.querySelector('input[type=file]').value='';
+}
+
+/* --- Tema ------------------------------------------------------------------
+   A escolha fica no navegador de quem clicou (localStorage), não no servidor:
+   é preferência de quem olha a tela, e o login da Libby é por SETOR — gravar
+   no servidor faria a escolha de um contaminar todo o setor.
+
+   Consequência assumida: quem trocar de computador começa no claro de novo. */
+function pintaBotaoTema(escuro){
+  var bt = document.getElementById('temaBt');
+  if(!bt) return;
+  bt.querySelector('use').setAttribute('href', escuro ? '#i-sol' : '#i-lua');
+  bt.querySelector('span').textContent = escuro ? 'Tema claro' : 'Tema escuro';
+  bt.setAttribute('aria-pressed', escuro ? 'true' : 'false');
+}
+function trocaTema(){
+  var escuro = document.documentElement.getAttribute('data-theme') !== 'dark';
+  if(escuro) document.documentElement.setAttribute('data-theme','dark');
+  else       document.documentElement.removeAttribute('data-theme');
+  try{ localStorage.setItem('libby-tema', escuro ? 'dark' : 'light'); }catch(e){}
+  pintaBotaoTema(escuro);
+}
+/* O <head> já aplicou o tema; aqui só acertamos o rótulo do botão, que ainda
+   não existia naquele momento. */
+pintaBotaoTema(document.documentElement.getAttribute('data-theme') === 'dark');
+</script>
+<script>window.__DEMO={"pagina": "/automacao/taxas-emitir", "mapa": {"/execucao/249": "execucao-249.html", "/automacao/sincronizar-fponto": "automacao-sincronizar-fponto.html", "/automacao/gestta-concluir": "automacao-gestta-concluir.html", "/execucao/272": "execucao-272.html", "/login": "login.html", "/dirf/resultados": "dirf-resultados.html", "/execucao/271": "execucao-271.html", "/automacao/limpar-arquivo-dp": "automacao-limpar-arquivo-dp.html", "/execucao/285": "execucao-285.html", "/execucao/266": "execucao-266.html", "/execucao/268": "execucao-268.html", "/execucao/252": "execucao-252.html", "/execucao/241": "execucao-241.html", "/taxas": "taxas.html", "/automacao/certificados-sheets": "automacao-certificados-sheets.html", "/execucao/244": "execucao-244.html", "/automacao/aviso-vencimento": "automacao-aviso-vencimento.html", "/economia?dias=30": "economia__dias-30.html", "/automacao/aviso-publicar-onvio": "automacao-aviso-publicar-onvio.html", "/execucao/207": "execucao-207.html", "/automacao/econsig-conferir": "automacao-econsig-conferir.html", "/execucoes?automacao=aviso-vencimento-completo&status=ruins": "execucoes__automacao-aviso-vencimento-completo_status-ruins.html", "/execucao/258": "execucao-258.html", "/automacao/aviso-vencimento-completo": "automacao-aviso-vencimento-completo.html", "/execucao/290": "execucao-290.html", "/dirf": "dirf.html", "/execucao/294": "execucao-294.html", "/execucao/270": "execucao-270.html", "/execucao/259": "execucao-259.html", "/automacao/automessenger-one": "automacao-automessenger-one.html", "/execucao/300": "execucao-300.html", "/execucao/293": "execucao-293.html", "/execucao/269": "execucao-269.html", "/automacao/gestta-concluir-df": "automacao-gestta-concluir-df.html", "/execucao/277": "execucao-277.html", "/execucao/279": "execucao-279.html", "/darf-fgts/valores-darf": "darf-fgts-valores-darf.html", "/automacao/consult-cadastro": "automacao-consult-cadastro.html", "/economia": "economia.html", "/execucao/255": "execucao-255.html", "/execucao/278": "execucao-278.html", "/automacao/econsig-emitir": "automacao-econsig-emitir.html", "/empresas": "empresas.html", "/execucoes?automacao=dombot-gfip&status=ruins": "execucoes__automacao-dombot-gfip_status-ruins.html", "/editor-pdf": "editor-pdf.html", "/execucao/254": "execucao-254.html", "/automacao/taxas-boletos": "automacao-taxas-boletos.html", "/execucao/292": "execucao-292.html", "/relatorios": "relatorios.html", "/execucao/295": "execucao-295.html", "/execucao/248": "execucao-248.html", "/execucao/276": "execucao-276.html", "/execucao/256": "execucao-256.html", "/execucao/250": "execucao-250.html", "/execucao/245": "execucao-245.html", "/execucao/281": "execucao-281.html", "/automacao/conferencia-prolabore-dp": "automacao-conferencia-prolabore-dp.html", "/automacao/dombot-admiss": "automacao-dombot-admiss.html", "/automacao/gms-analytics": "automacao-gms-analytics.html", "/automacao/conferencia-df": "automacao-conferencia-df.html", "/automacao/onvio-publicar": "automacao-onvio-publicar.html", "/darf-fgts/valores-fgts": "darf-fgts-valores-fgts.html", "/execucao/243": "execucao-243.html", "/execucao/275": "execucao-275.html", "/execucao/261": "execucao-261.html", "/agendamentos": "agendamentos.html", "/execucao/265": "execucao-265.html", "/automacao/conferir-valores-fgts-dominio": "automacao-conferir-valores-fgts-dominio.html", "/execucoes?automacao=fponto-emitir&status=ruins": "execucoes__automacao-fponto-emitir_status-ruins.html", "/ciclos": "ciclos.html", "/automacao/dombot-dirf": "automacao-dombot-dirf.html", "/execucao/284": "execucao-284.html", "/automacao/pdf-corrigir-spans": "automacao-pdf-corrigir-spans.html", "/execucao/247": "execucao-247.html", "/automacao/atualizar-contatos": "automacao-atualizar-contatos.html", "/automacao/gestta-concluir-df/painel": "automacao-gestta-concluir-df-painel.html", "/execucao/296": "execucao-296.html", "/execucao/274": "execucao-274.html", "/automacao/sincronizar-gms": "automacao-sincronizar-gms.html", "/execucao/299": "execucao-299.html", "/execucao/253": "execucao-253.html", "/execucao/262": "execucao-262.html", "/automacao/sincronizar-taxas": "automacao-sincronizar-taxas.html", "/calculo-difal": "calculo-difal.html", "/execucao/289": "execucao-289.html", "/execucao/286": "execucao-286.html", "/automacao/fponto-emitir": "automacao-fponto-emitir.html", "/automacao/conferir-valores-darf": "automacao-conferir-valores-darf.html", "/automacao/taxas-emitir": "automacao-taxas-emitir.html", "/execucoes?automacao=onvio-publicar&status=ruins": "execucoes__automacao-onvio-publicar_status-ruins.html", "/execucao/280": "execucao-280.html", "/automacao/dombot-gfip": "automacao-dombot-gfip.html", "/execucao/267": "execucao-267.html", "/fponto": "fponto.html", "/execucao/209": "execucao-209.html", "/execucao/283": "execucao-283.html", "/execucao/246": "execucao-246.html", "/execucao/298": "execucao-298.html", "/execucao/242": "execucao-242.html", "/execucao/251": "execucao-251.html", "/execucao/297": "execucao-297.html", "/execucoes?automacao=gestta-concluir-df&status=ruins": "execucoes__automacao-gestta-concluir-df_status-ruins.html", "/cobranca": "cobranca.html", "/automacao/gms-emitir": "automacao-gms-emitir.html", "/fgts": "fgts.html", "/automacao/conferencia-venc-onvio": "automacao-conferencia-venc-onvio.html", "/execucao/273": "execucao-273.html", "/execucao/257": "execucao-257.html", "/execucao/260": "execucao-260.html", "/execucao/291": "execucao-291.html", "/execucao/288": "execucao-288.html", "/execucao/263": "execucao-263.html", "/execucao/282": "execucao-282.html", "/execucao/187": "execucao-187.html", "/execucao/264": "execucao-264.html", "/execucoes?automacao=gms-emitir&tipo=real": "execucoes__automacao-gms-emitir_tipo-real.html", "/execucoes": "execucoes.html", "/darf-fgts": "darf-fgts.html", "/automacao/divisor-icms-fecoep": "automacao-divisor-icms-fecoep.html", "/automacoes": "automacoes.html", "/": "dashboard.html", "/automacao/conferir-valores-fgts": "automacao-conferir-valores-fgts.html", "/execucao/287": "execucao-287.html"}, "fetch": {}, "aovivo": {"destino": "execucao-251.html"}};</script><script src="demo.js"></script></body></html>

@@ -1,0 +1,2635 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<script>
+  try{
+    if(localStorage.getItem('libby-tema')==='dark')
+      document.documentElement.setAttribute('data-theme','dark');
+  }catch(e){}  /* navegador com armazenamento bloqueado: segue no claro */
+</script>
+<title>Libby — Automações</title>
+
+
+
+
+<link rel="stylesheet" href="style.css">
+
+
+
+</head><body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="i-dash"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></g>
+<g id="i-auto"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9l-2.2 2.2M7.1 16.9l-2.2 2.2"/><circle cx="12" cy="12" r="4"/></g>
+<g id="i-exec"><path d="M3 12h4l2-6 4 12 2-6h6"/></g>
+<g id="i-relat"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></g>
+<g id="i-agenda"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></g>
+<g id="i-emp"><path d="M3 21h18M5 21V6l7-3 7 3v15M10 10h1M13 10h1M10 14h1M13 14h1"/></g>
+<g id="i-ciclos"><path d="M21 12a9 9 0 1 1-3.2-6.9"/><path d="M21 3v5h-5"/><path d="M12 8v4.4l2.8 1.6"/></g>
+<g id="i-ponto"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g>
+<g id="i-fgts"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></g>
+<g id="i-guias"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14.5 2 2 4-4"/></g>
+<g id="i-taxa"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2"/></g>
+<g id="i-dirf"><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-4"/><path d="M8 8h4M8 12h3"/><circle cx="17" cy="8" r="4"/><path d="m20.5 11.5 1.5 1.5"/></g>
+<g id="i-pdf"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 14h6M9 17h4"/></g>
+<g id="i-calc"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 11h2M14 11h2M8 15h2M14 15h2M8 19h2M14 19h2"/></g>
+
+<g id="i-melius"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4.5-5"/><circle cx="12" cy="18" r="1.2"/></g>
+<g id="i-post"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><circle cx="12" cy="15" r="2.2"/></g>
+<g id="i-cob"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></g>
+<g id="i-msg"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-4-.9L3 21l1.9-4.7A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></g>
+<g id="i-envio"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></g>
+<g id="i-sol"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.8v2.4M12 19.8v2.4M4.2 12H1.8M22.2 12h-2.4M6.3 6.3 4.6 4.6M19.4 19.4l-1.7-1.7M17.7 6.3l1.7-1.7M4.6 19.4l1.7-1.7"/></g>
+<g id="i-lua"><path d="M20.5 14.2A8.6 8.6 0 0 1 9.8 3.5a8.6 8.6 0 1 0 10.7 10.7z"/></g>
+<g id="i-cfg"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></g>
+</defs></svg>
+
+
+
+
+<div class="app">
+<aside class="side">
+  <div class="brand">
+    <img class="logo" src="logo-libby.png" alt="" width="34" height="34">
+    <div><b>Libby</b><small>Escritório Demo</small></div></div>
+  <nav class="nav" aria-label="Menu principal">
+
+    
+    <div class="grp">Acompanhar</div>
+    
+<a href="dashboard.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-dash"/></svg>
+  <span>Dashboard</span></a>
+
+    
+<a href="execucoes.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-exec"/></svg>
+  <span>Execuções</span></a>
+
+    
+<a href="ciclos.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-ciclos"/></svg>
+  <span>Ciclos</span></a>
+
+    
+<a href="relatorios.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-relat"/></svg>
+  <span>Relatórios</span></a>
+
+
+    
+    
+    <div class="grp">Rotinas</div>
+    
+<a href="fponto.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-ponto"/></svg>
+  <span>Folha de Ponto</span></a>
+
+    
+<a href="fgts.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-fgts"/></svg>
+  <span>FGTS</span></a>
+
+    
+    
+    
+<a href="darf-fgts.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-guias"/></svg>
+  <span>Guias DARF/FGTS</span></a>
+
+    
+    
+<a href="taxas.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-taxa"/></svg>
+  <span>Taxa Assistencial</span></a>
+
+    
+<a href="dirf.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-dirf"/></svg>
+  <span>DIRF</span></a>
+
+    
+<a href="editor-pdf.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-pdf"/></svg>
+  <span>Editor de PDF</span></a>
+
+    
+<a href="calculo-difal.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-calc"/></svg>
+  <span>Cálculo do DIFAL</span></a>
+
+    
+    
+<a href="#" data-demo-fora="/controle-melius" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-melius"/></svg>
+  <span>Controle Melius</span></a>
+
+    
+<a href="automacoes.html" class="active" aria-current="page"
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-auto"/></svg>
+  <span>Automações</span></a>
+
+    
+<a href="#" data-demo-fora="/postagens" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-post"/></svg>
+  <span>Programação de posts</span></a>
+
+    
+
+    
+    <div class="grp">Clientes</div>
+    
+<a href="cobranca.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-cob"/></svg>
+  <span>Cobrança</span></a>
+
+    
+    
+<a href="automacao-automessenger-one.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-envio"/></svg>
+  <span>AutoMessenger</span></a>
+
+    
+<a href="#" data-demo-fora="/mensagens" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-msg"/></svg>
+  <span>Mensagens</span></a>
+
+    
+
+    
+    <div class="grp">Administração</div>
+    
+<a href="agendamentos.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-agenda"/></svg>
+  <span>Agendamentos</span></a>
+
+    
+<a href="empresas.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-emp"/></svg>
+  <span>Empresas</span></a>
+
+    
+<a href="#" data-demo-fora="/config" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-cfg"/></svg>
+  <span>Configurações</span></a>
+
+    
+  </nav>
+</aside>
+
+<div>
+
+<div class="top">
+  <div class="tt">Automações</div>
+  <div class="sp"></div>
+
+  
+  <button type="button" class="tema-bt" id="temaBt" onclick="trocaTema()"
+          title="Alternar entre o tema claro e o escuro" aria-pressed="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-lua"/></svg>
+    <span>Tema escuro</span>
+  </button>
+
+  
+  <div class="who">
+    <div class="av">V</div>
+    <div><b>Visitante</b><span>admin</span></div>
+    <a href="#" data-demo-fora="/logout" title="Encerrar a sessão">Sair</a>
+  </div>
+  
+</div>
+<div class="content">
+
+
+
+
+<div class="pagehd">
+  <div class="sp"><h1>Automações</h1>
+    <div class="sub" style="margin-bottom:0">Clique numa área para ver o que ela tem — as etapas de um mesmo serviço
+      aparecem juntas, na ordem em que rodam. Marque com ★ as que você usa; a tela lembra do que ficou aberto.</div></div>
+  <div class="acts">
+    <input class="in" id="busca" type="search" placeholder="Buscar automação…  (/)" style="width:250px"
+           oninput="filtra()" autocomplete="off">
+    
+    <button class="btn sm" type="button" onclick="alternarEdicao()" id="btnEditar">Editar acesso por setor</button>
+    <button class="btn pri sm" type="submit" form="formSetores" id="btnSalvar"
+            style="display:none">Salvar acesso</button>
+    
+  </div>
+</div>
+<div style="height:16px"></div>
+
+<div class="dica-edit muted" id="dicaEdicao"></div>
+
+
+
+
+<style>
+  .setor-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+  .setor-tag{font-size:10.5px;padding:2px 8px;border-radius:20px;background:var(--chip-bg);color:var(--ink2)}
+  .setor-edit{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);display:none}
+  body.editando .setor-edit{display:block} body.editando .setor-tags{display:none}
+  .setor-edit label{display:inline-flex;align-items:center;gap:5px;font-size:12px;
+                    margin:0 10px 4px 0;font-weight:500;color:var(--ink2)}
+  /* A dica só existe no modo de edição; fora dele o elemento fica vazio e não
+     deve ocupar linha nenhuma (:empty), senão abre um buraco sob o cabeçalho. */
+  .dica-edit{font-size:12px;margin:-6px 2px 14px}
+  .dica-edit:empty{display:none}
+</style>
+
+
+<div class="chipbar" id="abas">
+  <span class="chipbar-t">Setor</span>
+  <button type="button" class="fchip ativo" data-setor="" onclick="filtrarSetor(this,'')">Todos</button>
+  
+  <button type="button" class="fchip" data-setor="dp" onclick="filtrarSetor(this,'dp')">Departamento Pessoal</button>
+  
+  <button type="button" class="fchip" data-setor="fiscal" onclick="filtrarSetor(this,'fiscal')">Fiscal</button>
+  
+  <button type="button" class="fchip" data-setor="marketing" onclick="filtrarSetor(this,'marketing')">Marketing</button>
+  
+</div>
+
+
+<form method="post" action="#" data-demo-acao="/automacoes/setores" id="formSetores">
+
+
+
+
+<div class="chipbar fim" id="filtros">
+  <span class="chipbar-t">Onde roda</span>
+  <button type="button" class="fchip ativo" data-rec=""    onclick="filtrarRecurso(this,'')">Todas</button>
+  <button type="button" class="fchip"       data-rec="web" onclick="filtrarRecurso(this,'web')">Roda na web</button>
+  <button type="button" class="fchip"       data-rec="vm"  onclick="filtrarRecurso(this,'vm')">Roda na VM (fila)</button>
+  
+  <span class="chipbar-div" aria-hidden="true"></span>
+  <button type="button" class="fchip" id="chipFav" onclick="alternarSoFav(this)">★ Só as minhas</button>
+  <button type="button" class="fchip chip-dir" id="chipTudo" onclick="abrirTudo()">Abrir todas as áreas</button>
+</div>
+
+
+
+<div class="recentes-hd">
+  <h3>Recentemente executadas</h3>
+  <a href="execucoes.html">Ver todas →</a>
+</div>
+<div class="recgrid">
+  
+  <a class="reccard" href="automacao-gestta-concluir-df.html">
+    <span class="recnome">Concluir as tarefas no Gestta</span>
+    <span class="recmeta">DomBots e VM</span>
+    <span class="recpe">
+      <span class="chip pend"><span class="cdot"></span>na fila</span>
+      <span class="recquando">hoje 10:39</span>
+    </span>
+  </a>
+  
+  <a class="reccard" href="automacao-fponto-emitir.html">
+    <span class="recnome">Emitir as folhas</span>
+    <span class="recmeta">DomBots e VM</span>
+    <span class="recpe">
+      <span class="chip run"><span class="cdot"></span>executando</span>
+      <span class="recquando">hoje 10:26</span>
+    </span>
+  </a>
+  
+  <a class="reccard" href="automacao-automessenger-one.html">
+    <span class="recnome">AutoMessenger ONE — Avisos em massa</span>
+    <span class="recmeta">Web</span>
+    <span class="recpe">
+      <span class="chip ok"><span class="cdot"></span>concluida</span>
+      <span class="recquando">23/10 14:38</span>
+    </span>
+  </a>
+  
+  <a class="reccard" href="automacao-onvio-publicar.html">
+    <span class="recnome">Publicar arquivo no Onvio (qualquer um)</span>
+    <span class="recmeta">Web</span>
+    <span class="recpe">
+      <span class="chip ok"><span class="cdot"></span>concluida</span>
+      <span class="recquando">23/10 13:17</span>
+    </span>
+  </a>
+  
+</div>
+
+
+
+<div class="areagrid" id="areagrid">
+  
+  <button type="button" class="areacard" data-cat="dombots" onclick="abrirArea('dombots')">
+    
+    <span class="areaic" style="color:#2E6DB4">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+           ><use href="#i-ponto"/></svg>
+    </span>
+    <span class="areanome">DomBots e VM</span>
+    
+    <span class="areanum">17 automações · 5 fluxos</span>
+    
+    <span class="areaitens">Taxa Assistencial (Bares) · Taxa GMS · Folha de Ponto · Aviso de Vencimento · +5</span>
+    <span class="areaseta" aria-hidden="true">▾</span>
+  </button>
+  
+  <button type="button" class="areacard" data-cat="web" onclick="abrirArea('web')">
+    
+    <span class="areaic" style="color:#0E9F6E">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+           ><use href="#i-msg"/></svg>
+    </span>
+    <span class="areanome">Web</span>
+    
+    <span class="areanum">8 automações · 1 fluxo</span>
+    
+    <span class="areaitens">Arrumar o que foi publicado errado · Concluir tarefa no Gestta (qualquer uma) · Publicar arquivo no Onvio (qualquer um) · Pró-Labore — Funcionário misturado · +3</span>
+    <span class="areaseta" aria-hidden="true">▾</span>
+  </button>
+  
+  <button type="button" class="areacard" data-cat="ferramentas" onclick="abrirArea('ferramentas')">
+    
+    <span class="areaic" style="color:#8B5CF6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+           ><use href="#i-pdf"/></svg>
+    </span>
+    <span class="areanome">Ferramentas</span>
+    
+    <span class="areanum">11 automações · 1 fluxo</span>
+    
+    <span class="areaitens">Melius · Editor de PDF · ConsulT — Conferir cadastro de clientes · Divisor ICMS / FECOEP — Econet Validador · +2</span>
+    <span class="areaseta" aria-hidden="true">▾</span>
+  </button>
+  
+</div>
+
+
+
+
+<div class="catrow" data-cat="dombots">
+  
+  <button type="button" class="cathd" onclick="abrirArea('dombots')">
+    <span style="width:10px;height:10px;border-radius:3px;background:#2E6DB4"></span>
+    <h3>DomBots e VM</h3>
+    <span class="muted num" style="font-size:12px">17</span>
+    <span class="seta" aria-hidden="true">Fechar ✕</span></button>
+  <div class="catbody">
+
+  
+    
+    <div class="fluxo" data-fluxo="taxa-bares">
+      <div class="fluxo-hd">
+        <div><h4>Taxa Assistencial (Bares)</h4><span>Sincroniza a lista pelo Gestta, emite no Domínio e publica os boletos.</span></div>
+        <span class="fluxo-n">3 etapas</span>
+      </div>
+      <div class="agrid">
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="web"
+     data-busca="sincronizar taxa assistencial — dombot sincronizar a lista lê a tarefa do sindicato no relatório do gestta (ex.: &#39;taxa assistencial - bares vr&#39;) e sincroniza a lista de empresas do cadastro do sindicato (sindicatos/&lt;sindicato&gt;.json): adiciona as novas sem rubrica — que precisa ser preenchida à mão —, desativa as que saíram e preserva a rubrica das existentes. não conclui a tarefa, porque a conclusão depende do documento que o sindicato devolve, e não roda o domínio.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="sincronizar-taxas" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 1">1</span><a
+      href="automacao-sincronizar-taxas.html"
+      title="Sincronizar Taxa Assistencial — DomBot"
+      >Sincronizar a lista</a></h4>
+  <p title="Lê a tarefa do sindicato no relatório do Gestta (ex.: &#39;TAXA ASSISTENCIAL - BARES VR&#39;) e sincroniza a lista de empresas do cadastro do sindicato (sindicatos/&lt;sindicato&gt;.json): adiciona as novas sem rubrica — que precisa ser preenchida à mão —, desativa as que saíram e preserva a rubrica das existentes. Não conclui a tarefa, porque a conclusão depende do documento que o sindicato devolve, e não roda o Domínio.">Lê a tarefa do sindicato no relatório do Gestta (ex.: &#39;TAXA ASSISTENCIAL - BARES VR&#39;) e sincroniza a lista de empresas do cadastro do sindicato (sindicatos/&lt;sindicato&gt;.json): adiciona as novas <b>sem rubrica</b> — que precisa ser preenchida à mão —, desativa as que saíram e preserva a rubrica das existentes.
+
+Não conclui a tarefa, porque a conclusão depende do documento que o sindicato devolve, e não roda o Domínio.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-sincronizar-taxas.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="sincronizar-taxas">
+    
+    <label><input type="checkbox" name="setores" value="sincronizar-taxas:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="sincronizar-taxas:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="sincronizar-taxas:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="vm"
+     data-busca="taxa assistencial — emitir no domínio (dombot) emitir as guias emite e salva os pdfs da taxa assistencial no domínio (relatórios → f → m, por rubrica), a partir do cadastro do sindicato (sindicatos/&lt;sindicato&gt;.json: código, nome, rubrica). só emite empresas liberadas para a competência, na tela taxa assistencial. o que acontece depois depende do fluxo do sindicato. no fluxo &#39;email&#39; (bares vr), os pdfs vão ao sindicato e o retorno é tratado pela automação &#39;separar e publicar boletos&#39;. no fluxo &#39;concluir&#39; (panificação/motorista), os pdfs são publicados pela tela do domínio (&#39;publicação de documentos externos&#39;, com data de vencimento) e a tarefa é concluída no gestta — se nada for publicado, a conclusão é cancelada, para a tarefa não fechar sem documento entregue. cada sindicato usa o próprio motor de emissão, porque a navegação no domínio difere: bares usa relatórios &gt; f &gt; m; panificação e motorista usam o gerenciador de relatórios. roda na vm (domínio aberto e logado).">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="taxas-emitir" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 2">2</span><a
+      href="automacao-taxas-emitir.html"
+      title="Taxa Assistencial — Emitir no Domínio (DomBot)"
+      >Emitir as guias</a></h4>
+  <p title="Emite e salva os PDFs da Taxa Assistencial no Domínio (Relatórios → F → M, por rubrica), a partir do cadastro do sindicato (sindicatos/&lt;sindicato&gt;.json: código, nome, rubrica). Só emite empresas liberadas para a competência, na tela Taxa Assistencial. O que acontece depois depende do fluxo do sindicato. No fluxo &#39;email&#39; (Bares VR), os PDFs vão ao sindicato e o retorno é tratado pela automação &#39;Separar e publicar boletos&#39;. No fluxo &#39;concluir&#39; (Panificação/Motorista), os PDFs são publicados pela tela do Domínio (&#39;Publicação de Documentos Externos&#39;, com data de vencimento) e a tarefa é concluída no Gestta — se nada for publicado, a conclusão é cancelada, para a tarefa não fechar sem documento entregue. Cada sindicato usa o próprio motor de emissão, porque a navegação no Domínio difere: Bares usa Relatórios &gt; F &gt; M; Panificação e Motorista usam o Gerenciador de Relatórios. Roda na VM (Domínio aberto e logado).">Emite e salva os PDFs da Taxa Assistencial no Domínio (Relatórios → F → M, por rubrica), a partir do cadastro do sindicato (sindicatos/&lt;sindicato&gt;.json: código, nome, rubrica). Só emite empresas <b>liberadas</b> para a competência, na tela Taxa Assistencial.
+
+O que acontece depois depende do fluxo do sindicato. No fluxo &#39;email&#39; (Bares VR), os PDFs vão ao sindicato e o retorno é tratado pela automação &#39;Separar e publicar boletos&#39;. No fluxo &#39;concluir&#39; (Panificação/Motorista), os PDFs são publicados pela tela do Domínio (&#39;Publicação de Documentos Externos&#39;, com data de vencimento) e a tarefa é concluída no Gestta — se nada for publicado, a conclusão é cancelada, para a tarefa não fechar sem documento entregue.
+
+Cada sindicato usa o próprio motor de emissão, porque a navegação no Domínio difere: Bares usa Relatórios &gt; F &gt; M; Panificação e Motorista usam o Gerenciador de Relatórios. Roda na VM (Domínio aberto e logado).</p>
+  <div class="meta"><small class="muted">desktop</small>
+    <a class="btn pri sm" href="automacao-taxas-emitir.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="taxas-emitir">
+    
+    <label><input type="checkbox" name="setores" value="taxas-emitir:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="taxas-emitir:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="taxas-emitir:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="vm"
+     data-busca="taxa assistencial — separar e publicar boletos separar e publicar os boletos entra o pdf único que o sindicato devolve por e-mail, com vários boletos (um por página) — envie o arquivo direto do seu computador, no primeiro campo. sai um pdf por empresa, publicado no onvio na pasta que você indicar (ex.: pessoal &gt; taxa assistencial), já com a data de vencimento, e a tarefa correspondente concluída no gestta. cada página é casada com a empresa pelo cnpj do pagador — o código impresso no boleto é o do sindicato, não o do domínio. se alguma página não for identificada, nada é publicado até você conferir. comece sempre em simulação.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="taxas-boletos" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 3">3</span><a
+      href="automacao-taxas-boletos.html"
+      title="Taxa Assistencial — Separar e publicar boletos"
+      >Separar e publicar os boletos</a></h4>
+  <p title="Entra o PDF único que o sindicato devolve por e-mail, com vários boletos (um por página) — envie o arquivo direto do seu computador, no primeiro campo. Sai um PDF por empresa, publicado no Onvio na pasta que você indicar (ex.: Pessoal &gt; Taxa Assistencial), já com a data de vencimento, e a tarefa correspondente concluída no Gestta. Cada página é casada com a empresa pelo CNPJ do pagador — o código impresso no boleto é o do sindicato, não o do Domínio. Se alguma página não for identificada, nada é publicado até você conferir. Comece sempre em simulação.">Entra o PDF único que o sindicato devolve por e-mail, com vários boletos (um por página) — envie o arquivo direto do seu computador, no primeiro campo. Sai um PDF por empresa, publicado no Onvio na pasta que você indicar (ex.: Pessoal &gt; Taxa Assistencial), já com a data de vencimento, e a tarefa correspondente concluída no Gestta.
+
+Cada página é casada com a empresa pelo CNPJ do pagador — o código impresso no boleto é o do sindicato, não o do Domínio. Se alguma página não for identificada, <b>nada é publicado</b> até você conferir. Comece sempre em simulação.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-taxas-boletos.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="taxas-boletos">
+    
+    <label><input type="checkbox" name="setores" value="taxas-boletos:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="taxas-boletos:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="taxas-boletos:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+      </div>
+    </div>
+    
+  
+    
+    <div class="fluxo" data-fluxo="taxa-gms">
+      <div class="fluxo-hd">
+        <div><h4>Taxa GMS</h4><span>Sincroniza a lista, emite e publica no Domínio, depois confere os relatórios.</span></div>
+        <span class="fluxo-n">3 etapas</span>
+      </div>
+      <div class="agrid">
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="web"
+     data-busca="sincronizar taxa gms — dombot sincronizar a lista lê a tarefa da taxa gms no relatório do gestta (ex.: &#39;taxa assistencial mensal secvr(8,00)&#39;) e sincroniza o cadastro de empresas do dombot gms (empresas_gms.json): adiciona as novas, desativa as que saíram e atualiza os nomes. não conclui a tarefa — a conclusão acontece na publicação, pela tela do domínio — e não roda o domínio. só atualiza a lista.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="sincronizar-gms" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 1">1</span><a
+      href="automacao-sincronizar-gms.html"
+      title="Sincronizar Taxa GMS — DomBot"
+      >Sincronizar a lista</a></h4>
+  <p title="Lê a tarefa da Taxa GMS no relatório do Gestta (ex.: &#39;TAXA ASSISTENCIAL MENSAL SECVR(8,00)&#39;) e sincroniza o cadastro de empresas do DomBot GMS (empresas_gms.json): adiciona as novas, desativa as que saíram e atualiza os nomes. Não conclui a tarefa — a conclusão acontece na publicação, pela tela do Domínio — e não roda o Domínio. Só atualiza a lista.">Lê a tarefa da Taxa GMS no relatório do Gestta (ex.: &#39;TAXA ASSISTENCIAL MENSAL SECVR(8,00)&#39;) e sincroniza o cadastro de empresas do DomBot GMS (empresas_gms.json): adiciona as novas, desativa as que saíram e atualiza os nomes.
+
+Não conclui a tarefa — a conclusão acontece na publicação, pela tela do Domínio — e não roda o Domínio. Só atualiza a lista.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-sincronizar-gms.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="sincronizar-gms">
+    
+    <label><input type="checkbox" name="setores" value="sincronizar-gms:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="sincronizar-gms:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="sincronizar-gms:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="vm"
+     data-busca="taxa gms — emitir e publicar no domínio (dombot) emitir e publicar emite os relatórios de taxa gms no domínio (relatórios integrados → gerenciador), confere se cada pdf é mesmo da empresa que está no nome do arquivo e só então publica em lote pela tela &#39;publicação de documentos externos&#39; — que entrega o documento ao cliente com data de vencimento e conclui a atividade no mesmo passo. a conferência é uma trava: se algum pdf sair com o conteúdo de outra empresa, nada é publicado até você revisar. sem ela, o documento iria para o cliente errado e a tarefa fecharia assim mesmo. a lista vem do cadastro empresas_gms.json, mantido pela &#39;sincronizar taxa gms&#39;. roda na vm (domínio aberto e logado).">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="gms-emitir" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 2">2</span><a
+      href="automacao-gms-emitir.html"
+      title="Taxa GMS — Emitir e publicar no Domínio (DomBot)"
+      >Emitir e publicar</a></h4>
+  <p title="Emite os relatórios de Taxa GMS no Domínio (Relatórios Integrados → Gerenciador), confere se cada PDF é mesmo da empresa que está no nome do arquivo e só então publica em lote pela tela &#39;Publicação de Documentos Externos&#39; — que entrega o documento ao cliente com data de vencimento e conclui a atividade no mesmo passo. A conferência é uma trava: se algum PDF sair com o conteúdo de outra empresa, nada é publicado até você revisar. Sem ela, o documento iria para o cliente errado e a tarefa fecharia assim mesmo. A lista vem do cadastro empresas_gms.json, mantido pela &#39;Sincronizar Taxa GMS&#39;. Roda na VM (Domínio aberto e logado).">Emite os relatórios de Taxa GMS no Domínio (Relatórios Integrados → Gerenciador), confere se cada PDF é mesmo da empresa que está no nome do arquivo e só então publica em lote pela tela &#39;Publicação de Documentos Externos&#39; — que entrega o documento ao cliente com data de vencimento e conclui a atividade no mesmo passo.
+
+A conferência é uma <b>trava</b>: se algum PDF sair com o conteúdo de outra empresa, nada é publicado até você revisar. Sem ela, o documento iria para o cliente errado e a tarefa fecharia assim mesmo.
+
+A lista vem do cadastro empresas_gms.json, mantido pela &#39;Sincronizar Taxa GMS&#39;. Roda na VM (Domínio aberto e logado).</p>
+  <div class="meta"><small class="muted">desktop</small>
+    <a class="btn pri sm" href="automacao-gms-emitir.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="gms-emitir">
+    
+    <label><input type="checkbox" name="setores" value="gms-emitir:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="gms-emitir:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="gms-emitir:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="vm"
+     data-busca="taxa gms — conferir relatórios (nomes e funcionários) conferir os relatórios só leitura — confere os pdfs de taxa gms já emitidos e gera um relatório. nada é publicado, alterado ou apagado. são três checagens. nomes: o nome do arquivo bate com o nome da empresa impresso dentro do pdf, o que pega arquivo trocado entre empresas. funcionários faltantes: quem está na relação de empregados do domínio mas não aparece no gms individual da empresa — envie o empregados.pdf no segundo campo; funcionários admitidos depois da competência são ignorados. empresas sem pdf: quem tem a tarefa no gestta e não tem relatório nenhum na pasta.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="gms-analytics" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 3">3</span><a
+      href="automacao-gms-analytics.html"
+      title="Taxa GMS — Conferir relatórios (nomes e funcionários)"
+      >Conferir os relatórios</a></h4>
+  <p title="Só leitura — confere os PDFs de Taxa GMS já emitidos e gera um relatório. Nada é publicado, alterado ou apagado. São três checagens. Nomes: o nome do arquivo bate com o nome da empresa impresso dentro do PDF, o que pega arquivo trocado entre empresas. Funcionários faltantes: quem está na Relação de Empregados do Domínio mas não aparece no GMS individual da empresa — envie o Empregados.pdf no segundo campo; funcionários admitidos depois da competência são ignorados. Empresas sem PDF: quem tem a tarefa no Gestta e não tem relatório nenhum na pasta."><b>Só leitura</b> — confere os PDFs de Taxa GMS já emitidos e gera um relatório. Nada é publicado, alterado ou apagado.
+
+São três checagens. <b>Nomes</b>: o nome do arquivo bate com o nome da empresa impresso dentro do PDF, o que pega arquivo trocado entre empresas. <b>Funcionários faltantes</b>: quem está na Relação de Empregados do Domínio mas não aparece no GMS individual da empresa — envie o Empregados.pdf no segundo campo; funcionários admitidos depois da competência são ignorados. <b>Empresas sem PDF</b>: quem tem a tarefa no Gestta e não tem relatório nenhum na pasta.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-gms-analytics.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="gms-analytics">
+    
+    <label><input type="checkbox" name="setores" value="gms-analytics:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="gms-analytics:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="gms-analytics:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+      </div>
+    </div>
+    
+  
+    
+    <div class="fluxo" data-fluxo="folha-ponto">
+      <div class="fluxo-hd">
+        <div><h4>Folha de Ponto</h4><span>Sincroniza o cadastro de empresas e emite as folhas no Domínio.</span></div>
+        <span class="fluxo-n">2 etapas</span>
+      </div>
+      <div class="agrid">
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="web"
+     data-busca="sincronizar folha de ponto — dombot sincronizar as empresas lê o relatório &#39;folha de ponto&#39; do gestta e sincroniza o cadastro de empresas do dombot_fponto (empresas_fponto.json): adiciona as novas, desativa as que saíram e preserva o &#39;tipo&#39; das existentes. não roda o domínio — só atualiza a lista.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="sincronizar-fponto" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 1">1</span><a
+      href="automacao-sincronizar-fponto.html"
+      title="Sincronizar Folha de Ponto — DomBot"
+      >Sincronizar as empresas</a></h4>
+  <p title="Lê o relatório &#39;Folha de Ponto&#39; do Gestta e sincroniza o cadastro de empresas do DomBot_FPonto (empresas_fponto.json): adiciona as novas, desativa as que saíram e preserva o &#39;tipo&#39; das existentes. Não roda o Domínio — só atualiza a lista.">Lê o relatório &#39;Folha de Ponto&#39; do Gestta e sincroniza o cadastro de empresas do DomBot_FPonto (empresas_fponto.json): adiciona as novas, desativa as que saíram e preserva o &#39;tipo&#39; das existentes. Não roda o Domínio — só atualiza a lista.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-sincronizar-fponto.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="sincronizar-fponto">
+    
+    <label><input type="checkbox" name="setores" value="sincronizar-fponto:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="sincronizar-fponto:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="sincronizar-fponto:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="vm"
+     data-busca="folha de ponto — emitir no domínio (dombot) emitir as folhas emite e salva os pdfs de folha de ponto no domínio, publica no onvio (pasta &#39;pessoal &gt; folha de ponto&#39;, via api — é o que entrega o documento ao cliente) e conclui as tarefas no gestta. a lista vem do cadastro empresas_fponto.json, mantido pela &#39;sincronizar folha de ponto&#39;. processa as empresas de 16→15 antes das de mês cheio. a publicação pela tela do domínio vem desligada: o intermediário está com defeito e não entrega o documento — quem entrega é o onvio. se nada for publicado no onvio, a conclusão no gestta é cancelada, porque a tarefa não pode fechar sem o documento no portal. rode a primeira vez com o dry-run do onvio ligado. roda na vm (domínio aberto e logado).">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="fponto-emitir" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 2">2</span><a
+      href="automacao-fponto-emitir.html"
+      title="Folha de Ponto — Emitir no Domínio (DomBot)"
+      >Emitir as folhas</a></h4>
+  <p title="Emite e salva os PDFs de Folha de Ponto no Domínio, publica no Onvio (pasta &#39;Pessoal &gt; Folha de Ponto&#39;, via API — é o que entrega o documento ao cliente) e conclui as tarefas no Gestta. A lista vem do cadastro empresas_fponto.json, mantido pela &#39;Sincronizar Folha de Ponto&#39;. Processa as empresas de 16→15 antes das de mês cheio. A publicação pela tela do Domínio vem desligada: o intermediário está com defeito e não entrega o documento — quem entrega é o Onvio. Se nada for publicado no Onvio, a conclusão no Gestta é cancelada, porque a tarefa não pode fechar sem o documento no portal. Rode a primeira vez com o dry-run do Onvio ligado. Roda na VM (Domínio aberto e logado).">Emite e salva os PDFs de Folha de Ponto no Domínio, publica no Onvio (pasta &#39;Pessoal &gt; Folha de Ponto&#39;, via API — é o que entrega o documento ao cliente) e conclui as tarefas no Gestta. A lista vem do cadastro empresas_fponto.json, mantido pela &#39;Sincronizar Folha de Ponto&#39;.
+
+Processa as empresas de 16→15 antes das de mês cheio. A publicação pela tela do Domínio vem desligada: o intermediário está com defeito e não entrega o documento — quem entrega é o Onvio. Se nada for publicado no Onvio, a conclusão no Gestta é <b>cancelada</b>, porque a tarefa não pode fechar sem o documento no portal.
+
+Rode a primeira vez com o dry-run do Onvio ligado. Roda na VM (Domínio aberto e logado).</p>
+  <div class="meta"><small class="muted">desktop</small>
+    <a class="btn pri sm" href="automacao-fponto-emitir.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="fponto-emitir">
+    
+    <label><input type="checkbox" name="setores" value="fponto-emitir:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="fponto-emitir:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="fponto-emitir:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+      </div>
+    </div>
+    
+  
+    
+    <div class="fluxo" data-fluxo="aviso-venc">
+      <div class="fluxo-hd">
+        <div><h4>Aviso de Vencimento</h4><span>Duas formas de fazer o mesmo aviso — a completa também emite no Domínio — e a publicação no Onvio dos períodos que ficaram para trás.</span></div>
+        <span class="fluxo-n">3 variantes</span>
+      </div>
+      <div class="agrid">
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="web"
+     data-busca="aviso de vencimento — gestta só o gestta (pdfs já na pasta) cria e conclui tarefas no gestta via api a partir dos pdfs do domínio.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="aviso-vencimento" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-aviso-vencimento.html"
+      title="Aviso de Vencimento — Gestta"
+      >Só o Gestta (PDFs já na pasta)</a></h4>
+  <p title="Cria e conclui tarefas no Gestta via API a partir dos PDFs do Domínio.">Cria e conclui tarefas no Gestta via API a partir dos PDFs do Domínio.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-aviso-vencimento.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="aviso-vencimento">
+    
+    <label><input type="checkbox" name="setores" value="aviso-vencimento:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="aviso-vencimento:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="aviso-vencimento:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="vm"
+     data-busca="aviso de vencimento — completo (dombot + gestta) completo (emite no domínio também) dombot emite/publica/baixa os avisos no domínio e cria+conclui as tarefas no gestta, num clique. roda na vm (domínio aberto e logado).">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+      <span class="badge completo"
+            title="Faz o trabalho inteiro — a outra opção deste bloco cobre só parte dele.">COMPLETO</span>
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="aviso-vencimento-completo" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-aviso-vencimento-completo.html"
+      title="Aviso de Vencimento — Completo (DomBot + Gestta)"
+      >Completo (emite no Domínio também)</a></h4>
+  <p title="DomBot emite/publica/baixa os avisos no Domínio e cria+conclui as tarefas no Gestta, num clique. Roda na VM (Domínio aberto e logado).">DomBot emite/publica/baixa os avisos no Domínio e cria+conclui as tarefas no Gestta, num clique. Roda na VM (Domínio aberto e logado).</p>
+  <div class="meta"><small class="muted">desktop</small>
+    <a class="btn pri sm" href="automacao-aviso-vencimento-completo.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="aviso-vencimento-completo">
+    
+    <label><input type="checkbox" name="setores" value="aviso-vencimento-completo:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="aviso-vencimento-completo:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="aviso-vencimento-completo:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="vm"
+     data-busca="aviso de vencimento — publicar períodos no onvio publicar períodos no onvio publica no portal do onvio os avisos que já estão na pasta da vm, período por período (cada subpasta &#39;avisos &lt;de&gt; até &lt;até&gt;&#39;, incluindo o que o gestta já moveu para &#39;enviados&#39;). o documento sai com o período no nome. o código da empresa é lido de dentro do pdf. pode rodar de novo sem duplicar: o que já está no portal com o mesmo nome é só contado. não mexe no domínio nem no gestta.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="aviso-publicar-onvio" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-aviso-publicar-onvio.html"
+      title="Aviso de Vencimento — Publicar períodos no Onvio"
+      >Publicar períodos no Onvio</a></h4>
+  <p title="Publica no portal do Onvio os avisos que já estão na pasta da VM, período por período (cada subpasta &#39;Avisos &lt;De&gt; até &lt;Até&gt;&#39;, incluindo o que o Gestta já moveu para &#39;enviados&#39;). O documento sai com o período no nome. O código da empresa é lido de dentro do PDF. Pode rodar de novo sem duplicar: o que já está no portal com o mesmo nome é só contado. Não mexe no Domínio nem no Gestta.">Publica no portal do Onvio os avisos que já estão na pasta da VM, período por período (cada subpasta &#39;Avisos &lt;De&gt; até &lt;Até&gt;&#39;, incluindo o que o Gestta já moveu para &#39;enviados&#39;). O documento sai com o período no nome. O código da empresa é lido de dentro do PDF. Pode rodar de novo sem duplicar: o que já está no portal com o mesmo nome é só contado. Não mexe no Domínio nem no Gestta.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-aviso-publicar-onvio.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="aviso-publicar-onvio">
+    
+    <label><input type="checkbox" name="setores" value="aviso-publicar-onvio:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="aviso-publicar-onvio:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="aviso-publicar-onvio:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+      </div>
+    </div>
+    
+  
+    
+    <div class="fluxo" data-fluxo="dirf-irrf">
+      <div class="fluxo-hd">
+        <div><h4>DIRF / IRRF</h4><span>Extrai os valores do Domínio e confere contra o e-CAC.</span></div>
+        <span class="fluxo-n">2 etapas</span>
+      </div>
+      <div class="agrid">
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="vm"
+     data-busca="dirf/irrf — extrair do domínio p/ conferência (dombot) extrair os valores do domínio emite o extrator da dirf no domínio folha (relatórios → informativos → anuais → dirf), uma empresa por vez, salva o .xls e já lê os valores de cada competência — rendimentos tributáveis, previdência oficial, imposto retido e os demais campos do demonstrativo. é a metade domínio da conferência de irrf: a metade da receita (e-cac) continua sendo feita no chrome, porque o captcha e a sessão gov.br nunca funcionaram sem alguém acompanhando. empresa sem movimento no período (&#39;sem dados&#39;) e empresa bloqueada pelo módulo honorários não contam como erro. uma empresa que falha não interrompe as demais. roda na vm (domínio aberto e logado).">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="dombot-dirf" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 1">1</span><a
+      href="automacao-dombot-dirf.html"
+      title="DIRF/IRRF — Extrair do Domínio p/ conferência (DomBot)"
+      >Extrair os valores do Domínio</a></h4>
+  <p title="Emite o Extrator da DIRF no Domínio Folha (Relatórios → Informativos → Anuais → DIRF), uma empresa por vez, salva o .xls e já LÊ os valores de cada competência — rendimentos tributáveis, previdência oficial, imposto retido e os demais campos do demonstrativo. É a metade DOMÍNIO da conferência de IRRF: a metade da Receita (e-CAC) continua sendo feita no Chrome, porque o captcha e a sessão gov.br nunca funcionaram sem alguém acompanhando. Empresa sem movimento no período (&#39;sem dados&#39;) e empresa bloqueada pelo módulo Honorários NÃO contam como erro. Uma empresa que falha não interrompe as demais. Roda na VM (Domínio aberto e logado).">Emite o <b>Extrator da DIRF</b> no Domínio Folha (Relatórios → Informativos → Anuais → DIRF), uma empresa por vez, salva o .xls e já LÊ os valores de cada competência — rendimentos tributáveis, previdência oficial, imposto retido e os demais campos do demonstrativo. É a metade DOMÍNIO da conferência de IRRF: a metade da Receita (e-CAC) continua sendo feita no Chrome, porque o captcha e a sessão gov.br nunca funcionaram sem alguém acompanhando. Empresa sem movimento no período (&#39;sem dados&#39;) e empresa bloqueada pelo módulo Honorários NÃO contam como erro. Uma empresa que falha não interrompe as demais. Roda na VM (Domínio aberto e logado).</p>
+  <div class="meta"><small class="muted">desktop</small>
+    <a class="btn pri sm" href="automacao-dombot-dirf.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="dombot-dirf">
+    
+    <label><input type="checkbox" name="setores" value="dombot-dirf:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="dombot-dirf:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="dombot-dirf:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="web"
+     data-busca="conferência irrf — e-cac × domínio conferir contra o e-cac compara o irrf que a receita tem (e-cac) com o que saiu do domínio, mês a mês, e aponta as divergências. é uma aplicação própria, que roda na vm em servidor separado (porta 8000) — este card só abre a tela dela. são duas etapas. a geração extrai o extrator da dirf de cada empresa no domínio, feita por um worker na vm com o domínio aberto. a conferência busca os mesmos dados no e-cac e o servidor compara campo a campo. a segunda etapa exige login manual no gov.br e hoje é conduzida pelo claude no chrome, empresa por empresa — não roda sozinha. trazer para dentro da libby ainda está em avaliação.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="conferencia-dirf" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 2">2</span><a
+      href="http://servidor-interno:8000"
+      title="Conferência IRRF — e-CAC × Domínio"
+      target="_blank" rel="noopener">Conferir contra o e-CAC</a></h4>
+  <p title="Compara o IRRF que a Receita tem (e-CAC) com o que saiu do Domínio, mês a mês, e aponta as divergências. É uma aplicação própria, que roda na VM em servidor separado (porta 8000) — este card só abre a tela dela. São duas etapas. A geração extrai o Extrator da DIRF de cada empresa no Domínio, feita por um worker na VM com o Domínio aberto. A conferência busca os mesmos dados no e-CAC e o servidor compara campo a campo. A segunda etapa exige login manual no gov.br e hoje é conduzida pelo Claude no Chrome, empresa por empresa — não roda sozinha. Trazer para dentro da Libby ainda está em avaliação.">Compara o IRRF que a Receita tem (e-CAC) com o que saiu do Domínio, mês a mês, e aponta as divergências. É uma aplicação própria, que roda na VM em servidor separado (porta 8000) — este card só abre a tela dela.
+
+São duas etapas. A <b>geração</b> extrai o Extrator da DIRF de cada empresa no Domínio, feita por um worker na VM com o Domínio aberto. A <b>conferência</b> busca os mesmos dados no e-CAC e o servidor compara campo a campo. A segunda etapa exige login manual no gov.br e hoje é conduzida pelo Claude no Chrome, empresa por empresa — não roda sozinha. Trazer para dentro da Libby ainda está em avaliação.</p>
+  <div class="meta"><small class="muted">externo</small>
+    <a class="btn pri sm" href="http://servidor-interno:8000" target="_blank" rel="noopener">Abrir ↗</a>
+    
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="conferencia-dirf">
+    
+    <label><input type="checkbox" name="setores" value="conferencia-dirf:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferencia-dirf:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferencia-dirf:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+      </div>
+    </div>
+    
+  
+    
+    <div class="agrid">
+      
+
+<div class="acard" data-setores="dp"
+     data-recurso="vm"
+     data-busca="fgts — gerar arquivo gfip em lote  gera o arquivo do gfip (sefip.re) no domínio folha, uma empresa por vez, a partir de uma planilha (colunas nº | empresa | cod_recolhimento). cada empresa é salva em subpasta própria (&lt;pasta&gt;/&lt;empresa&gt;/&lt;mm-aaaa&gt;/) porque o domínio grava sempre com o mesmo nome de arquivo — sem separar, uma empresa sobrescreveria a anterior. serve para gerar o arquivo em lote, por planilha, sem passar pelo recálculo. se o que você quer é o processo completo de recálculo de fgts (gfip → sefip → conectividade → guia), use a tela &#39;recálculo de fgts&#39; no menu: lá o lote é montado por funcionário e competência, e roda no agente elevado. empresa sem movimento no período (&#39;sem dados&#39;) e empresa bloqueada pelo módulo honorários não contam como erro. uma empresa que falha não interrompe as demais. roda na vm (domínio aberto e logado).">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="dombot-gfip" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-dombot-gfip.html"
+      title="FGTS — Gerar arquivo GFIP em lote"
+      >FGTS — Gerar arquivo GFIP em lote</a></h4>
+  <p title="Gera o arquivo do GFIP (Sefip.re) no Domínio Folha, uma empresa por vez, a partir de uma planilha (colunas Nº | Empresa | Cod_Recolhimento). Cada empresa é salva em subpasta própria (&lt;pasta&gt;/&lt;empresa&gt;/&lt;MM-AAAA&gt;/) porque o Domínio grava sempre com o mesmo nome de arquivo — sem separar, uma empresa sobrescreveria a anterior. Serve para gerar o arquivo em lote, por planilha, sem passar pelo recálculo. Se o que você quer é o processo completo de recálculo de FGTS (GFIP → SEFIP → Conectividade → guia), use a tela &#39;Recálculo de FGTS&#39; no menu: lá o lote é montado por funcionário e competência, e roda no agente elevado. Empresa sem movimento no período (&#39;sem dados&#39;) e empresa bloqueada pelo módulo Honorários não contam como erro. Uma empresa que falha não interrompe as demais. Roda na VM (Domínio aberto e logado).">Gera o arquivo do GFIP (Sefip.re) no Domínio Folha, uma empresa por vez, a partir de uma planilha (colunas Nº | Empresa | Cod_Recolhimento). Cada empresa é salva em subpasta própria (&lt;pasta&gt;/&lt;empresa&gt;/&lt;MM-AAAA&gt;/) porque o Domínio grava sempre com o mesmo nome de arquivo — sem separar, uma empresa sobrescreveria a anterior.
+
+Serve para gerar o arquivo em lote, por planilha, sem passar pelo recálculo. Se o que você quer é o processo completo de recálculo de FGTS (GFIP → SEFIP → Conectividade → guia), use a tela &#39;Recálculo de FGTS&#39; no menu: lá o lote é montado por funcionário e competência, e roda no agente elevado.
+
+Empresa sem movimento no período (&#39;sem dados&#39;) e empresa bloqueada pelo módulo Honorários não contam como erro. Uma empresa que falha não interrompe as demais. Roda na VM (Domínio aberto e logado).</p>
+  <div class="meta"><small class="muted">desktop</small>
+    <a class="btn pri sm" href="automacao-dombot-gfip.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="dombot-gfip">
+    
+    <label><input type="checkbox" name="setores" value="dombot-gfip:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="dombot-gfip:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="dombot-gfip:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+
+<div class="acard" data-setores="dp"
+     data-recurso="vm"
+     data-busca="contratos admissionais — emitir  emite os contratos admissionais em pdf, um por funcionário admitido na data de referência. o processo se monta sozinho: o dombot emite no domínio os relatórios &#39;empregados&#39; (quem foi admitido) e &#39;contrato por prazo determinado&#39; (quem está em experiência), cruza os dois pelo m.e.g_one para descobrir o tipo de contrato de cada um (e = experiência, i = indeterminado) e só então emite os pdfs. o código da empresa vem da planilha de contatos no google sheets, porque o relatório do domínio traz o nome e não o código — quando matriz e filial têm o mesmo nome, o desempate é pelo cnpj. no fim, cada pdf passa por uma correção que junta os nomes quebrados em vários pedaços (o domínio emite o nome justificado assim) e remove páginas em branco. contratos que já têm o pdf na pasta são pulados — rodar de novo emite só o que faltou; para gerar tudo outra vez, marque &#39;reemitir&#39;. empresas listadas no &#39;não emitir&#39; ficam de fora. tudo é salvo em &lt;pasta&gt;/&lt;dd.mm.aa&gt;/. não publica no onvio nem conclui tarefa no gestta — só emite. roda na vm (domínio aberto e logado).">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="dombot-admiss" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-dombot-admiss.html"
+      title="Contratos Admissionais — Emitir"
+      >Contratos Admissionais — Emitir</a></h4>
+  <p title="Emite os contratos admissionais em PDF, um por funcionário admitido na data de referência. O processo se monta sozinho: o DomBot emite no Domínio os relatórios &#39;Empregados&#39; (quem foi admitido) e &#39;Contrato por Prazo Determinado&#39; (quem está em experiência), cruza os dois pelo M.E.G_ONE para descobrir o tipo de contrato de cada um (E = experiência, I = indeterminado) e só então emite os PDFs. O código da empresa vem da planilha de contatos no Google Sheets, porque o relatório do Domínio traz o nome e não o código — quando matriz e filial têm o mesmo nome, o desempate é pelo CNPJ. No fim, cada PDF passa por uma correção que junta os nomes quebrados em vários pedaços (o Domínio emite o nome justificado assim) e remove páginas em branco. Contratos que JÁ têm o PDF na pasta são pulados — rodar de novo emite só o que faltou; para gerar tudo outra vez, marque &#39;Reemitir&#39;. Empresas listadas no &#39;não emitir&#39; ficam de fora. Tudo é salvo em &lt;pasta&gt;/&lt;dd.mm.aa&gt;/. Não publica no Onvio nem conclui tarefa no Gestta — só emite. Roda na VM (Domínio aberto e logado).">Emite os contratos admissionais em PDF, um por funcionário admitido na data de referência.
+
+O processo se monta sozinho: o DomBot emite no Domínio os relatórios &#39;Empregados&#39; (quem foi admitido) e &#39;Contrato por Prazo Determinado&#39; (quem está em experiência), cruza os dois pelo M.E.G_ONE para descobrir o tipo de contrato de cada um (E = experiência, I = indeterminado) e só então emite os PDFs.
+
+O código da empresa vem da planilha de contatos no Google Sheets, porque o relatório do Domínio traz o nome e não o código — quando matriz e filial têm o mesmo nome, o desempate é pelo CNPJ. No fim, cada PDF passa por uma correção que junta os nomes quebrados em vários pedaços (o Domínio emite o nome justificado assim) e remove páginas em branco.
+
+Contratos que JÁ têm o PDF na pasta são pulados — rodar de novo emite só o que faltou; para gerar tudo outra vez, marque &#39;Reemitir&#39;.
+
+Empresas listadas no &#39;não emitir&#39; ficam de fora. Tudo é salvo em &lt;pasta&gt;/&lt;dd.mm.aa&gt;/. <b>Não publica no Onvio nem conclui tarefa no Gestta</b> — só emite. Roda na VM (Domínio aberto e logado).</p>
+  <div class="meta"><small class="muted">desktop</small>
+    <a class="btn pri sm" href="automacao-dombot-admiss.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="dombot-admiss">
+    
+    <label><input type="checkbox" name="setores" value="dombot-admiss:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="dombot-admiss:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="dombot-admiss:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+
+<div class="acard" data-setores="dp"
+     data-recurso="vm"
+     data-busca="empréstimo consignado — emitir  emite os relatórios de &#39;empréstimo consignado - por mês&#39; no domínio folha, publica no portal (categoria pessoal/e-consignado) e salva os pdfs. não precisa de cadastro de empresas — por isso não existe uma &#39;sincronizar econsig&#39;. a etapa 1 emite o relatório geral (empresa &#39;&#39;), lê as empresas de dentro do pdf e monta a lista sozinha. a etapa 2 percorre a lista trocando de empresa via f8. atenção à ordem do domínio*: para cada empresa ele executa o relatório, publica e só então gera o pdf — a publicação acontece junto da emissão, não dá para separá-las. a etapa 3 confere se cada pdf é mesmo da empresa do nome do arquivo, comparando com o &#39;empresa:&#39; impresso dentro do pdf. como a publicação já ocorreu na etapa 2, ela audita o que foi entregue; para conferir antes, rode com a etapa 3 desligada e depois só ela. a etapa 4 gera o resumo quantitativo (empregados com consignado por empresa, contando cpfs únicos) e o envia ao discord. roda na vm (domínio aberto e logado).">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="econsig-emitir" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-econsig-emitir.html"
+      title="Empréstimo Consignado — Emitir"
+      >Empréstimo Consignado — Emitir</a></h4>
+  <p title="Emite os relatórios de &#39;Empréstimo Consignado - Por Mês&#39; no Domínio Folha, publica no portal (categoria Pessoal/E-Consignado) e salva os PDFs. Não precisa de cadastro de empresas — por isso não existe uma &#39;Sincronizar Econsig&#39;. A Etapa 1 emite o relatório geral (empresa &#39;&#39;), lê as empresas de dentro do PDF e monta a lista sozinha. A Etapa 2 percorre a lista trocando de empresa via F8. Atenção à ordem do Domínio*: para cada empresa ele executa o relatório, publica e só então gera o PDF — a publicação acontece junto da emissão, não dá para separá-las. A Etapa 3 confere se cada PDF é mesmo da empresa do nome do arquivo, comparando com o &#39;Empresa:&#39; impresso dentro do PDF. Como a publicação já ocorreu na etapa 2, ela audita o que foi entregue; para conferir antes, rode com a etapa 3 desligada e depois só ela. A Etapa 4 gera o resumo quantitativo (empregados com consignado por empresa, contando CPFs únicos) e o envia ao Discord. Roda na VM (Domínio aberto e logado).">Emite os relatórios de &#39;Empréstimo Consignado - Por Mês&#39; no Domínio Folha, publica no portal (categoria Pessoal/E-Consignado) e salva os PDFs. Não precisa de cadastro de empresas — por isso não existe uma &#39;Sincronizar Econsig&#39;.
+
+A Etapa 1 emite o relatório geral (empresa &#39;<b>&#39;), lê as empresas de dentro do PDF e monta a lista sozinha. A Etapa 2 percorre a lista trocando de empresa via F8. </b>Atenção à ordem do Domínio*: para cada empresa ele executa o relatório, publica e só então gera o PDF — a publicação acontece junto da emissão, não dá para separá-las.
+
+A Etapa 3 confere se cada PDF é mesmo da empresa do nome do arquivo, comparando com o &#39;Empresa:&#39; impresso dentro do PDF. Como a publicação já ocorreu na etapa 2, ela <b>audita</b> o que foi entregue; para conferir <b>antes</b>, rode com a etapa 3 desligada e depois só ela.
+
+A Etapa 4 gera o resumo quantitativo (empregados com consignado por empresa, contando CPFs únicos) e o envia ao Discord. Roda na VM (Domínio aberto e logado).</p>
+  <div class="meta"><small class="muted">desktop</small>
+    <a class="btn pri sm" href="automacao-econsig-emitir.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="econsig-emitir">
+    
+    <label><input type="checkbox" name="setores" value="econsig-emitir:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="econsig-emitir:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="econsig-emitir:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+
+<div class="acard" data-setores="dp"
+     data-recurso="vm"
+     data-busca="empréstimo consignado — conferir competência  emite um relatório geral atualizado, confronta com os pdfs que já estão na pasta da competência e emite só o que ficou para trás. serve para o buraco que a emissão não enxerga: a lista dela congela na etapa 1, e empresa cadastrada depois nunca entra na rodada — entre 22/09/2026 e 24/09/2026 o geral saiu de 74 para 85 empresas, e 11 delas não apareceriam em lugar nenhum. pega três casos: a empresa nova no geral e sem pdf; a que já tem pdf mas ganhou empregados depois de emitida (o pdf antigo está desatualizado); e a que falhou no meio do lote anterior. empresa bloqueada por honorários fica de fora — insistir não resolve, o desbloqueio é no domínio. rode em simulação primeiro: nesse modo nada é emitido nem publicado, e você recebe só o diagnóstico (planilha reconciliacao_&lt;mmaaaa&gt;.xlsx). atenção: reemitir uma empresa divergente publica um segundo documento no portal — o antigo não é substituído. roda na vm (domínio aberto e logado).">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="econsig-conferir" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-econsig-conferir.html"
+      title="Empréstimo Consignado — Conferir competência"
+      >Empréstimo Consignado — Conferir competência</a></h4>
+  <p title="Emite um relatório geral ATUALIZADO, confronta com os PDFs que já estão na pasta da competência e emite só o que ficou para trás. Serve para o buraco que a emissão não enxerga: a lista dela CONGELA na Etapa 1, e empresa cadastrada depois nunca entra na rodada — entre 22/09/2026 e 24/09/2026 o geral saiu de 74 para 85 empresas, e 11 delas não apareceriam em lugar nenhum. Pega três casos: a empresa NOVA no geral e sem PDF; a que já tem PDF mas GANHOU empregados depois de emitida (o PDF antigo está desatualizado); e a que FALHOU no meio do lote anterior. Empresa bloqueada por Honorários fica de fora — insistir não resolve, o desbloqueio é no Domínio. RODE EM SIMULAÇÃO PRIMEIRO: nesse modo nada é emitido nem publicado, e você recebe só o diagnóstico (planilha Reconciliacao_&lt;MMAAAA&gt;.xlsx). ATENÇÃO: reemitir uma empresa DIVERGENTE publica um SEGUNDO documento no portal — o antigo não é substituído. Roda na VM (Domínio aberto e logado).">Emite um relatório geral ATUALIZADO, confronta com os PDFs que já estão na pasta da competência e emite só o que ficou para trás. Serve para o buraco que a emissão não enxerga: a lista dela CONGELA na Etapa 1, e empresa cadastrada depois nunca entra na rodada — entre 22/09/2026 e 24/09/2026 o geral saiu de 74 para 85 empresas, e 11 delas não apareceriam em lugar nenhum. Pega três casos: a empresa NOVA no geral e sem PDF; a que já tem PDF mas GANHOU empregados depois de emitida (o PDF antigo está desatualizado); e a que FALHOU no meio do lote anterior. Empresa bloqueada por Honorários fica de fora — insistir não resolve, o desbloqueio é no Domínio. RODE EM SIMULAÇÃO PRIMEIRO: nesse modo nada é emitido nem publicado, e você recebe só o diagnóstico (planilha Reconciliacao_&lt;MMAAAA&gt;.xlsx). ATENÇÃO: reemitir uma empresa DIVERGENTE publica um SEGUNDO documento no portal — o antigo não é substituído. Roda na VM (Domínio aberto e logado).</p>
+  <div class="meta"><small class="muted">desktop</small>
+    <a class="btn pri sm" href="automacao-econsig-conferir.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="econsig-conferir">
+    
+    <label><input type="checkbox" name="setores" value="econsig-conferir:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="econsig-conferir:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="econsig-conferir:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+    </div>
+    
+  
+
+  </div>
+</div>
+
+
+
+<div class="catrow" data-cat="web">
+  
+  <button type="button" class="cathd" onclick="abrirArea('web')">
+    <span style="width:10px;height:10px;border-radius:3px;background:#0E9F6E"></span>
+    <h3>Web</h3>
+    <span class="muted num" style="font-size:12px">8</span>
+    <span class="seta" aria-hidden="true">Fechar ✕</span></button>
+  <div class="catbody">
+
+  
+    
+    <div class="fluxo" data-fluxo="onvio-arrumar">
+      <div class="fluxo-hd">
+        <div><h4>Arrumar o que foi publicado errado</h4><span>Duas formas de achar/desfazer publicação errada no Onvio — escolha pelo que você tem em mãos.</span></div>
+        <span class="fluxo-n">2 variantes</span>
+      </div>
+      <div class="agrid">
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="web"
+     data-busca="conferência de documentos no onvio (por vencimento) procurar por vencimento confere, numa pasta do onvio, quais empresas têm e quais não têm o documento publicado — casando pela data de vencimento do documento, e não pelo nome do arquivo. serve justamente quando parte foi publicada pela automação (nome padronizado) e parte à mão (nome livre): o vencimento é o que todos têm em comum. a lista de empresas a conferir vem das tarefas do gestta na competência. só leitura — nada é publicado, alterado ou apagado. sai um relatório na tela, um csv e um aviso no discord.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="conferencia-venc-onvio" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-conferencia-venc-onvio.html"
+      title="Conferência de Documentos no Onvio (por vencimento)"
+      >Procurar por vencimento</a></h4>
+  <p title="Confere, numa pasta do Onvio, quais empresas têm e quais não têm o documento publicado — casando pela data de vencimento do documento, e não pelo nome do arquivo. Serve justamente quando parte foi publicada pela automação (nome padronizado) e parte à mão (nome livre): o vencimento é o que todos têm em comum. A lista de empresas a conferir vem das tarefas do Gestta na competência. Só leitura — nada é publicado, alterado ou apagado. Sai um relatório na tela, um CSV e um aviso no Discord.">Confere, numa pasta do Onvio, quais empresas têm e quais não têm o documento publicado — casando pela <b>data de vencimento</b> do documento, e não pelo nome do arquivo.
+
+Serve justamente quando parte foi publicada pela automação (nome padronizado) e parte à mão (nome livre): o vencimento é o que todos têm em comum. A lista de empresas a conferir vem das tarefas do Gestta na competência.
+
+<b>Só leitura</b> — nada é publicado, alterado ou apagado. Sai um relatório na tela, um CSV e um aviso no Discord.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-conferencia-venc-onvio.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="conferencia-venc-onvio">
+    
+    <label><input type="checkbox" name="setores" value="conferencia-venc-onvio:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferencia-venc-onvio:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferencia-venc-onvio:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="web"
+     data-busca="limpar arquivo publicado errado apagar pelo nome do arquivo encontra e remove (manda pra lixeira do onvio) um arquivo publicado errado numa lista de empresas, por código + caminho da pasta (ex.: pessoal &gt; recibo de adiantamento) + nome do arquivo. desbloqueia automaticamente se o cliente já tiver visualizado. nasceu do incidente de 22/07/2026 (recibo pagamento mensal - 07/2026 publicado errado em ~150 empresas) — rode sempre em modo simulação primeiro e confira o relatório antes de executar de verdade.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="limpar-arquivo-dp" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-limpar-arquivo-dp.html"
+      title="Limpar Arquivo Publicado Errado"
+      >Apagar pelo nome do arquivo</a></h4>
+  <p title="Encontra e remove (manda pra lixeira do Onvio) um arquivo publicado errado numa lista de empresas, por código + caminho da pasta (ex.: Pessoal &gt; Recibo de Adiantamento) + nome do arquivo. Desbloqueia automaticamente se o cliente já tiver visualizado. Nasceu do incidente de 22/07/2026 (Recibo pagamento mensal - 07/2026 publicado errado em ~150 empresas) — rode sempre em modo simulação primeiro e confira o relatório antes de executar de verdade.">Encontra e remove (manda pra lixeira do Onvio) um arquivo publicado errado numa lista de empresas, por código + caminho da pasta (ex.: Pessoal &gt; Recibo de Adiantamento) + nome do arquivo. Desbloqueia automaticamente se o cliente já tiver visualizado. Nasceu do incidente de 22/07/2026 (Recibo pagamento mensal - 07/2026 publicado errado em ~150 empresas) — rode sempre em modo simulação primeiro e confira o relatório antes de executar de verdade.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-limpar-arquivo-dp.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="limpar-arquivo-dp">
+    
+    <label><input type="checkbox" name="setores" value="limpar-arquivo-dp:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="limpar-arquivo-dp:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="limpar-arquivo-dp:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+      </div>
+    </div>
+    
+  
+    
+    <div class="agrid">
+      
+
+<div class="acard" data-setores="dp fiscal"
+     data-recurso="web"
+     data-busca="concluir tarefa no gestta (qualquer uma)  conclui no gestta as tarefas em aberto de uma competência, anexando os pdfs de uma pasta. serve para qualquer tarefa — você informa o nome dela, sem precisar de automação nova. cada pdf é casado com a empresa pelo código no nome do arquivo — em qualquer posição: entre os números do nome, vale o da empresa que tem a tarefa — e o nome da empresa no arquivo é conferido com o do gestta. arquivo sem código reconhecível, ou com nome que não confere, é reportado e pulado, nunca chutado. empresa sem a tarefa na competência, ou com ela já concluída, também é só reportada. funciona mesmo com documento sem template cadastrado no gestta. rode em simulação primeiro: concluir tarefa é escrita no gestta e a automação não desfaz.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="gestta-concluir" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-gestta-concluir.html"
+      title="Concluir tarefa no Gestta (qualquer uma)"
+      >Concluir tarefa no Gestta (qualquer uma)</a></h4>
+  <p title="Conclui no Gestta as tarefas EM ABERTO de uma competência, anexando os PDFs de uma pasta. Serve para QUALQUER tarefa — você informa o nome dela, sem precisar de automação nova. Cada PDF é casado com a empresa pelo CÓDIGO no nome do arquivo — em qualquer posição: entre os números do nome, vale o da empresa que tem a tarefa — e o nome da empresa no arquivo é conferido com o do Gestta. Arquivo sem código reconhecível, ou com nome que não confere, é reportado e PULADO, nunca chutado. Empresa sem a tarefa na competência, ou com ela já concluída, também é só reportada. Funciona mesmo com documento sem template cadastrado no Gestta. RODE EM SIMULAÇÃO PRIMEIRO: concluir tarefa é escrita no Gestta e a automação não desfaz.">Conclui no Gestta as tarefas EM ABERTO de uma competência, anexando os PDFs de uma pasta. Serve para QUALQUER tarefa — você informa o nome dela, sem precisar de automação nova. Cada PDF é casado com a empresa pelo CÓDIGO no nome do arquivo — em qualquer posição: entre os números do nome, vale o da empresa que tem a tarefa — e o nome da empresa no arquivo é conferido com o do Gestta. Arquivo sem código reconhecível, ou com nome que não confere, é reportado e PULADO, nunca chutado. Empresa sem a tarefa na competência, ou com ela já concluída, também é só reportada. Funciona mesmo com documento sem template cadastrado no Gestta. RODE EM SIMULAÇÃO PRIMEIRO: concluir tarefa é escrita no Gestta e a automação não desfaz.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-gestta-concluir.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span><span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="gestta-concluir">
+    
+    <label><input type="checkbox" name="setores" value="gestta-concluir:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="gestta-concluir:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="gestta-concluir:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+
+<div class="acard" data-setores="dp fiscal"
+     data-recurso="web"
+     data-busca="publicar arquivo no onvio (qualquer um)  publica no onvio, na pasta que você informar, os arquivos de uma pasta — de qualquer tipo (pdf, planilha, imagem, zip...) e para qualquer documento, sem precisar de automação nova. cada arquivo é casado com a empresa pelo código no nome do arquivo — em qualquer posição: entre os números do nome, vale o de uma empresa cadastrada na libby — e o nome da empresa no arquivo é conferido com o do cadastro. arquivo sem código reconhecível, ou com nome que não confere, é reportado e pulado, nunca chutado. a mesma empresa pode receber vários arquivos. o que já está na pasta do cliente com o mesmo nome não é enviado de novo (dá para repetir a rodada sem duplicar) — mas por isso um arquivo corrigido com o mesmo nome não substitui o antigo. rode em simulação primeiro: publicar põe o documento na frente do cliente, e para desfazer só a &#39;limpar arquivo publicado errado&#39;.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="onvio-publicar" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-onvio-publicar.html"
+      title="Publicar arquivo no Onvio (qualquer um)"
+      >Publicar arquivo no Onvio (qualquer um)</a></h4>
+  <p title="Publica no Onvio, na pasta que você informar, os arquivos de uma pasta — de QUALQUER tipo (PDF, planilha, imagem, zip...) e para QUALQUER documento, sem precisar de automação nova. Cada arquivo é casado com a empresa pelo CÓDIGO no nome do arquivo — em qualquer posição: entre os números do nome, vale o de uma empresa cadastrada na Libby — e o nome da empresa no arquivo é conferido com o do cadastro. Arquivo sem código reconhecível, ou com nome que não confere, é reportado e PULADO, nunca chutado. A mesma empresa pode receber vários arquivos. O que já está na pasta do cliente com o MESMO NOME não é enviado de novo (dá para repetir a rodada sem duplicar) — mas por isso um arquivo corrigido com o mesmo nome não substitui o antigo. RODE EM SIMULAÇÃO PRIMEIRO: publicar põe o documento na frente do cliente, e para desfazer só a &#39;Limpar Arquivo Publicado Errado&#39;.">Publica no Onvio, na pasta que você informar, os arquivos de uma pasta — de QUALQUER tipo (PDF, planilha, imagem, zip...) e para QUALQUER documento, sem precisar de automação nova. Cada arquivo é casado com a empresa pelo CÓDIGO no nome do arquivo — em qualquer posição: entre os números do nome, vale o de uma empresa cadastrada na Libby — e o nome da empresa no arquivo é conferido com o do cadastro. Arquivo sem código reconhecível, ou com nome que não confere, é reportado e PULADO, nunca chutado. A mesma empresa pode receber vários arquivos. O que já está na pasta do cliente com o MESMO NOME não é enviado de novo (dá para repetir a rodada sem duplicar) — mas por isso um arquivo corrigido com o mesmo nome não substitui o antigo. RODE EM SIMULAÇÃO PRIMEIRO: publicar põe o documento na frente do cliente, e para desfazer só a &#39;Limpar Arquivo Publicado Errado&#39;.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-onvio-publicar.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span><span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="onvio-publicar">
+    
+    <label><input type="checkbox" name="setores" value="onvio-publicar:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="onvio-publicar:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="onvio-publicar:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+
+<div class="acard" data-setores="dp"
+     data-recurso="web"
+     data-busca="pró-labore — funcionário misturado  confere os pdfs de recibo de pró-labore de uma pasta e alerta se algum funcionário foi misturado no mesmo lote do sócio. regra: cada pessoa do pdf deve ter o item &#39;pro-labore&#39; (ou variações: pro labore, prolabore) na seção de vencimentos — se não tiver, é candidata a funcionário que entrou por engano. sócio em licença maternidade (recebe por &#39;salario matern empregador&#39; naquele mês) é sinalizado à parte para revisão manual, não como erro. não escreve nada no onvio/domínio — só lê os pdfs e gera um relatório em csv.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="conferencia-prolabore-dp" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-conferencia-prolabore-dp.html"
+      title="Pró-Labore — Funcionário misturado"
+      >Pró-Labore — Funcionário misturado</a></h4>
+  <p title="Confere os PDFs de recibo de pró-labore de uma pasta e alerta se algum funcionário foi misturado no mesmo lote do sócio. Regra: cada pessoa do PDF deve ter o item &#39;PRO-LABORE&#39; (ou variações: PRO LABORE, PROLABORE) na seção de vencimentos — se não tiver, é candidata a funcionário que entrou por engano. Sócio em licença maternidade (recebe por &#39;SALARIO MATERN EMPREGADOR&#39; naquele mês) é sinalizado à parte para revisão manual, não como erro. Não escreve nada no Onvio/Domínio — só lê os PDFs e gera um relatório em CSV.">Confere os PDFs de recibo de pró-labore de uma pasta e alerta se algum funcionário foi misturado no mesmo lote do sócio. Regra: cada pessoa do PDF deve ter o item &#39;PRO-LABORE&#39; (ou variações: PRO LABORE, PROLABORE) na seção de vencimentos — se não tiver, é candidata a funcionário que entrou por engano. Sócio em licença maternidade (recebe por &#39;SALARIO MATERN EMPREGADOR&#39; naquele mês) é sinalizado à parte para revisão manual, não como erro. Não escreve nada no Onvio/Domínio — só lê os PDFs e gera um relatório em CSV.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-conferencia-prolabore-dp.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="conferencia-prolabore-dp">
+    
+    <label><input type="checkbox" name="setores" value="conferencia-prolabore-dp:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferencia-prolabore-dp:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferencia-prolabore-dp:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+
+<div class="acard" data-setores="dp fiscal"
+     data-recurso="web"
+     data-busca="certificados a vencer — planilha  baixa do gestta os certificados que vencem no mês seguinte (relatório customer_certificate) e adiciona na planilha de controle (google sheets). preenche nº, empresa, cnpj, tipo, vencimento, situação e dias. append puro (não deduplica).">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="certificados-sheets" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-certificados-sheets.html"
+      title="Certificados a vencer — Planilha"
+      >Certificados a vencer — Planilha</a></h4>
+  <p title="Baixa do Gestta os certificados que vencem no mês seguinte (relatório CUSTOMER_CERTIFICATE) e adiciona na planilha de controle (Google Sheets). Preenche Nº, Empresa, CNPJ, Tipo, Vencimento, Situação e Dias. Append puro (não deduplica).">Baixa do Gestta os certificados que vencem no mês seguinte (relatório CUSTOMER_CERTIFICATE) e adiciona na planilha de controle (Google Sheets). Preenche Nº, Empresa, CNPJ, Tipo, Vencimento, Situação e Dias. Append puro (não deduplica).</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-certificados-sheets.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span><span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="certificados-sheets">
+    
+    <label><input type="checkbox" name="setores" value="certificados-sheets:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="certificados-sheets:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="certificados-sheets:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+
+<div class="acard" data-setores="dp fiscal"
+     data-recurso="web"
+     data-busca="atualizar contatos — empresas novas  descobre empresas novas no gestta (api /core/customer), grava na planilha de contatos com nome+telefone (messenger), corrige os nomes de contato incompletos das linhas existentes e atualiza a tabela de empresas da libby.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="atualizar-contatos" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-atualizar-contatos.html"
+      title="Atualizar contatos — Empresas novas"
+      >Atualizar contatos — Empresas novas</a></h4>
+  <p title="Descobre empresas novas no Gestta (API /core/customer), grava na planilha de contatos com nome+telefone (Messenger), corrige os nomes de contato incompletos das linhas existentes e atualiza a tabela de Empresas da Libby.">Descobre empresas novas no Gestta (API /core/customer), grava na planilha de contatos com nome+telefone (Messenger), corrige os nomes de contato incompletos das linhas existentes e atualiza a tabela de Empresas da Libby.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-atualizar-contatos.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span><span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="atualizar-contatos">
+    
+    <label><input type="checkbox" name="setores" value="atualizar-contatos:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="atualizar-contatos:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="atualizar-contatos:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+
+<div class="acard" data-setores=""
+     data-recurso="web"
+     data-busca="automessenger one — avisos em massa  junta o m.e.g one e o automessenger one num processo só, por etapas. entra uma planilha de origem, com a lista de empresas a avisar; sai a mensagem enviada pelo onvio messenger, por contato ou por grupo, via api, sem abrir navegador. os campos mudam conforme o modelo escolhido no topo: cada um mostra só o que é dele, e uma dica abaixo do seletor explica o que aquele modelo faz. a etapa 0 atualiza os contatos pelo gestta. a etapa 1 monta a lista pelo modelo. a etapa 2 é a trava: resolve todos os destinatários e monta todas as mensagens antes de enviar qualquer uma — se a taxa de falha passar do limite, nada é enviado. sem ela, o erro só apareceria com metade do lote já enviado, e mensagem enviada não volta. a etapa 3 envia. para conferir o texto antes de valer, use o modo de teste: ele desvia todas as mensagens para um contato só. comece sempre em simulação.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="automessenger-one" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-automessenger-one.html"
+      title="AutoMessenger ONE — Avisos em massa"
+      >AutoMessenger ONE — Avisos em massa</a></h4>
+  <p title="Junta o M.E.G ONE e o AutoMessenger ONE num processo só, por etapas. Entra uma planilha de origem, com a lista de empresas a avisar; sai a mensagem enviada pelo Onvio Messenger, por contato ou por grupo, via API, sem abrir navegador. Os campos mudam conforme o modelo escolhido no topo: cada um mostra só o que é dele, e uma dica abaixo do seletor explica o que aquele modelo faz. A Etapa 0 atualiza os contatos pelo Gestta. A Etapa 1 monta a lista pelo modelo. A Etapa 2 é a trava: resolve todos os destinatários e monta todas as mensagens antes de enviar qualquer uma — se a taxa de falha passar do limite, nada é enviado. Sem ela, o erro só apareceria com metade do lote já enviado, e mensagem enviada não volta. A Etapa 3 envia. Para conferir o texto antes de valer, use o modo de teste: ele desvia todas as mensagens para um contato só. Comece sempre em simulação.">Junta o M.E.G ONE e o AutoMessenger ONE num processo só, por etapas. Entra uma planilha de origem, com a lista de empresas a avisar; sai a mensagem enviada pelo Onvio Messenger, por contato ou por grupo, via API, sem abrir navegador.
+
+Os campos mudam conforme o modelo escolhido no topo: cada um mostra só o que é dele, e uma dica abaixo do seletor explica o que aquele modelo faz.
+
+A Etapa 0 atualiza os contatos pelo Gestta. A Etapa 1 monta a lista pelo modelo. A Etapa 2 é a <b>trava</b>: resolve todos os destinatários e monta todas as mensagens antes de enviar qualquer uma — se a taxa de falha passar do limite, <b>nada é enviado</b>. Sem ela, o erro só apareceria com metade do lote já enviado, e mensagem enviada não volta. A Etapa 3 envia.
+
+Para conferir o texto antes de valer, use o modo de teste: ele desvia todas as mensagens para um contato só. Comece sempre em simulação.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-automessenger-one.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    
+    <span class="setor-tag" style="background:var(--red-soft);color:var(--red-ink)">só administração</span>
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="automessenger-one">
+    
+    <label><input type="checkbox" name="setores" value="automessenger-one:dp"
+      > Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="automessenger-one:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="automessenger-one:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+    </div>
+    
+  
+
+  </div>
+</div>
+
+
+
+<div class="catrow" data-cat="ferramentas">
+  
+  <button type="button" class="cathd" onclick="abrirArea('ferramentas')">
+    <span style="width:10px;height:10px;border-radius:3px;background:#8B5CF6"></span>
+    <h3>Ferramentas</h3>
+    <span class="muted num" style="font-size:12px">11</span>
+    <span class="seta" aria-hidden="true">Fechar ✕</span></button>
+  <div class="catbody">
+
+  
+    
+    <div class="fluxo" data-fluxo="melius">
+      <div class="fluxo-hd">
+        <div><h4>Melius</h4><span>Painel das guias, conferência completa, checagem de valores (Darf e FGTS) e conclusão no Gestta.</span></div>
+        <span class="fluxo-n">6 etapas</span>
+      </div>
+      <div class="agrid">
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="dp"
+     data-recurso="web"
+     data-busca="controle melius  painel de monitoramento das guias do robô melius (servidor local).">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="controle-melius" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 1">1</span><a
+      href="#" data-demo-fora="/melius/"
+      title="Controle Melius"
+      target="_blank" rel="noopener">Controle Melius</a></h4>
+  <p title="Painel de monitoramento das guias do robô Melius (servidor local).">Painel de monitoramento das guias do robô Melius (servidor local).</p>
+  <div class="meta"><small class="muted">externo</small>
+    <a class="btn pri sm" href="#" data-demo-fora="/melius/" target="_blank" rel="noopener">Abrir ↗</a>
+    
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="controle-melius">
+    
+    <label><input type="checkbox" name="setores" value="controle-melius:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="controle-melius:fiscal"
+      > Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="controle-melius:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="fiscal"
+     data-recurso="vm"
+     data-busca="conferência df — processo completo rodar a conferência processo completo (app_final): mapear → conferir → publicar faltantes → definir vencimentos, via api do onvio.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="conferencia-df" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 2">2</span><a
+      href="automacao-conferencia-df.html"
+      title="Conferência DF — Processo completo"
+      >Rodar a conferência</a></h4>
+  <p title="Processo completo (app_final): Mapear → Conferir → Publicar faltantes → Definir vencimentos, via API do Onvio.">Processo completo (app_final): Mapear → Conferir → Publicar faltantes → Definir vencimentos, via API do Onvio.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-conferencia-df.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="conferencia-df">
+    
+    <label><input type="checkbox" name="setores" value="conferencia-df:dp"
+      > Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferencia-df:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferencia-df:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="fiscal"
+     data-recurso="vm"
+     data-busca="conferir valores — darf x dctf web  lê o valor de dentro de cada guia de darf enviada e compara com o &#39;saldo a pagar&#39; do relatório dctf web. só leitura — aponta divergências de valor e empresas com saldo mas sem guia.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="conferir-valores-darf" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 3">3</span><a
+      href="automacao-conferir-valores-darf.html"
+      title="Conferir Valores — Darf x DCTF Web"
+      >Conferir Valores — Darf x DCTF Web</a></h4>
+  <p title="Lê o valor de dentro de cada guia de Darf enviada e compara com o &#39;Saldo a Pagar&#39; do relatório DCTF Web. Só leitura — aponta divergências de valor e empresas com saldo mas sem guia.">Lê o valor de dentro de cada guia de Darf enviada e compara com o &#39;Saldo a Pagar&#39; do relatório DCTF Web. Só leitura — aponta divergências de valor e empresas com saldo mas sem guia.</p>
+  <div class="meta"><small class="muted">local</small>
+    <a class="btn pri sm" href="automacao-conferir-valores-darf.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="conferir-valores-darf">
+    
+    <label><input type="checkbox" name="setores" value="conferir-valores-darf:dp"
+      > Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferir-valores-darf:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferir-valores-darf:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="fiscal"
+     data-recurso="vm"
+     data-busca="conferir valores — fgts x resumo da folha  lê o &#39;total da guia&#39; de cada guia de fgts enviada e compara com fgts + consignado do resumo da folha geral do domínio. só leitura — aponta divergências de valor e empresas com fgts mas sem guia.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="conferir-valores-fgts" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 4">4</span><a
+      href="automacao-conferir-valores-fgts.html"
+      title="Conferir Valores — FGTS x Resumo da Folha"
+      >Conferir Valores — FGTS x Resumo da Folha</a></h4>
+  <p title="Lê o &#39;Total da Guia&#39; de cada guia de FGTS enviada e compara com FGTS + consignado do Resumo da Folha geral do Domínio. Só leitura — aponta divergências de valor e empresas com FGTS mas sem guia.">Lê o &#39;Total da Guia&#39; de cada guia de FGTS enviada e compara com FGTS + consignado do Resumo da Folha geral do Domínio. Só leitura — aponta divergências de valor e empresas com FGTS mas sem guia.</p>
+  <div class="meta"><small class="muted">local</small>
+    <a class="btn pri sm" href="automacao-conferir-valores-fgts.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="conferir-valores-fgts">
+    
+    <label><input type="checkbox" name="setores" value="conferir-valores-fgts:dp"
+      > Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferir-valores-fgts:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferir-valores-fgts:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="fiscal"
+     data-recurso="vm"
+     data-busca="conferir valores — fgts x domínio (pagamentos)  dombot: para cada empresa com guia de fgts na pasta, abre processos &gt; pagamentos no domínio, lê o saldo devedor de fgts e de emp. créd. trabalhador e compara a soma com o total da guia. alternativa ao resumo da folha geral (que leva ~12 min para exportar). só leitura: nunca toca em pagar / pagar multi-empresa / concluir atividade. fgts rescisório e contr. assistencial ficam fora da conta. roda na vm (domínio aberto e logado).">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="conferir-valores-fgts-dominio" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 5">5</span><a
+      href="automacao-conferir-valores-fgts-dominio.html"
+      title="Conferir Valores — FGTS x Domínio (Pagamentos)"
+      >Conferir Valores — FGTS x Domínio (Pagamentos)</a></h4>
+  <p title="DomBot: para cada empresa com guia de FGTS na pasta, abre Processos &gt; Pagamentos no Domínio, lê o Saldo devedor de FGTS e de Emp. Créd. Trabalhador e compara a soma com o Total da Guia. Alternativa ao Resumo da Folha geral (que leva ~12 min para exportar). SÓ LEITURA: nunca toca em Pagar / Pagar multi-empresa / Concluir Atividade. FGTS Rescisório e Contr. Assistencial ficam fora da conta. Roda na VM (Domínio aberto e logado).">DomBot: para cada empresa com guia de FGTS na pasta, abre Processos &gt; Pagamentos no Domínio, lê o Saldo devedor de FGTS e de Emp. Créd. Trabalhador e compara a soma com o Total da Guia. Alternativa ao Resumo da Folha geral (que leva ~12 min para exportar). SÓ LEITURA: nunca toca em Pagar / Pagar multi-empresa / Concluir Atividade. FGTS Rescisório e Contr. Assistencial ficam fora da conta. Roda na VM (Domínio aberto e logado).</p>
+  <div class="meta"><small class="muted">desktop</small>
+    <a class="btn pri sm" href="automacao-conferir-valores-fgts-dominio.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="conferir-valores-fgts-dominio">
+    
+    <label><input type="checkbox" name="setores" value="conferir-valores-fgts-dominio:dp"
+      > Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferir-valores-fgts-dominio:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="conferir-valores-fgts-dominio:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+          
+          
+          
+          
+          
+
+<div class="acard" data-setores="fiscal"
+     data-recurso="vm"
+     data-busca="gestta — concluir tarefas (darf/fgts) concluir as tarefas no gestta usa o mapeamento da conferência df: conclui no gestta as tarefas em aberto que têm documento darf/fgts, enviando o arquivo. rode o &#39;mapear&#39; antes.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge vm">VM · DOMÍNIO</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="gestta-concluir-df" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><span class="passo" title="Etapa 6">6</span><a
+      href="automacao-gestta-concluir-df.html"
+      title="Gestta — Concluir tarefas (DARF/FGTS)"
+      >Concluir as tarefas no Gestta</a></h4>
+  <p title="Usa o mapeamento da Conferência DF: conclui no Gestta as tarefas em aberto que têm documento DARF/FGTS, enviando o arquivo. Rode o &#39;Mapear&#39; antes.">Usa o mapeamento da Conferência DF: conclui no Gestta as tarefas em aberto que têm documento DARF/FGTS, enviando o arquivo. Rode o &#39;Mapear&#39; antes.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-gestta-concluir-df.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="gestta-concluir-df">
+    
+    <label><input type="checkbox" name="setores" value="gestta-concluir-df:dp"
+      > Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="gestta-concluir-df:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="gestta-concluir-df:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+        
+      </div>
+    </div>
+    
+  
+    
+    <div class="agrid">
+      
+
+<div class="acard" data-setores="dp fiscal"
+     data-recurso="web"
+     data-busca="editor de pdf  ferramenta de autoatendimento do dp para trabalhar com pdfs padronizados (informes de rendimento, guias, contratos), direto no navegador — sem executável. ler: mostra o texto que o sistema enxerga no documento, com faixa de páginas (ex.: 1-3,5) e busca de termos que ignora acentos e maiúsculas (&#39;cnpj&#39; acha &#39;cnpj&#39;); dá para copiar ou baixar como .txt. editar: clique numa linha da página, troque o texto e confira a prévia antes de aplicar. o novo texto entra com a fonte e a cor do original, então o resultado fica igual ao documento de origem. a unidade de edição é a linha inteira, agrupando os pedaços que o pdf espalha quando o texto é justificado — é o que faz um nome aparecer partido em vários trechos. cada envio abre uma sessão isolada, apagada sozinha depois de 6h: são documentos com dado pessoal e não ficam acumulando no servidor. ainda não faz templates reutilizáveis nem lote por pasta (fases 3 a 5 do escopo).">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="editor-pdf" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="editor-pdf.html"
+      title="Editor de PDF"
+      target="_blank" rel="noopener">Editor de PDF</a></h4>
+  <p title="Ferramenta de autoatendimento do DP para trabalhar com PDFs padronizados (informes de rendimento, guias, contratos), direto no navegador — sem executável. Ler: mostra o texto que o sistema enxerga no documento, com faixa de páginas (ex.: 1-3,5) e busca de termos que ignora acentos e maiúsculas (&#39;cnpj&#39; acha &#39;CNPJ&#39;); dá para copiar ou baixar como .txt. Editar: clique numa linha da página, troque o texto e confira a prévia antes de aplicar. O novo texto entra com a fonte e a cor do original, então o resultado fica igual ao documento de origem. A unidade de edição é a linha inteira, agrupando os pedaços que o PDF espalha quando o texto é justificado — é o que faz um nome aparecer partido em vários trechos. Cada envio abre uma sessão isolada, apagada sozinha depois de 6h: são documentos com dado pessoal e não ficam acumulando no servidor. Ainda não faz templates reutilizáveis nem lote por pasta (fases 3 a 5 do escopo).">Ferramenta de autoatendimento do DP para trabalhar com PDFs padronizados (informes de rendimento, guias, contratos), direto no navegador — sem executável.
+
+<b>Ler</b>: mostra o texto que o sistema enxerga no documento, com faixa de páginas (ex.: 1-3,5) e busca de termos que ignora acentos e maiúsculas (&#39;cnpj&#39; acha &#39;CNPJ&#39;); dá para copiar ou baixar como .txt.
+
+<b>Editar</b>: clique numa linha da página, troque o texto e confira a prévia antes de aplicar. O novo texto entra com a fonte e a cor do original, então o resultado fica igual ao documento de origem. A unidade de edição é a <b>linha inteira</b>, agrupando os pedaços que o PDF espalha quando o texto é justificado — é o que faz um nome aparecer partido em vários trechos.
+
+Cada envio abre uma sessão isolada, apagada sozinha depois de 6h: são documentos com dado pessoal e não ficam acumulando no servidor. Ainda não faz templates reutilizáveis nem lote por pasta (fases 3 a 5 do escopo).</p>
+  <div class="meta"><small class="muted">externo</small>
+    <a class="btn pri sm" href="editor-pdf.html" target="_blank" rel="noopener">Abrir ↗</a>
+    
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span><span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="editor-pdf">
+    
+    <label><input type="checkbox" name="setores" value="editor-pdf:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="editor-pdf:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="editor-pdf:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+
+<div class="acard" data-setores="fiscal"
+     data-recurso="web"
+     data-busca="consult — conferir cadastro de clientes  cruza a base do e-kontroll com a do e-cac (ou outra planilha) e diz o que está fora de lugar. o casamento é por cnpj; a raiz do cnpj (8 primeiros dígitos) distingue empresa nova de outra inscrição de um grupo já conhecido — é o que impede uma filial de sumir do relatório só porque a matriz tem o mesmo nome. modo veri: lista quem está no e-kontroll e não aparece na outra base, anotando quando é matriz/filial de alguém já cadastrado ou quando existe nome parecido para conferir à mão. pode retirar cpfs, filiais de grupo já cadastrado e as empresas que você anotou (na saída anterior) como inativa ou apenas consultoria — o que sai vai para a aba &#39;retiradas&#39;, com o motivo. modo consul_ecac: cruza nos dois sentidos — quem saiu (está na comparação e não no e-kontroll) e quem falta adicionar. a saída pode ser um relatório com as linhas coloridas ou uma planilha pronta para importar (cnpj formatado, contato e e-mail do cadastro). só leitura das planilhas: nada é publicado, alterado ou apagado em sistema nenhum.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="consult-cadastro" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-consult-cadastro.html"
+      title="ConsulT — Conferir cadastro de clientes"
+      >ConsulT — Conferir cadastro de clientes</a></h4>
+  <p title="Cruza a base do e-Kontroll com a do e-CAC (ou outra planilha) e diz o que está fora de lugar. O casamento é por CNPJ; a raiz do CNPJ (8 primeiros dígitos) distingue empresa nova de outra inscrição de um grupo já conhecido — é o que impede uma filial de sumir do relatório só porque a matriz tem o mesmo nome. MODO VERI: lista quem está no e-Kontroll e não aparece na outra base, anotando quando é matriz/filial de alguém já cadastrado ou quando existe nome parecido para conferir à mão. Pode retirar CPFs, filiais de grupo já cadastrado e as empresas que você anotou (na saída anterior) como inativa ou apenas consultoria — o que sai vai para a aba &#39;Retiradas&#39;, com o motivo. MODO CONSUL_ECAC: cruza nos dois sentidos — quem saiu (está na comparação e não no e-Kontroll) e quem falta adicionar. A saída pode ser um relatório com as linhas coloridas ou uma planilha pronta para importar (CNPJ formatado, contato e e-mail do cadastro). Só leitura das planilhas: nada é publicado, alterado ou apagado em sistema nenhum.">Cruza a base do <b>e-Kontroll</b> com a do <b>e-CAC</b> (ou outra planilha) e diz o que está fora de lugar. O casamento é por CNPJ; a raiz do CNPJ (8 primeiros dígitos) distingue empresa nova de outra inscrição de um grupo já conhecido — é o que impede uma filial de sumir do relatório só porque a matriz tem o mesmo nome. MODO VERI: lista quem está no e-Kontroll e não aparece na outra base, anotando quando é matriz/filial de alguém já cadastrado ou quando existe nome parecido para conferir à mão. Pode retirar CPFs, filiais de grupo já cadastrado e as empresas que você anotou (na saída anterior) como inativa ou apenas consultoria — o que sai vai para a aba &#39;Retiradas&#39;, com o motivo. MODO CONSUL_ECAC: cruza nos dois sentidos — quem saiu (está na comparação e não no e-Kontroll) e quem falta adicionar. A saída pode ser um relatório com as linhas coloridas ou uma planilha pronta para importar (CNPJ formatado, contato e e-mail do cadastro). Só leitura das planilhas: nada é publicado, alterado ou apagado em sistema nenhum.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-consult-cadastro.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="consult-cadastro">
+    
+    <label><input type="checkbox" name="setores" value="consult-cadastro:dp"
+      > Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="consult-cadastro:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="consult-cadastro:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+
+<div class="acard" data-setores="fiscal"
+     data-recurso="web"
+     data-busca="divisor icms / fecoep — econet validador  parte o icms st calculado de cada item da planilha do econet validador nfe icms-st em icms (20/22) e fecoep (2/22), acrescentando as colunas &#39;icms (20/22 do total)&#39;, &#39;fecoep (2/22 do total)&#39; e &#39;conferência&#39; e uma linha de totais. aceita várias planilhas de uma vez — cada uma sai como um arquivo próprio, para baixar em relatórios. item com alíquota interna + fecoep diferente de 22% é dividido do mesmo jeito, mas aparece no log para conferir. a planilha enviada não é alterada, e nada é publicado em sistema nenhum.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="divisor-icms-fecoep" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-divisor-icms-fecoep.html"
+      title="Divisor ICMS / FECOEP — Econet Validador"
+      >Divisor ICMS / FECOEP — Econet Validador</a></h4>
+  <p title="Parte o ICMS ST Calculado de cada item da planilha do Econet Validador NFe ICMS-ST em ICMS (20/22) e FECOEP (2/22), acrescentando as colunas &#39;ICMS (20/22 do total)&#39;, &#39;FECOEP (2/22 do total)&#39; e &#39;Conferência&#39; e uma linha de TOTAIS. Aceita várias planilhas de uma vez — cada uma sai como um arquivo próprio, para baixar em Relatórios. Item com alíquota interna + FECOEP diferente de 22% é dividido do mesmo jeito, mas aparece no log para conferir. A planilha enviada não é alterada, e nada é publicado em sistema nenhum.">Parte o <b>ICMS ST Calculado</b> de cada item da planilha do Econet Validador NFe ICMS-ST em ICMS (20/22) e FECOEP (2/22), acrescentando as colunas &#39;ICMS (20/22 do total)&#39;, &#39;FECOEP (2/22 do total)&#39; e &#39;Conferência&#39; e uma linha de TOTAIS. Aceita várias planilhas de uma vez — cada uma sai como um arquivo próprio, para baixar em Relatórios. Item com alíquota interna + FECOEP diferente de 22% é dividido do mesmo jeito, mas aparece no log para conferir. A planilha enviada não é alterada, e nada é publicado em sistema nenhum.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-divisor-icms-fecoep.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="divisor-icms-fecoep">
+    
+    <label><input type="checkbox" name="setores" value="divisor-icms-fecoep:dp"
+      > Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="divisor-icms-fecoep:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="divisor-icms-fecoep:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+
+<div class="acard" data-setores="fiscal"
+     data-recurso="web"
+     data-busca="cálculo do difal — base dupla (comparar estados)  calcula o difal pelo método da base dupla (&#34;por dentro&#34;), regime normal, para um ou vários estados de destino — e diz qual sai mais barato. a tabela comparativa (base recomposta x difal) se refaz a cada número digitado, com a memória de cálculo de cada estado e o botão para baixar tudo em excel. com a uf de origem informada, a interestadual de cada destino é sugerida pela regra (7% de s/se para n/ne/co/es, 12% nos demais, 4% para importado). as alíquotas internas são as que você digita — a página não tem tabela própria e não consulta sistema nenhum.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="calculo-difal" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="calculo-difal.html"
+      title="Cálculo do DIFAL — Base Dupla (comparar estados)"
+      target="_blank" rel="noopener">Cálculo do DIFAL — Base Dupla (comparar estados)</a></h4>
+  <p title="Calcula o DIFAL pelo método da Base Dupla (&#34;por dentro&#34;), Regime Normal, para um ou vários estados de destino — e diz qual sai mais barato. A tabela comparativa (Base Recomposta x DIFAL) se refaz a cada número digitado, com a memória de cálculo de cada estado e o botão para baixar tudo em Excel. Com a UF de origem informada, a interestadual de cada destino é sugerida pela regra (7% de S/SE para N/NE/CO/ES, 12% nos demais, 4% para importado). As alíquotas internas são as que você digita — a página não tem tabela própria e não consulta sistema nenhum.">Calcula o DIFAL pelo método da <b>Base Dupla</b> (&#34;por dentro&#34;), Regime Normal, para um ou vários estados de destino — e diz qual sai mais barato. A tabela comparativa (Base Recomposta x DIFAL) se refaz a cada número digitado, com a memória de cálculo de cada estado e o botão para baixar tudo em Excel. Com a UF de origem informada, a interestadual de cada destino é sugerida pela regra (7% de S/SE para N/NE/CO/ES, 12% nos demais, 4% para importado). As alíquotas internas são as que você digita — a página não tem tabela própria e não consulta sistema nenhum.</p>
+  <div class="meta"><small class="muted">externo</small>
+    <a class="btn pri sm" href="calculo-difal.html" target="_blank" rel="noopener">Abrir ↗</a>
+    
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="calculo-difal">
+    
+    <label><input type="checkbox" name="setores" value="calculo-difal:dp"
+      > Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="calculo-difal:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="calculo-difal:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+
+<div class="acard" data-setores="dp fiscal"
+     data-recurso="web"
+     data-busca="corrigir pdf do domínio — nomes quebrados e páginas em branco  o pdf que o domínio emite escreve nome justificado como vários pedaços separados (&#39;yara&#39; + &#39;cristina&#39; + &#39;de&#39; + &#39;souza&#39; em quatro posições). para os olhos está certo; para qualquer coisa que leia o texto — busca, cópia, o editor de pdf daqui — o nome não existe como uma coisa só. esta automação junta esses pedaços num texto contínuo, mantendo fonte, cor e posição do original, e remove as folhas totalmente em branco que o domínio intercala (as que fazem o cliente achar que faltou conteúdo no contrato). trabalha em lote: envie vários pdfs de uma vez ou aponte uma pasta. o original nunca é sobrescrito — os corrigidos saem numa pasta à parte. use só conferir para ver o que seria mexido antes de gravar qualquer coisa.">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <span class="acard-tags">
+      <span class="badge web">WEB</span>
+      
+      
+    </span>
+    <span style="display:flex;align-items:center;gap:6px">
+      <span class="chip ok"><span class="cdot"></span>pronto</span>
+      
+      <button type="button" class="fav" data-fav="pdf-corrigir-spans" onclick="favoritar(event,this)"
+              title="Marcar como minha" aria-label="Marcar como minha">★</button>
+    </span>
+  </div>
+  <h4><a
+      href="automacao-pdf-corrigir-spans.html"
+      title="Corrigir PDF do Domínio — nomes quebrados e páginas em branco"
+      >Corrigir PDF do Domínio — nomes quebrados e páginas em branco</a></h4>
+  <p title="O PDF que o Domínio emite escreve nome justificado como VÁRIOS pedaços separados (&#39;YARA&#39; + &#39;CRISTINA&#39; + &#39;DE&#39; + &#39;SOUZA&#39; em quatro posições). Para os olhos está certo; para qualquer coisa que leia o texto — busca, cópia, o Editor de PDF daqui — o nome não existe como uma coisa só. Esta automação junta esses pedaços num texto contínuo, mantendo fonte, cor e posição do original, e remove as folhas totalmente em branco que o Domínio intercala (as que fazem o cliente achar que faltou conteúdo no contrato). Trabalha em LOTE: envie vários PDFs de uma vez ou aponte uma pasta. O original nunca é sobrescrito — os corrigidos saem numa pasta à parte. Use Só conferir para ver o que seria mexido antes de gravar qualquer coisa.">O PDF que o Domínio emite escreve nome justificado como VÁRIOS pedaços separados (&#39;YARA&#39; + &#39;CRISTINA&#39; + &#39;DE&#39; + &#39;SOUZA&#39; em quatro posições). Para os olhos está certo; para qualquer coisa que leia o texto — busca, cópia, o Editor de PDF daqui — o nome não existe como uma coisa só. Esta automação junta esses pedaços num texto contínuo, mantendo fonte, cor e posição do original, e remove as folhas totalmente em branco que o Domínio intercala (as que fazem o cliente achar que faltou conteúdo no contrato). Trabalha em LOTE: envie vários PDFs de uma vez ou aponte uma pasta. <b>O original nunca é sobrescrito</b> — os corrigidos saem numa pasta à parte. Use <b>Só conferir</b> para ver o que seria mexido antes de gravar qualquer coisa.</p>
+  <div class="meta"><small class="muted">web</small>
+    <a class="btn pri sm" href="automacao-pdf-corrigir-spans.html">Executar</a>
+  </div>
+  
+  
+  <div class="setor-tags">
+    <span class="setor-tag">Departamento Pessoal</span><span class="setor-tag">Fiscal</span>
+    
+  </div>
+  <div class="setor-edit">
+    <input type="hidden" name="automacao" value="pdf-corrigir-spans">
+    
+    <label><input type="checkbox" name="setores" value="pdf-corrigir-spans:dp"
+      checked> Departamento Pessoal</label>
+    
+    <label><input type="checkbox" name="setores" value="pdf-corrigir-spans:fiscal"
+      checked> Fiscal</label>
+    
+    <label><input type="checkbox" name="setores" value="pdf-corrigir-spans:marketing"
+      > Marketing</label>
+    
+  </div>
+  
+</div>
+    </div>
+    
+  
+
+  </div>
+</div>
+
+
+<div class="vazio" id="semResultado" style="display:none">
+  <div class="ic">🔎</div><b>Nenhuma automação com esse termo</b>
+  <p>Tente parte do nome (ex.: “ponto”, “FGTS”, “certificado”) ou limpe a busca.</p>
+</div>
+
+
+</form>
+
+
+<script>
+// Todos os filtros (setor, busca, onde roda, favoritas) passam pela MESMA
+// função de visibilidade. Aplicar cada um por conta própria fazia o último a
+// rodar desfazer o anterior — o card voltava a aparecer porque quem o escondeu
+// não foi consultado.
+var setorAtual = '', recursoAtual = '', soFavoritas = false;
+
+// --- Favoritas: localStorage, por navegador. Ver o comentário no card. -----
+var FAVCH = 'libby_favoritas';
+function favs(){
+  try { return JSON.parse(localStorage.getItem(FAVCH) || '[]'); } catch(e){ return []; }
+}
+function gravaFavs(l){ try { localStorage.setItem(FAVCH, JSON.stringify(l)); } catch(e){} }
+function favoritar(ev, btn){
+  ev.preventDefault(); ev.stopPropagation();
+  var ch = btn.dataset.fav, l = favs(), i = l.indexOf(ch);
+  if(i >= 0) l.splice(i, 1); else l.push(ch);
+  gravaFavs(l);
+  pintaFavs();
+  if(soFavoritas) filtra();     // desmarcar com o filtro ligado tira o card da tela
+}
+function pintaFavs(){
+  var l = favs();
+  document.querySelectorAll('.fav').forEach(function(b){
+    var on = l.indexOf(b.dataset.fav) >= 0;
+    b.classList.toggle('on', on);
+    b.title = on ? 'Tirar das minhas' : 'Marcar como minha';
+  });
+  var chip = document.getElementById('chipFav');
+  chip.textContent = '★ Só as minhas' + (l.length ? ' (' + l.length + ')' : '');
+}
+
+function visivel(card){
+  var q = (document.getElementById('busca').value || '').toLowerCase().trim();
+  var setores = (card.dataset.setores || '').split(' ').filter(Boolean);
+  var okSetor = !setorAtual || setores.indexOf(setorAtual) >= 0;
+  var okBusca = !q || (card.dataset.busca || '').indexOf(q) >= 0;
+  var okRec = !recursoAtual || card.dataset.recurso === recursoAtual;
+  var okFav = !soFavoritas || favs().indexOf(card.querySelector('.fav').dataset.fav) >= 0;
+  return okSetor && okBusca && okRec && okFav;
+}
+function temCardVisivel(el){
+  return [].slice.call(el.querySelectorAll('.acard')).some(function(c){ return c.style.display !== 'none'; });
+}
+function filtra(){
+  var algum = false;
+  document.querySelectorAll('.acard').forEach(function(card){
+    var v = visivel(card);
+    card.style.display = v ? '' : 'none';
+    if(v) algum = true;
+  });
+  // Esconde o fluxo e a área inteira quando nenhum card deles sobrou — senão
+  // fica um cabeçalho "Taxa GMS · 3 etapas" com a área vazia embaixo.
+  document.querySelectorAll('.fluxo').forEach(function(f){
+    f.style.display = temCardVisivel(f) ? '' : 'none';
+  });
+  // A .catrow é mostrada/escondida por CLASSE (aberta/filtrando), então aqui
+  // vai 'hidden' e não style.display: escrever no display inline venceria o
+  // CSS e a área abriria mesmo fechada, ou ficaria presa fechada ao filtrar.
+  document.querySelectorAll('.catrow').forEach(function(row){
+    row.hidden = !temCardVisivel(row);
+  });
+  var q = (document.getElementById('busca').value || '').trim();
+  var filtrando = !!(q || setorAtual || recursoAtual || soFavoritas);
+  // Filtrando, o CSS abre todas as áreas e some com os cards de entrada: com um
+  // termo digitado o que importa é o resultado, e uma área fechada escondendo
+  // esse resultado é indistinguível de a busca não ter achado nada.
+  document.body.classList.toggle('filtrando', filtrando);
+  // Fora do filtro, o card de entrada some junto com a área que ficou vazia
+  // (acontece com o recorte por setor, que é permanente para quem não é admin).
+  document.querySelectorAll('.areacard').forEach(function(c){
+    var row = document.querySelector('.catrow[data-cat="' + c.dataset.cat + '"]');
+    c.hidden = !!(row && row.hidden);
+  });
+  document.getElementById('semResultado').style.display = algum ? 'none' : '';
+}
+function filtrarSetor(btn, setor){
+  document.querySelectorAll('#abas .fchip').forEach(function(b){ b.classList.remove('ativo'); });
+  btn.classList.add('ativo');
+  setorAtual = setor;
+  filtra();
+}
+function filtrarRecurso(btn, rec){
+  document.querySelectorAll('#filtros .fchip[data-rec]').forEach(function(b){ b.classList.remove('ativo'); });
+  btn.classList.add('ativo');
+  recursoAtual = rec;
+  filtra();
+}
+function alternarSoFav(btn){
+  soFavoritas = !soFavoritas;
+  btn.classList.toggle('ativo', soFavoritas);
+  filtra();
+}
+
+// --- Áreas abertas. Guardadas no localStorage porque quem só mexe no DP não
+// deve reabrir a mesma área a cada visita à tela. Mais de uma pode ficar
+// aberta ao mesmo tempo — dá para comparar DP e Fiscal lado a lado. ---------
+var ABCH = 'libby_areas_abertas';
+function abertas(){
+  try { return JSON.parse(localStorage.getItem(ABCH) || '[]'); } catch(e){ return []; }
+}
+function gravaAbertas(l){ try { localStorage.setItem(ABCH, JSON.stringify(l)); } catch(e){} }
+function abrirArea(cat){
+  var l = abertas(), i = l.indexOf(cat);
+  if(i >= 0) l.splice(i, 1); else l.push(cat);
+  gravaAbertas(l);
+  aplicaAreas();
+  // Ao ABRIR, leva a lista para a vista: o corpo nasce abaixo da fileira de
+  // cards, então sem isso a área abre fora da tela e parece que nada aconteceu.
+  // Dentro de try: rolar é conforto, e uma exceção aqui abortaria o resto do
+  // handler — a área abriria sem o card de entrada nunca chegar a se marcar.
+  if(i < 0){
+    var row = document.querySelector('.catrow[data-cat="' + cat + '"]');
+    try { if(row && row.scrollIntoView) row.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+    catch(e){}
+  }
+}
+function abrirTudo(){
+  var todas = [].slice.call(document.querySelectorAll('.catrow')).map(function(r){ return r.dataset.cat; });
+  // Com tudo aberto o botão fecha tudo — é o mesmo gesto de volta.
+  gravaAbertas(abertas().length >= todas.length ? [] : todas);
+  aplicaAreas();
+}
+function aplicaAreas(){
+  var l = abertas(), total = document.querySelectorAll('.catrow').length;
+  document.querySelectorAll('.catrow').forEach(function(row){
+    row.classList.toggle('aberta', l.indexOf(row.dataset.cat) >= 0);
+  });
+  document.querySelectorAll('.areacard').forEach(function(c){
+    c.classList.toggle('aberta', l.indexOf(c.dataset.cat) >= 0);
+  });
+  document.getElementById('chipTudo').textContent =
+    l.length >= total ? 'Fechar todas' : 'Abrir todas as áreas';
+}
+pintaFavs();
+aplicaAreas();
+filtra();   // aplica o recorte por setor logo na carga (esconde área vazia)
+
+// "/" foca a busca, como na maioria dos sistemas com catálogo. Só quando o
+// cursor não está dentro de outro campo, senão barra vira atalho e não texto.
+document.addEventListener('keydown', function(e){
+  if(e.key !== '/' || e.ctrlKey || e.altKey || e.metaKey) return;
+  var t = e.target.tagName;
+  if(t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT') return;
+  e.preventDefault();
+  document.getElementById('busca').focus();
+});
+
+function alternarEdicao(){
+  var on = document.body.classList.toggle('editando');
+  document.getElementById('btnSalvar').style.display = on ? '' : 'none';
+  document.getElementById('btnEditar').textContent = on ? 'Cancelar' : 'Editar acesso por setor';
+  document.getElementById('dicaEdicao').textContent = on
+    ? 'Marque os setores que veem cada automação. A administração vê tudo sempre.' : '';
+  if(!on) location.reload();   // descarta marcações não salvas
+}
+
+</script>
+</div></div>
+</div>
+
+<div id="fsmodal" role="dialog" aria-modal="true" aria-label="Selecionar do servidor">
+  <div class="fsbox">
+    <div class="fshd"><b style="color:var(--navy)">Selecionar do servidor</b><div style="flex:1"></div><button class="btn sm" type="button" onclick="fsClose()">Fechar</button></div>
+    <div id="fsbody" style="padding:16px">…</div>
+  </div>
+</div>
+<script>
+function fsOpen(target,mode,ext){var el=document.querySelector('[name="'+target+'"]');var v=(el&&el.value)||'';
+  var start=v; if(mode==='file' && /\.[A-Za-z0-9]+$/.test(v)) start=v.replace(/[\\/][^\\/]*$/,'');
+  document.getElementById('fsmodal').style.display='flex';
+  htmx.ajax('GET','/fs/browse?target='+encodeURIComponent(target)+'&mode='+mode+'&ext='+encodeURIComponent(ext||'')+'&path='+encodeURIComponent(start),{target:'#fsbody',swap:'innerHTML'});}
+function fsClose(){document.getElementById('fsmodal').style.display='none';}
+function fsPick(target,path){var el=document.querySelector('[name="'+target+'"]');if(el)el.value=path;fsClose();}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') fsClose(); });
+document.getElementById('fsmodal').addEventListener('click',function(e){ if(e.target===this) fsClose(); });
+
+/* --- Campo 'upload_lista': um arquivo por linha, com botão de acrescentar ---
+   A ORDEM das linhas é a ordem de chegada no WhatsApp, e é ela que o
+   formulário envia (os <input> têm o mesmo name; o navegador respeita a ordem
+   do documento). Por isso a linha nova entra no FIM. */
+function uplMais(campo){
+  var caixa=document.getElementById('ul-'+campo); if(!caixa) return;
+  var novo=caixa.querySelector('.upl-item').cloneNode(true);
+  novo.querySelector('input[type=file]').value='';
+  caixa.appendChild(novo);
+  novo.querySelector('input[type=file]').click();   /* abre o seletor direto */
+}
+function uplTira(btn){
+  var item=btn.closest('.upl-item'), caixa=item.parentNode;
+  /* A última linha não some: sem nenhum <input> não haveria como voltar a
+     escolher um arquivo. Ela só é esvaziada. */
+  if(caixa.querySelectorAll('.upl-item').length>1) item.remove();
+  else item.querySelector('input[type=file]').value='';
+}
+
+/* --- Tema ------------------------------------------------------------------
+   A escolha fica no navegador de quem clicou (localStorage), não no servidor:
+   é preferência de quem olha a tela, e o login da Libby é por SETOR — gravar
+   no servidor faria a escolha de um contaminar todo o setor.
+
+   Consequência assumida: quem trocar de computador começa no claro de novo. */
+function pintaBotaoTema(escuro){
+  var bt = document.getElementById('temaBt');
+  if(!bt) return;
+  bt.querySelector('use').setAttribute('href', escuro ? '#i-sol' : '#i-lua');
+  bt.querySelector('span').textContent = escuro ? 'Tema claro' : 'Tema escuro';
+  bt.setAttribute('aria-pressed', escuro ? 'true' : 'false');
+}
+function trocaTema(){
+  var escuro = document.documentElement.getAttribute('data-theme') !== 'dark';
+  if(escuro) document.documentElement.setAttribute('data-theme','dark');
+  else       document.documentElement.removeAttribute('data-theme');
+  try{ localStorage.setItem('libby-tema', escuro ? 'dark' : 'light'); }catch(e){}
+  pintaBotaoTema(escuro);
+}
+/* O <head> já aplicou o tema; aqui só acertamos o rótulo do botão, que ainda
+   não existia naquele momento. */
+pintaBotaoTema(document.documentElement.getAttribute('data-theme') === 'dark');
+</script>
+<script>window.__DEMO={"pagina": "/automacoes", "mapa": {"/execucao/249": "execucao-249.html", "/automacao/sincronizar-fponto": "automacao-sincronizar-fponto.html", "/automacao/gestta-concluir": "automacao-gestta-concluir.html", "/execucao/272": "execucao-272.html", "/login": "login.html", "/dirf/resultados": "dirf-resultados.html", "/execucao/271": "execucao-271.html", "/automacao/limpar-arquivo-dp": "automacao-limpar-arquivo-dp.html", "/execucao/285": "execucao-285.html", "/execucao/266": "execucao-266.html", "/execucao/268": "execucao-268.html", "/execucao/252": "execucao-252.html", "/execucao/241": "execucao-241.html", "/taxas": "taxas.html", "/automacao/certificados-sheets": "automacao-certificados-sheets.html", "/execucao/244": "execucao-244.html", "/automacao/aviso-vencimento": "automacao-aviso-vencimento.html", "/economia?dias=30": "economia__dias-30.html", "/automacao/aviso-publicar-onvio": "automacao-aviso-publicar-onvio.html", "/execucao/207": "execucao-207.html", "/automacao/econsig-conferir": "automacao-econsig-conferir.html", "/execucoes?automacao=aviso-vencimento-completo&status=ruins": "execucoes__automacao-aviso-vencimento-completo_status-ruins.html", "/execucao/258": "execucao-258.html", "/automacao/aviso-vencimento-completo": "automacao-aviso-vencimento-completo.html", "/execucao/290": "execucao-290.html", "/dirf": "dirf.html", "/execucao/294": "execucao-294.html", "/execucao/270": "execucao-270.html", "/execucao/259": "execucao-259.html", "/automacao/automessenger-one": "automacao-automessenger-one.html", "/execucao/300": "execucao-300.html", "/execucao/293": "execucao-293.html", "/execucao/269": "execucao-269.html", "/automacao/gestta-concluir-df": "automacao-gestta-concluir-df.html", "/execucao/277": "execucao-277.html", "/execucao/279": "execucao-279.html", "/darf-fgts/valores-darf": "darf-fgts-valores-darf.html", "/automacao/consult-cadastro": "automacao-consult-cadastro.html", "/economia": "economia.html", "/execucao/255": "execucao-255.html", "/execucao/278": "execucao-278.html", "/automacao/econsig-emitir": "automacao-econsig-emitir.html", "/empresas": "empresas.html", "/execucoes?automacao=dombot-gfip&status=ruins": "execucoes__automacao-dombot-gfip_status-ruins.html", "/editor-pdf": "editor-pdf.html", "/execucao/254": "execucao-254.html", "/automacao/taxas-boletos": "automacao-taxas-boletos.html", "/execucao/292": "execucao-292.html", "/relatorios": "relatorios.html", "/execucao/295": "execucao-295.html", "/execucao/248": "execucao-248.html", "/execucao/276": "execucao-276.html", "/execucao/256": "execucao-256.html", "/execucao/250": "execucao-250.html", "/execucao/245": "execucao-245.html", "/execucao/281": "execucao-281.html", "/automacao/conferencia-prolabore-dp": "automacao-conferencia-prolabore-dp.html", "/automacao/dombot-admiss": "automacao-dombot-admiss.html", "/automacao/gms-analytics": "automacao-gms-analytics.html", "/automacao/conferencia-df": "automacao-conferencia-df.html", "/automacao/onvio-publicar": "automacao-onvio-publicar.html", "/darf-fgts/valores-fgts": "darf-fgts-valores-fgts.html", "/execucao/243": "execucao-243.html", "/execucao/275": "execucao-275.html", "/execucao/261": "execucao-261.html", "/agendamentos": "agendamentos.html", "/execucao/265": "execucao-265.html", "/automacao/conferir-valores-fgts-dominio": "automacao-conferir-valores-fgts-dominio.html", "/execucoes?automacao=fponto-emitir&status=ruins": "execucoes__automacao-fponto-emitir_status-ruins.html", "/ciclos": "ciclos.html", "/automacao/dombot-dirf": "automacao-dombot-dirf.html", "/execucao/284": "execucao-284.html", "/automacao/pdf-corrigir-spans": "automacao-pdf-corrigir-spans.html", "/execucao/247": "execucao-247.html", "/automacao/atualizar-contatos": "automacao-atualizar-contatos.html", "/automacao/gestta-concluir-df/painel": "automacao-gestta-concluir-df-painel.html", "/execucao/296": "execucao-296.html", "/execucao/274": "execucao-274.html", "/automacao/sincronizar-gms": "automacao-sincronizar-gms.html", "/execucao/299": "execucao-299.html", "/execucao/253": "execucao-253.html", "/execucao/262": "execucao-262.html", "/automacao/sincronizar-taxas": "automacao-sincronizar-taxas.html", "/calculo-difal": "calculo-difal.html", "/execucao/289": "execucao-289.html", "/execucao/286": "execucao-286.html", "/automacao/fponto-emitir": "automacao-fponto-emitir.html", "/automacao/conferir-valores-darf": "automacao-conferir-valores-darf.html", "/automacao/taxas-emitir": "automacao-taxas-emitir.html", "/execucoes?automacao=onvio-publicar&status=ruins": "execucoes__automacao-onvio-publicar_status-ruins.html", "/execucao/280": "execucao-280.html", "/automacao/dombot-gfip": "automacao-dombot-gfip.html", "/execucao/267": "execucao-267.html", "/fponto": "fponto.html", "/execucao/209": "execucao-209.html", "/execucao/283": "execucao-283.html", "/execucao/246": "execucao-246.html", "/execucao/298": "execucao-298.html", "/execucao/242": "execucao-242.html", "/execucao/251": "execucao-251.html", "/execucao/297": "execucao-297.html", "/execucoes?automacao=gestta-concluir-df&status=ruins": "execucoes__automacao-gestta-concluir-df_status-ruins.html", "/cobranca": "cobranca.html", "/automacao/gms-emitir": "automacao-gms-emitir.html", "/fgts": "fgts.html", "/automacao/conferencia-venc-onvio": "automacao-conferencia-venc-onvio.html", "/execucao/273": "execucao-273.html", "/execucao/257": "execucao-257.html", "/execucao/260": "execucao-260.html", "/execucao/291": "execucao-291.html", "/execucao/288": "execucao-288.html", "/execucao/263": "execucao-263.html", "/execucao/282": "execucao-282.html", "/execucao/187": "execucao-187.html", "/execucao/264": "execucao-264.html", "/execucoes?automacao=gms-emitir&tipo=real": "execucoes__automacao-gms-emitir_tipo-real.html", "/execucoes": "execucoes.html", "/darf-fgts": "darf-fgts.html", "/automacao/divisor-icms-fecoep": "automacao-divisor-icms-fecoep.html", "/automacoes": "automacoes.html", "/": "dashboard.html", "/automacao/conferir-valores-fgts": "automacao-conferir-valores-fgts.html", "/execucao/287": "execucao-287.html"}, "fetch": {}, "aovivo": {}};</script><script src="demo.js"></script></body></html>

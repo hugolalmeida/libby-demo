@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-br"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Entrar — Libby</title>
+
+<script>
+  try{
+    if(localStorage.getItem('libby-tema')==='dark')
+      document.documentElement.setAttribute('data-theme','dark');
+  }catch(e){}
+</script>
+
+
+
+
+<link rel="stylesheet" href="style.css">
+<style>
+  .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+  .login-box{width:100%;max-width:390px}
+  .login-logo{text-align:center;margin-bottom:22px}
+  .login-logo img{width:72px;height:72px;object-fit:contain;display:block;margin:0 auto 10px}
+  .login-logo b{font-size:26px;color:var(--navy);letter-spacing:.5px}
+  .login-logo div{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .login-erro{background:var(--red-soft);border:1px solid var(--erro-line);color:var(--red-ink);
+              padding:10px 13px;border-radius:8px;font-size:13px;margin-bottom:14px}
+  .login-aviso{background:var(--amber-soft);border:1px solid var(--aviso-line);color:var(--amber-ink);
+               padding:10px 13px;border-radius:8px;font-size:12.5px;margin-bottom:14px}
+</style></head>
+<body><div class="login-wrap"><div class="login-box">
+  <div class="login-logo">
+    <img src="logo-libby.png" alt="" width="72" height="72">
+    <b>Libby</b><div>Central de Automações</div></div>
+
+  
+  
+
+  <div class="panel"><div class="bd" style="padding:20px">
+    <form method="post" action="#" data-demo-acao="/login">
+      <input type="hidden" name="next" value="/">
+      <div class="fld"><label>Setor</label>
+        <select name="setor" id="lg-setor" onchange="lgSetor()">
+          
+            <option value="admin" >
+              Administração
+            </option>
+          
+            <option value="dp" >
+              Departamento Pessoal
+            </option>
+          
+            <option value="fiscal" >
+              Fiscal
+            </option>
+          
+            <option value="marketing" >
+              Marketing
+            </option>
+          
+        </select>
+      </div>
+      
+      <div class="fld" id="lg-lista"><label>Seu nome</label>
+        <select name="usuario_id" id="lg-usuario" required></select>
+      </div>
+      <div class="fld" id="lg-livre"><label>Seu nome</label>
+        <input name="usuario" id="lg-nome" autocomplete="name" placeholder="ex.: Mariana" required>
+        <div class="muted" style="font-size:11.5px;margin-top:4px">
+          Fica registrado em quem executou cada automação.
+        </div>
+      </div>
+      <div class="fld"><label>Senha do setor</label>
+        <input type="password" name="senha" autocomplete="current-password" required>
+      </div>
+      <button class="btn pri" type="submit" style="width:100%">Entrar</button>
+    </form>
+<script>
+  var LG_EQUIPE = {};
+  LG_EQUIPE["admin"] = [{"id": 1, "nome": "Visitante"}];
+  LG_EQUIPE["dp"] = [{"id": 2, "nome": "Ana Ribeiro"}, {"id": 3, "nome": "Bruno Tavares"}, {"id": 4, "nome": "Camila Freitas"}];
+  LG_EQUIPE["fiscal"] = [{"id": 5, "nome": "Diego Moura"}, {"id": 6, "nome": "Elisa Prado"}];
+  LG_EQUIPE["marketing"] = [{"id": 7, "nome": "F\u00e1bio Nunes"}];
+  
+  // Lembra setor e pessoa do último login neste navegador (só conveniência).
+  var LG_KEY = 'libby-login', lgUltimo = {};
+  try { lgUltimo = JSON.parse(localStorage.getItem(LG_KEY) || '{}') || {}; } catch(e) {}
+
+  function lgSetor(){
+    var setor = document.getElementById('lg-setor').value;
+    var equipe = LG_EQUIPE[setor] || [];
+    var sel = document.getElementById('lg-usuario'), nome = document.getElementById('lg-nome');
+    var comLista = equipe.length > 0;
+    document.getElementById('lg-lista').style.display = comLista ? '' : 'none';
+    document.getElementById('lg-livre').style.display = comLista ? 'none' : '';
+    sel.disabled = !comLista; nome.disabled = comLista;
+    sel.innerHTML = '<option value="">— escolha —</option>';
+    equipe.forEach(function(u){
+      var o = document.createElement('option');
+      o.value = u.id; o.textContent = u.nome;
+      if (String(u.id) === String(lgUltimo.usuario_id)) o.selected = true;
+      sel.appendChild(o);
+    });
+  }
+  (function(){
+    var s = document.getElementById('lg-setor');
+    var alvo = lgUltimo.setor && s.querySelector('option[value="' + lgUltimo.setor + '"]:not([disabled])');
+    if (alvo) s.value = lgUltimo.setor;
+    else if (s.selectedOptions[0] && s.selectedOptions[0].disabled) {
+      var livre = s.querySelector('option:not([disabled])'); if (livre) s.value = livre.value;
+    }
+    lgSetor();
+    s.form.addEventListener('submit', function(){
+      try {
+        localStorage.setItem(LG_KEY, JSON.stringify({
+          setor: s.value, usuario_id: document.getElementById('lg-usuario').value }));
+      } catch(e) {}
+    });
+  })();
+</script>
+  </div></div>
+</div></div><script>window.__DEMO={"pagina": "/login", "mapa": {"/execucao/249": "execucao-249.html", "/automacao/sincronizar-fponto": "automacao-sincronizar-fponto.html", "/automacao/gestta-concluir": "automacao-gestta-concluir.html", "/execucao/272": "execucao-272.html", "/login": "login.html", "/dirf/resultados": "dirf-resultados.html", "/execucao/271": "execucao-271.html", "/automacao/limpar-arquivo-dp": "automacao-limpar-arquivo-dp.html", "/execucao/285": "execucao-285.html", "/execucao/266": "execucao-266.html", "/execucao/268": "execucao-268.html", "/execucao/252": "execucao-252.html", "/execucao/241": "execucao-241.html", "/taxas": "taxas.html", "/automacao/certificados-sheets": "automacao-certificados-sheets.html", "/execucao/244": "execucao-244.html", "/automacao/aviso-vencimento": "automacao-aviso-vencimento.html", "/economia?dias=30": "economia__dias-30.html", "/automacao/aviso-publicar-onvio": "automacao-aviso-publicar-onvio.html", "/execucao/207": "execucao-207.html", "/automacao/econsig-conferir": "automacao-econsig-conferir.html", "/execucoes?automacao=aviso-vencimento-completo&status=ruins": "execucoes__automacao-aviso-vencimento-completo_status-ruins.html", "/execucao/258": "execucao-258.html", "/automacao/aviso-vencimento-completo": "automacao-aviso-vencimento-completo.html", "/execucao/290": "execucao-290.html", "/dirf": "dirf.html", "/execucao/294": "execucao-294.html", "/execucao/270": "execucao-270.html", "/execucao/259": "execucao-259.html", "/automacao/automessenger-one": "automacao-automessenger-one.html", "/execucao/300": "execucao-300.html", "/execucao/293": "execucao-293.html", "/execucao/269": "execucao-269.html", "/automacao/gestta-concluir-df": "automacao-gestta-concluir-df.html", "/execucao/277": "execucao-277.html", "/execucao/279": "execucao-279.html", "/darf-fgts/valores-darf": "darf-fgts-valores-darf.html", "/automacao/consult-cadastro": "automacao-consult-cadastro.html", "/economia": "economia.html", "/execucao/255": "execucao-255.html", "/execucao/278": "execucao-278.html", "/automacao/econsig-emitir": "automacao-econsig-emitir.html", "/empresas": "empresas.html", "/execucoes?automacao=dombot-gfip&status=ruins": "execucoes__automacao-dombot-gfip_status-ruins.html", "/editor-pdf": "editor-pdf.html", "/execucao/254": "execucao-254.html", "/automacao/taxas-boletos": "automacao-taxas-boletos.html", "/execucao/292": "execucao-292.html", "/relatorios": "relatorios.html", "/execucao/295": "execucao-295.html", "/execucao/248": "execucao-248.html", "/execucao/276": "execucao-276.html", "/execucao/256": "execucao-256.html", "/execucao/250": "execucao-250.html", "/execucao/245": "execucao-245.html", "/execucao/281": "execucao-281.html", "/automacao/conferencia-prolabore-dp": "automacao-conferencia-prolabore-dp.html", "/automacao/dombot-admiss": "automacao-dombot-admiss.html", "/automacao/gms-analytics": "automacao-gms-analytics.html", "/automacao/conferencia-df": "automacao-conferencia-df.html", "/automacao/onvio-publicar": "automacao-onvio-publicar.html", "/darf-fgts/valores-fgts": "darf-fgts-valores-fgts.html", "/execucao/243": "execucao-243.html", "/execucao/275": "execucao-275.html", "/execucao/261": "execucao-261.html", "/agendamentos": "agendamentos.html", "/execucao/265": "execucao-265.html", "/automacao/conferir-valores-fgts-dominio": "automacao-conferir-valores-fgts-dominio.html", "/execucoes?automacao=fponto-emitir&status=ruins": "execucoes__automacao-fponto-emitir_status-ruins.html", "/ciclos": "ciclos.html", "/automacao/dombot-dirf": "automacao-dombot-dirf.html", "/execucao/284": "execucao-284.html", "/automacao/pdf-corrigir-spans": "automacao-pdf-corrigir-spans.html", "/execucao/247": "execucao-247.html", "/automacao/atualizar-contatos": "automacao-atualizar-contatos.html", "/automacao/gestta-concluir-df/painel": "automacao-gestta-concluir-df-painel.html", "/execucao/296": "execucao-296.html", "/execucao/274": "execucao-274.html", "/automacao/sincronizar-gms": "automacao-sincronizar-gms.html", "/execucao/299": "execucao-299.html", "/execucao/253": "execucao-253.html", "/execucao/262": "execucao-262.html", "/automacao/sincronizar-taxas": "automacao-sincronizar-taxas.html", "/calculo-difal": "calculo-difal.html", "/execucao/289": "execucao-289.html", "/execucao/286": "execucao-286.html", "/automacao/fponto-emitir": "automacao-fponto-emitir.html", "/automacao/conferir-valores-darf": "automacao-conferir-valores-darf.html", "/automacao/taxas-emitir": "automacao-taxas-emitir.html", "/execucoes?automacao=onvio-publicar&status=ruins": "execucoes__automacao-onvio-publicar_status-ruins.html", "/execucao/280": "execucao-280.html", "/automacao/dombot-gfip": "automacao-dombot-gfip.html", "/execucao/267": "execucao-267.html", "/fponto": "fponto.html", "/execucao/209": "execucao-209.html", "/execucao/283": "execucao-283.html", "/execucao/246": "execucao-246.html", "/execucao/298": "execucao-298.html", "/execucao/242": "execucao-242.html", "/execucao/251": "execucao-251.html", "/execucao/297": "execucao-297.html", "/execucoes?automacao=gestta-concluir-df&status=ruins": "execucoes__automacao-gestta-concluir-df_status-ruins.html", "/cobranca": "cobranca.html", "/automacao/gms-emitir": "automacao-gms-emitir.html", "/fgts": "fgts.html", "/automacao/conferencia-venc-onvio": "automacao-conferencia-venc-onvio.html", "/execucao/273": "execucao-273.html", "/execucao/257": "execucao-257.html", "/execucao/260": "execucao-260.html", "/execucao/291": "execucao-291.html", "/execucao/288": "execucao-288.html", "/execucao/263": "execucao-263.html", "/execucao/282": "execucao-282.html", "/execucao/187": "execucao-187.html", "/execucao/264": "execucao-264.html", "/execucoes?automacao=gms-emitir&tipo=real": "execucoes__automacao-gms-emitir_tipo-real.html", "/execucoes": "execucoes.html", "/darf-fgts": "darf-fgts.html", "/automacao/divisor-icms-fecoep": "automacao-divisor-icms-fecoep.html", "/automacoes": "automacoes.html", "/": "dashboard.html", "/automacao/conferir-valores-fgts": "automacao-conferir-valores-fgts.html", "/execucao/287": "execucao-287.html"}, "fetch": {}, "aovivo": {}};</script><script src="demo.js"></script></body></html>

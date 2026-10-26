@@ -1,0 +1,462 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<script>
+  try{
+    if(localStorage.getItem('libby-tema')==='dark')
+      document.documentElement.setAttribute('data-theme','dark');
+  }catch(e){}  /* navegador com armazenamento bloqueado: segue no claro */
+</script>
+<title>Libby — Execução #269</title>
+
+
+
+
+<link rel="stylesheet" href="style.css">
+
+
+
+</head><body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="i-dash"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></g>
+<g id="i-auto"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9l-2.2 2.2M7.1 16.9l-2.2 2.2"/><circle cx="12" cy="12" r="4"/></g>
+<g id="i-exec"><path d="M3 12h4l2-6 4 12 2-6h6"/></g>
+<g id="i-relat"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></g>
+<g id="i-agenda"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></g>
+<g id="i-emp"><path d="M3 21h18M5 21V6l7-3 7 3v15M10 10h1M13 10h1M10 14h1M13 14h1"/></g>
+<g id="i-ciclos"><path d="M21 12a9 9 0 1 1-3.2-6.9"/><path d="M21 3v5h-5"/><path d="M12 8v4.4l2.8 1.6"/></g>
+<g id="i-ponto"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g>
+<g id="i-fgts"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></g>
+<g id="i-guias"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="m9 14.5 2 2 4-4"/></g>
+<g id="i-taxa"><path d="M3 6h18M3 12h18M3 18h12"/><circle cx="19" cy="18" r="2"/></g>
+<g id="i-dirf"><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-4"/><path d="M8 8h4M8 12h3"/><circle cx="17" cy="8" r="4"/><path d="m20.5 11.5 1.5 1.5"/></g>
+<g id="i-pdf"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 14h6M9 17h4"/></g>
+<g id="i-calc"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 11h2M14 11h2M8 15h2M14 15h2M8 19h2M14 19h2"/></g>
+
+<g id="i-melius"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4.5-5"/><circle cx="12" cy="18" r="1.2"/></g>
+<g id="i-post"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><circle cx="12" cy="15" r="2.2"/></g>
+<g id="i-cob"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></g>
+<g id="i-msg"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-4-.9L3 21l1.9-4.7A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></g>
+<g id="i-envio"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></g>
+<g id="i-sol"><circle cx="12" cy="12" r="4.2"/><path d="M12 1.8v2.4M12 19.8v2.4M4.2 12H1.8M22.2 12h-2.4M6.3 6.3 4.6 4.6M19.4 19.4l-1.7-1.7M17.7 6.3l1.7-1.7M4.6 19.4l1.7-1.7"/></g>
+<g id="i-lua"><path d="M20.5 14.2A8.6 8.6 0 0 1 9.8 3.5a8.6 8.6 0 1 0 10.7 10.7z"/></g>
+<g id="i-cfg"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></g>
+</defs></svg>
+
+
+
+
+<div class="app">
+<aside class="side">
+  <div class="brand">
+    <img class="logo" src="logo-libby.png" alt="" width="34" height="34">
+    <div><b>Libby</b><small>Escritório Demo</small></div></div>
+  <nav class="nav" aria-label="Menu principal">
+
+    
+    <div class="grp">Acompanhar</div>
+    
+<a href="dashboard.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-dash"/></svg>
+  <span>Dashboard</span></a>
+
+    
+<a href="execucoes.html" class="active" aria-current="page"
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-exec"/></svg>
+  <span>Execuções</span></a>
+
+    
+<a href="ciclos.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-ciclos"/></svg>
+  <span>Ciclos</span></a>
+
+    
+<a href="relatorios.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-relat"/></svg>
+  <span>Relatórios</span></a>
+
+
+    
+    
+    <div class="grp">Rotinas</div>
+    
+<a href="fponto.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-ponto"/></svg>
+  <span>Folha de Ponto</span></a>
+
+    
+<a href="fgts.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-fgts"/></svg>
+  <span>FGTS</span></a>
+
+    
+    
+    
+<a href="darf-fgts.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-guias"/></svg>
+  <span>Guias DARF/FGTS</span></a>
+
+    
+    
+<a href="taxas.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-taxa"/></svg>
+  <span>Taxa Assistencial</span></a>
+
+    
+<a href="dirf.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-dirf"/></svg>
+  <span>DIRF</span></a>
+
+    
+<a href="editor-pdf.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-pdf"/></svg>
+  <span>Editor de PDF</span></a>
+
+    
+<a href="calculo-difal.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-calc"/></svg>
+  <span>Cálculo do DIFAL</span></a>
+
+    
+    
+<a href="#" data-demo-fora="/controle-melius" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-melius"/></svg>
+  <span>Controle Melius</span></a>
+
+    
+<a href="automacoes.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-auto"/></svg>
+  <span>Automações</span></a>
+
+    
+<a href="#" data-demo-fora="/postagens" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-post"/></svg>
+  <span>Programação de posts</span></a>
+
+    
+
+    
+    <div class="grp">Clientes</div>
+    
+<a href="cobranca.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-cob"/></svg>
+  <span>Cobrança</span></a>
+
+    
+    
+<a href="automacao-automessenger-one.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-envio"/></svg>
+  <span>AutoMessenger</span></a>
+
+    
+<a href="#" data-demo-fora="/mensagens" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-msg"/></svg>
+  <span>Mensagens</span></a>
+
+    
+
+    
+    <div class="grp">Administração</div>
+    
+<a href="agendamentos.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-agenda"/></svg>
+  <span>Agendamentos</span></a>
+
+    
+<a href="empresas.html" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-emp"/></svg>
+  <span>Empresas</span></a>
+
+    
+<a href="#" data-demo-fora="/config" class="" 
+   >
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-cfg"/></svg>
+  <span>Configurações</span></a>
+
+    
+  </nav>
+</aside>
+
+<div>
+
+<div class="top">
+  <div class="tt">Execução #269</div>
+  <div class="sp"></div>
+
+  
+  <button type="button" class="tema-bt" id="temaBt" onclick="trocaTema()"
+          title="Alternar entre o tema claro e o escuro" aria-pressed="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#i-lua"/></svg>
+    <span>Tema escuro</span>
+  </button>
+
+  
+  <div class="who">
+    <div class="av">V</div>
+    <div><b>Visitante</b><span>admin</span></div>
+    <a href="#" data-demo-fora="/logout" title="Encerrar a sessão">Sair</a>
+  </div>
+  
+</div>
+<div class="content">
+
+
+
+
+
+
+<div class="crumb"><a href="execucoes.html">Execuções</a> <span style="opacity:.45">›</span> <a href="automacao-gestta-concluir-df.html">Gestta — Concluir tarefas (DARF/FGTS)</a> <span style="opacity:.45">›</span> #269</div>
+<div style="display:flex;align-items:center;gap:12px"><h1 style="margin:0">Gestta — Concluir tarefas (DARF/FGTS)</h1>
+<span id="stbadge" class="chip ok"><span class="cdot"></span>concluida</span>
+
+
+
+<a class="btn sm" href="automacao-gestta-concluir-df.html">Abrir automação</a>
+
+
+
+
+
+<form method="post" action="#" data-demo-acao="/execucao/269/repetir" style="margin:0"
+      onsubmit="return confirm('Rodar Gestta — Concluir tarefas (DARF/FGTS) de novo, com exatamente os mesmos parâmetros desta execução?');">
+  <button class="btn sm" type="submit">↻ Rodar de novo</button>
+</form>
+
+<span id="cancelwrap">
+
+</span></div>
+<div class="sub" style="margin-bottom:14px">Execução #269 · criada 20/10 09:39 por <b>fiscal/Diego Moura</b></div>
+
+
+
+
+
+
+
+
+<!-- Cronômetro + barra. Alimentados por /execucao/<id>/progresso, que lê o
+     padrão "[n/total]" do log — as automações já o escrevem ao percorrer a
+     lista, então não foi preciso mexer em nenhuma delas. -->
+<div class="panel" id="boxprog" style="display:none"><div class="bd" style="padding:12px 16px">
+  <div style="display:flex;gap:22px;align-items:center;flex-wrap:wrap;font-size:13px">
+    <div><small style="opacity:.7">Decorrido</small><br>
+      <b id="pDecorrido" style="font-size:17px;font-variant-numeric:tabular-nums">—</b></div>
+    <div id="wRestante" style="display:none"><small style="opacity:.7">Restante (estimado)</small><br>
+      <b id="pRestante" style="font-size:17px;font-variant-numeric:tabular-nums">—</b></div>
+    <div id="wItens" style="display:none"><small style="opacity:.7">Progresso</small><br>
+      <b id="pItens" style="font-size:17px">—</b></div>
+    <div style="flex:1"></div>
+    <small id="pTipico" style="opacity:.7"></small>
+  </div>
+  <div id="wBarra" style="display:none;margin-top:10px;height:9px;border-radius:6px;
+       background:var(--line);overflow:hidden">
+    <div id="pBarra" style="height:100%;width:0%;background:var(--navy);
+         transition:width .4s ease"></div>
+  </div>
+</div></div>
+<div class="panel"><div class="hd"><h3>Log</h3>
+  <div style="display:flex;align-items:center;gap:14px">
+    <button id="copylog" type="button" class="btn" style="font-size:12.5px;padding:5px 12px;cursor:pointer">Copiar log</button>
+    <label style="font-size:12.5px;color:var(--ink2);font-weight:600;display:flex;align-items:center;gap:6px;cursor:pointer">
+      <input type="checkbox" id="autoscroll"> Auto-rolagem</label>
+  </div></div>
+<div class="bd" style="padding:14px">
+  <div class="log" id="logbox">
+<div class="ll "><span style="color:var(--ink3)">09:40:02</span> <span class="info">Gestta — Concluir tarefas (DARF/FGTS) · competência=09/2026</span></div><div class="ll "><span style="color:var(--ink3)">09:40:04</span> <span class="ok">Sessão do Gestta/Onvio OK (token renovado)</span></div><div class="ll "><span style="color:var(--ink3)">09:40:08</span> <span class="info">[1/70] 215 - Papelaria Pequeno Saber Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:40:13</span> <span class="info">[2/70] 311 - Madeireira Ouro Fino Ltda ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:40:18</span> <span class="info">[3/70] 221 - Farmácia Ipê Amarelo Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:40:22</span> <span class="info">[4/70] 182 - Serralheria Porto Seguro S/S · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:40:26</span> <span class="info">[5/70] 134 - Auto Peças Beleza Pura Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:40:31</span> <span class="info">[6/70] 206 - Padaria Três Marias EIRELI · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:40:34</span> <span class="info">[7/70] 176 - Calçados Bela Vista S/S · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:40:38</span> <span class="info">[8/70] 323 - Mercado Cristal Ltda ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:40:42</span> <span class="info">[9/70] 248 - Construtora Estrela Guia ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:40:46</span> <span class="info">[10/70] 131 - Imobiliária Bela Vista Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:40:51</span> <span class="info">[11/70] 104 - Oficina Água Viva EIRELI · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:40:55</span> <span class="info">[12/70] 344 - Ótica Vento Norte EIRELI · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:40:58</span> <span class="info">[13/70] 245 - Cafeteria Jardim Real ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:02</span> <span class="info">[14/70] 260 - Madeireira Página Um Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:06</span> <span class="info">[15/70] 254 - Livraria Pé de Serra Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:11</span> <span class="info">[16/70] 335 - Padaria Colheita S/S · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:14</span> <span class="info">[17/70] 305 - Papelaria Vento Norte Ltda ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:17</span> <span class="info">[18/70] 341 - Lavanderia Rio Claro Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:21</span> <span class="info">[19/70] 269 - Farmácia Lua Cheia Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:25</span> <span class="info">[20/70] 125 - Lanchonete Visão Clara Ltda ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:29</span> <span class="info">[21/70] 287 - Cafeteria Lua Cheia ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:32</span> <span class="info">[22/70] 272 - Academia Litoral Sul ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:36</span> <span class="info">[23/70] 200 - Ótica Motor Forte Ltda ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:42</span> <span class="info">[24/70] 185 - Livraria Vento Norte Ltda ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:46</span> <span class="info">[25/70] 209 - Móveis Motor Forte Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:50</span> <span class="info">[26/70] 275 - Livraria Ipê Amarelo ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:55</span> <span class="info">[27/70] 251 - Pet Shop Horizonte EIRELI · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:57</span> <span class="info">[28/70] 164 - Madeireira Página Um Ltda ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:41:59</span> <span class="info">[29/70] 293 - Ótica Bolha Branca Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:04</span> <span class="info">[30/70] 179 - Açougue Motor Forte Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:07</span> <span class="info">[31/70] 263 - Escola Serra Azul Ltda ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:09</span> <span class="info">[32/70] 155 - Móveis Aço Firme ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:14</span> <span class="info">[33/70] 347 - Cafeteria Bela Vista EIRELI · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:17</span> <span class="info">[34/70] 116 - Ótica Três Marias Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:21</span> <span class="info">[35/70] 170 - Salão Aço Firme Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:25</span> <span class="info">[36/70] 299 - Marmoraria Ipê Amarelo S/S · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:30</span> <span class="info">[37/70] 317 - Madeireira Corpo em Ação Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:34</span> <span class="info">[38/70] 218 - Tecidos Ouro Fino S/S · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:39</span> <span class="info">[39/70] 188 - Imobiliária Traço Fino ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:41</span> <span class="info">[40/70] 143 - Salão Lua Cheia Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:45</span> <span class="info">[41/70] 146 - Elétrica Monte Verde EIRELI · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:49</span> <span class="info">[42/70] 257 - Calçados Ponto Final Ltda ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:54</span> <span class="info">[43/70] 320 - Ótica Aço Firme Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:42:56</span> <span class="info">[44/70] 137 - Livraria Alicerce ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:00</span> <span class="info">[45/70] 158 - Bar Ponto Final S/S · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:04</span> <span class="info">[46/70] 203 - Pet Shop Três Marias Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:08</span> <span class="info">[47/70] 236 - Vidraçaria Bom Grão Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:13</span> <span class="info">[48/70] 302 - Auto Peças Cristal S/S · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:16</span> <span class="info">[49/70] 167 - Madeireira Porto Seguro Ltda ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:21</span> <span class="info">[50/70] 197 - Transportes Bioanálise ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:24</span> <span class="info">[51/70] 101 - Construtora Traço Fino EIRELI · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:28</span> <span class="info">[52/70] 161 - Serralheria Monte Verde Ltda ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:31</span> <span class="info">[53/70] 290 - Construtora Lua Cheia S/S · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:35</span> <span class="info">[54/70] 227 - Restaurante Colheita Ltda ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:40</span> <span class="info">[55/70] 329 - Tecidos Visão Clara Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:44</span> <span class="info">[56/70] 278 - Vidraçaria Jardim Real Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:48</span> <span class="info">[57/70] 338 - Marmoraria Bom Grão Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:53</span> <span class="info">[58/70] 110 - Tecidos Três Marias Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:43:56</span> <span class="info">[59/70] 284 - Marmoraria Grão Moído ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:44:00</span> <span class="info">[60/70] 350 - Salão Traço Fino EIRELI · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:44:04</span> <span class="info">[61/70] 149 - Elétrica Ponto Final S/S · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:44:09</span> <span class="info">[62/70] 314 - Elétrica Grão Moído EIRELI · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:44:13</span> <span class="info">[63/70] 212 - Móveis Serra Azul S/S · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:44:17</span> <span class="info">[64/70] 224 - Tecidos Corpo em Ação EIRELI · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:44:21</span> <span class="info">[65/70] 122 - Papelaria Cristal S/S · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:44:25</span> <span class="info">[66/70] 119 - Cafeteria Bolha Branca ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:44:30</span> <span class="info">[67/70] 128 - Restaurante Vento Norte EIRELI · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:44:33</span> <span class="info">[68/70] 281 - Escola Chave Certa ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:44:38</span> <span class="info">[69/70] 266 - Hortifruti Motor Forte ME · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:44:42</span> <span class="info">[70/70] 173 - Sorveteria Bom Grão Ltda · tarefa ok</span></div><div class="ll "><span style="color:var(--ink3)">09:44:43</span> <span class="ok">Concluído · competência 09/2026 · 70 tarefa(s) · 0 para revisão</span></div><div class="ll "><span style="color:var(--ink3)">09:44:44</span> <span class="info">Discord: notificação enviada.</span></div>
+<span id="stbadge" class="chip ok"><span class="cdot"></span>concluida</span>
+<span id="cancelwrap">
+
+</span>
+<div style="color:var(--ink3);margin-top:6px">— fim (concluida) —</div>
+<script>document.getElementById('logbox').setAttribute('hx-trigger','none');</script></div>
+</div></div>
+<script>
+// Auto-rolagem começa DESLIGADA: o log se atualiza a cada 1,5s e, ligada, ela
+// arrasta a tela para o fim no meio da leitura — conferir um lote longo virava
+// briga com o scroll. A escolha fica no navegador de quem lê (localStorage),
+// então quem prefere acompanhar o fim marca uma vez e pronto.
+(function(){
+  var cb = document.getElementById('autoscroll');
+  if(!cb) return;
+  try { cb.checked = localStorage.getItem('libby.autoscroll') === '1'; } catch(_){}
+  cb.addEventListener('change', function(){
+    try { localStorage.setItem('libby.autoscroll', cb.checked ? '1' : '0'); } catch(_){}
+    if(cb.checked){
+      var lb = document.getElementById('logbox');
+      if(lb) lb.scrollTop = lb.scrollHeight;   // ligou: já leva para o fim
+    }
+  });
+})();
+document.body.addEventListener('htmx:afterSwap', function(e){
+  if(e.target && e.target.id==='logbox'){
+    var cb=document.getElementById('autoscroll');
+    if(cb && cb.checked){ e.target.scrollTop = e.target.scrollHeight; }
+  }
+});
+// Copiar log — pega o texto direto (não depende de seleção manual, que o
+// auto-refresh atrapalha). Fallback com textarea p/ funcionar em http (não-seguro).
+document.getElementById('copylog').addEventListener('click', function(){
+  var btn = this;
+  var txt = (document.getElementById('logbox').innerText || '').trim();
+  function feito(){ var o = btn.getAttribute('data-o') || btn.textContent;
+    btn.setAttribute('data-o', o); btn.textContent = 'Copiado!';
+    setTimeout(function(){ btn.textContent = o; }, 1500); }
+  function fallback(){
+    var ta = document.createElement('textarea'); ta.value = txt;
+    ta.style.position = 'fixed'; ta.style.top = '-1000px'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try { document.execCommand('copy'); feito(); } catch(err) {}
+    document.body.removeChild(ta);
+  }
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(txt).then(feito, fallback);
+  } else { fallback(); }
+});
+</script>
+
+<script>
+// Cronômetro e barra. Uma chamada por segundo enquanto roda; ao terminar,
+// congela no tempo final e para de consultar.
+(function(){
+  var EID = 269;
+  function fmt(s){
+    if(s===null||s===undefined) return '—';
+    s = Math.round(s);
+    var h = Math.floor(s/3600), m = Math.floor((s%3600)/60), q = s%60;
+    if(h) return h+'h '+String(m).padStart(2,'0')+'min';
+    if(m) return m+'min '+String(q).padStart(2,'0')+'s';
+    return q+'s';
+  }
+  var timer = setInterval(tick, 1000);
+  function tick(){
+    fetch('/execucao/'+EID+'/progresso').then(function(r){ return r.json(); }).then(function(d){
+      if(d.erro) { clearInterval(timer); return; }
+      document.getElementById('boxprog').style.display = '';
+      document.getElementById('pDecorrido').textContent = fmt(d.decorrido);
+
+      var rodando = (d.status === 'executando' || d.status === 'na fila');
+      var wr = document.getElementById('wRestante');
+      if(rodando && d.restante !== null){
+        wr.style.display = ''; document.getElementById('pRestante').textContent = fmt(d.restante);
+      } else { wr.style.display = 'none'; }
+
+      if(d.total){
+        document.getElementById('wItens').style.display = '';
+        document.getElementById('pItens').textContent = d.atual + ' de ' + d.total;
+        document.getElementById('wBarra').style.display = '';
+        document.getElementById('pBarra').style.width = (d.pct || 0) + '%';
+      }
+      var tip = document.getElementById('pTipico');
+      tip.textContent = (d.tipico && d.amostras)
+        ? ('tempo usual: ' + fmt(d.tipico) + ' (' + d.amostras + ' execuções)') : '';
+      if(!rodando){ clearInterval(timer); }   // terminou: congela
+    }).catch(function(){});
+  }
+  tick();
+})();
+</script>
+</div></div>
+</div>
+
+<div id="fsmodal" role="dialog" aria-modal="true" aria-label="Selecionar do servidor">
+  <div class="fsbox">
+    <div class="fshd"><b style="color:var(--navy)">Selecionar do servidor</b><div style="flex:1"></div><button class="btn sm" type="button" onclick="fsClose()">Fechar</button></div>
+    <div id="fsbody" style="padding:16px">…</div>
+  </div>
+</div>
+<script>
+function fsOpen(target,mode,ext){var el=document.querySelector('[name="'+target+'"]');var v=(el&&el.value)||'';
+  var start=v; if(mode==='file' && /\.[A-Za-z0-9]+$/.test(v)) start=v.replace(/[\\/][^\\/]*$/,'');
+  document.getElementById('fsmodal').style.display='flex';
+  htmx.ajax('GET','/fs/browse?target='+encodeURIComponent(target)+'&mode='+mode+'&ext='+encodeURIComponent(ext||'')+'&path='+encodeURIComponent(start),{target:'#fsbody',swap:'innerHTML'});}
+function fsClose(){document.getElementById('fsmodal').style.display='none';}
+function fsPick(target,path){var el=document.querySelector('[name="'+target+'"]');if(el)el.value=path;fsClose();}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') fsClose(); });
+document.getElementById('fsmodal').addEventListener('click',function(e){ if(e.target===this) fsClose(); });
+
+/* --- Campo 'upload_lista': um arquivo por linha, com botão de acrescentar ---
+   A ORDEM das linhas é a ordem de chegada no WhatsApp, e é ela que o
+   formulário envia (os <input> têm o mesmo name; o navegador respeita a ordem
+   do documento). Por isso a linha nova entra no FIM. */
+function uplMais(campo){
+  var caixa=document.getElementById('ul-'+campo); if(!caixa) return;
+  var novo=caixa.querySelector('.upl-item').cloneNode(true);
+  novo.querySelector('input[type=file]').value='';
+  caixa.appendChild(novo);
+  novo.querySelector('input[type=file]').click();   /* abre o seletor direto */
+}
+function uplTira(btn){
+  var item=btn.closest('.upl-item'), caixa=item.parentNode;
+  /* A última linha não some: sem nenhum <input> não haveria como voltar a
+     escolher um arquivo. Ela só é esvaziada. */
+  if(caixa.querySelectorAll('.upl-item').length>1) item.remove();
+  else item.querySelector('input[type=file]').value='';
+}
+
+/* --- Tema ------------------------------------------------------------------
+   A escolha fica no navegador de quem clicou (localStorage), não no servidor:
+   é preferência de quem olha a tela, e o login da Libby é por SETOR — gravar
+   no servidor faria a escolha de um contaminar todo o setor.
+
+   Consequência assumida: quem trocar de computador começa no claro de novo. */
+function pintaBotaoTema(escuro){
+  var bt = document.getElementById('temaBt');
+  if(!bt) return;
+  bt.querySelector('use').setAttribute('href', escuro ? '#i-sol' : '#i-lua');
+  bt.querySelector('span').textContent = escuro ? 'Tema claro' : 'Tema escuro';
+  bt.setAttribute('aria-pressed', escuro ? 'true' : 'false');
+}
+function trocaTema(){
+  var escuro = document.documentElement.getAttribute('data-theme') !== 'dark';
+  if(escuro) document.documentElement.setAttribute('data-theme','dark');
+  else       document.documentElement.removeAttribute('data-theme');
+  try{ localStorage.setItem('libby-tema', escuro ? 'dark' : 'light'); }catch(e){}
+  pintaBotaoTema(escuro);
+}
+/* O <head> já aplicou o tema; aqui só acertamos o rótulo do botão, que ainda
+   não existia naquele momento. */
+pintaBotaoTema(document.documentElement.getAttribute('data-theme') === 'dark');
+</script>
+<script>window.__DEMO={"pagina": "/execucao/269", "mapa": {"/execucao/249": "execucao-249.html", "/automacao/sincronizar-fponto": "automacao-sincronizar-fponto.html", "/automacao/gestta-concluir": "automacao-gestta-concluir.html", "/execucao/272": "execucao-272.html", "/login": "login.html", "/dirf/resultados": "dirf-resultados.html", "/execucao/271": "execucao-271.html", "/automacao/limpar-arquivo-dp": "automacao-limpar-arquivo-dp.html", "/execucao/285": "execucao-285.html", "/execucao/266": "execucao-266.html", "/execucao/268": "execucao-268.html", "/execucao/252": "execucao-252.html", "/execucao/241": "execucao-241.html", "/taxas": "taxas.html", "/automacao/certificados-sheets": "automacao-certificados-sheets.html", "/execucao/244": "execucao-244.html", "/automacao/aviso-vencimento": "automacao-aviso-vencimento.html", "/economia?dias=30": "economia__dias-30.html", "/automacao/aviso-publicar-onvio": "automacao-aviso-publicar-onvio.html", "/execucao/207": "execucao-207.html", "/automacao/econsig-conferir": "automacao-econsig-conferir.html", "/execucoes?automacao=aviso-vencimento-completo&status=ruins": "execucoes__automacao-aviso-vencimento-completo_status-ruins.html", "/execucao/258": "execucao-258.html", "/automacao/aviso-vencimento-completo": "automacao-aviso-vencimento-completo.html", "/execucao/290": "execucao-290.html", "/dirf": "dirf.html", "/execucao/294": "execucao-294.html", "/execucao/270": "execucao-270.html", "/execucao/259": "execucao-259.html", "/automacao/automessenger-one": "automacao-automessenger-one.html", "/execucao/300": "execucao-300.html", "/execucao/293": "execucao-293.html", "/execucao/269": "execucao-269.html", "/automacao/gestta-concluir-df": "automacao-gestta-concluir-df.html", "/execucao/277": "execucao-277.html", "/execucao/279": "execucao-279.html", "/darf-fgts/valores-darf": "darf-fgts-valores-darf.html", "/automacao/consult-cadastro": "automacao-consult-cadastro.html", "/economia": "economia.html", "/execucao/255": "execucao-255.html", "/execucao/278": "execucao-278.html", "/automacao/econsig-emitir": "automacao-econsig-emitir.html", "/empresas": "empresas.html", "/execucoes?automacao=dombot-gfip&status=ruins": "execucoes__automacao-dombot-gfip_status-ruins.html", "/editor-pdf": "editor-pdf.html", "/execucao/254": "execucao-254.html", "/automacao/taxas-boletos": "automacao-taxas-boletos.html", "/execucao/292": "execucao-292.html", "/relatorios": "relatorios.html", "/execucao/295": "execucao-295.html", "/execucao/248": "execucao-248.html", "/execucao/276": "execucao-276.html", "/execucao/256": "execucao-256.html", "/execucao/250": "execucao-250.html", "/execucao/245": "execucao-245.html", "/execucao/281": "execucao-281.html", "/automacao/conferencia-prolabore-dp": "automacao-conferencia-prolabore-dp.html", "/automacao/dombot-admiss": "automacao-dombot-admiss.html", "/automacao/gms-analytics": "automacao-gms-analytics.html", "/automacao/conferencia-df": "automacao-conferencia-df.html", "/automacao/onvio-publicar": "automacao-onvio-publicar.html", "/darf-fgts/valores-fgts": "darf-fgts-valores-fgts.html", "/execucao/243": "execucao-243.html", "/execucao/275": "execucao-275.html", "/execucao/261": "execucao-261.html", "/agendamentos": "agendamentos.html", "/execucao/265": "execucao-265.html", "/automacao/conferir-valores-fgts-dominio": "automacao-conferir-valores-fgts-dominio.html", "/execucoes?automacao=fponto-emitir&status=ruins": "execucoes__automacao-fponto-emitir_status-ruins.html", "/ciclos": "ciclos.html", "/automacao/dombot-dirf": "automacao-dombot-dirf.html", "/execucao/284": "execucao-284.html", "/automacao/pdf-corrigir-spans": "automacao-pdf-corrigir-spans.html", "/execucao/247": "execucao-247.html", "/automacao/atualizar-contatos": "automacao-atualizar-contatos.html", "/automacao/gestta-concluir-df/painel": "automacao-gestta-concluir-df-painel.html", "/execucao/296": "execucao-296.html", "/execucao/274": "execucao-274.html", "/automacao/sincronizar-gms": "automacao-sincronizar-gms.html", "/execucao/299": "execucao-299.html", "/execucao/253": "execucao-253.html", "/execucao/262": "execucao-262.html", "/automacao/sincronizar-taxas": "automacao-sincronizar-taxas.html", "/calculo-difal": "calculo-difal.html", "/execucao/289": "execucao-289.html", "/execucao/286": "execucao-286.html", "/automacao/fponto-emitir": "automacao-fponto-emitir.html", "/automacao/conferir-valores-darf": "automacao-conferir-valores-darf.html", "/automacao/taxas-emitir": "automacao-taxas-emitir.html", "/execucoes?automacao=onvio-publicar&status=ruins": "execucoes__automacao-onvio-publicar_status-ruins.html", "/execucao/280": "execucao-280.html", "/automacao/dombot-gfip": "automacao-dombot-gfip.html", "/execucao/267": "execucao-267.html", "/fponto": "fponto.html", "/execucao/209": "execucao-209.html", "/execucao/283": "execucao-283.html", "/execucao/246": "execucao-246.html", "/execucao/298": "execucao-298.html", "/execucao/242": "execucao-242.html", "/execucao/251": "execucao-251.html", "/execucao/297": "execucao-297.html", "/execucoes?automacao=gestta-concluir-df&status=ruins": "execucoes__automacao-gestta-concluir-df_status-ruins.html", "/cobranca": "cobranca.html", "/automacao/gms-emitir": "automacao-gms-emitir.html", "/fgts": "fgts.html", "/automacao/conferencia-venc-onvio": "automacao-conferencia-venc-onvio.html", "/execucao/273": "execucao-273.html", "/execucao/257": "execucao-257.html", "/execucao/260": "execucao-260.html", "/execucao/291": "execucao-291.html", "/execucao/288": "execucao-288.html", "/execucao/263": "execucao-263.html", "/execucao/282": "execucao-282.html", "/execucao/187": "execucao-187.html", "/execucao/264": "execucao-264.html", "/execucoes?automacao=gms-emitir&tipo=real": "execucoes__automacao-gms-emitir_tipo-real.html", "/execucoes": "execucoes.html", "/darf-fgts": "darf-fgts.html", "/automacao/divisor-icms-fecoep": "automacao-divisor-icms-fecoep.html", "/automacoes": "automacoes.html", "/": "dashboard.html", "/automacao/conferir-valores-fgts": "automacao-conferir-valores-fgts.html", "/execucao/287": "execucao-287.html"}, "fetch": {"/execucao/269/progresso": {"status": "concluida", "decorrido": 277, "atual": 70, "total": 70, "pct": 100.0, "restante": null, "tipico": 190, "amostras": 20}}, "aovivo": {}};</script><script src="demo.js"></script></body></html>
